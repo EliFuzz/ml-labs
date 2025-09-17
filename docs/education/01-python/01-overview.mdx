@@ -16,14 +16,20 @@ import Tabs from "@theme/Tabs";
 
         ```mermaid
         graph LR
-            CodeEditor(Code Editor) -->|1.Write Code| SourceFile("Source File (.py)")
-            SourceFile -->|2.Save File| Compiler(Compiler)
+            CodeEditor(Code Editor) e1@-->|1.Write Code| SourceFile("Source File (.py)")
+            SourceFile e2@-->|2.Save File| Compiler(Compiler)
 
             subgraph PythonInterpreter [Python Interpreter]
-                Compiler -->|3.Compile to Bytecode| Bytecode("Bytecode (.pyc)")
-                Bytecode -->|4.Execute| PVM("PVM")
+                Compiler e3@-->|3.Compile to Bytecode| Bytecode("Bytecode (.pyc)")
+                Bytecode e4@-->|4.Execute| PVM("PVM")
             end
-            PVM -->|6.Machine Code| RunningProgram("Running Program")
+            PVM e5@-->|5.Machine Code| RunningProgram("Running Program")
+
+            e1@{ animate: true }
+            e2@{ animate: true }
+            e3@{ animate: true }
+            e4@{ animate: true }
+            e5@{ animate: true }
         ```
 
         **Steps Involved in Python Execution**
