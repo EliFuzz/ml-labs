@@ -1,8 +1,2339 @@
 ---
-title: Python
-description: Python
+title: Basics
+description: Learn the fundamentals of Python programming, including syntax, data types, control flow, functions, and modules.
 hide_table_of_contents: true
 ---
 
 import TabItem from "@theme/TabItem";
 import Tabs from "@theme/Tabs";
+
+<Tabs queryString="primary">
+    <TabItem value="internals" label="Internals">
+
+        Python is an OOP, interpreted language that uses modular code. Standard implementation: `cpython`.
+
+        **Internal working of Python**
+
+        ```mermaid
+        graph LR
+            CodeEditor(Code Editor) -->|1.Write Code| SourceFile("Source File (.py)")
+            SourceFile -->|2.Save File| Compiler(Compiler)
+
+            subgraph PythonInterpreter [Python Interpreter]
+                Compiler -->|3.Compile to Bytecode| Bytecode("Bytecode (.pyc)")
+                Bytecode -->|4.Execute| PVM("PVM")
+            end
+            PVM -->|6.Machine Code| RunningProgram("Running Program")
+        ```
+
+        **Steps Involved in Python Execution**
+
+        1. Python compiler reads the source code from the editor, initiating execution
+        2. Code is saved as a `.py` file with system instructions
+        3. Compilation converts source code to bytecode, checking for syntax errors and generating a `.pyc` file
+        4. Bytecode is sent to PVM (Python Virtual Machine), which converts it to machine-executable code, executing line by line and halting on errors
+        5. Within PVM, bytecode becomes machine code (binary 0s and 1s), optimized for the CPU
+        6. CPU executes the machine code, producing the program's output
+
+        **Global Interpreter Lock (GIL)**
+
+        In CPython, the GIL is a mutex allowing only 1 thread to execute Python bytecode at a time, ensuring thread safety for reference counting memory management. Ongoing efforts aim to remove the GIL for better performance.
+
+        - Benefits: Simplifies memory management, C extension integration, and interpreter complexity.
+        - Drawbacks: Limits CPU-bound multi-threaded parallelism on multi-cores; I/O-bound tasks less affected (GIL released during waits). Use multiprocessing for parallelism.
+
+        **Compiler vs. Interpreter**
+
+        <table>
+            <tr>
+                <th>Compiler</th>
+                <th>Interpreter</th>
+            </tr>
+            <tr>
+                <td>Faster; conversion before execution</td>
+                <td>Slower; simultaneous execution</td>
+            </tr>
+            <tr>
+                <td>Errors detected before execution</td>
+                <td>Errors at runtime</td>
+            </tr>
+            <tr>
+                <td>Needs recompilation for different machines</td>
+                <td>Portable with interpreter</td>
+            </tr>
+            <tr>
+                <td>Requires more memory for full translation</td>
+                <td>Requires less memory</td>
+            </tr>
+            <tr>
+                <td>Debugging complex due to batch processing</td>
+                <td>Debugging easier with line-by-line execution</td>
+            </tr>
+        </table>
+
+        **Garbage Collection**
+
+        Python's memory management relies on automatic mechanisms: reference counting and garbage collection. Reference counting tracks object references and deallocates memory when a count reaches zero. However, it fails with cyclic references (objects referencing each other).
+
+        To handle cycles, Python uses a generational garbage collector that groups objects by age into three generations, collecting younger ones more frequently for efficiency. It runs automatically based on allocation thresholds but can be manually triggered via the `gc` module.
+
+        This dual approach ensures efficient, automatic memory handling, minimizing manual overhead.
+
+    </TabItem>
+    <TabItem
+    value="package-management"
+    label="Package Management"
+    >
+        **Python packages** is a way to organize related Python modules (files with reusable code) in one directory, making code easier to reuse and distribute.
+
+        Package is a directory containing at least one module (`.py` file) or can contain multiple modules, sub-packages (nested directories) and a special `__init__.py` file. Without `__init__.py` file, directories aren't treated as packages (except for namespace packages in Python 3.3+).
+
+        ```markdown
+        my_package/
+            __init__.py
+            module_one.py
+            module_two.py
+        ```
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Module (`.py file`)</th>
+                    <th>Package (directory)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Structure</b></td>
+                    <td>Flat structure; single file</td>
+                    <td>Hierarchical structure; can contain sub-packages and multiple modules</td>
+                </tr>
+                <tr>
+                    <td><b>Purpose</b></td>
+                    <td>Code reuse, single topic</td>
+                    <td>Organizing large projects</td>
+                </tr>
+                <tr>
+                    <td><b>Namespace</b></td>
+                    <td>Provides a single namespace for its contents</td>
+                    <td>Provides a separate namespace for its modules, preventing name conflicts</td>
+                </tr>
+                <tr>
+                    <td><b>Importing</b></td>
+                    <td>Imported directly using the module name (e.g., `import module_one`)</td>
+                    <td>Imported using the package name followed by the module name (e.g., `from my_package import module_one`, `import my_package.module_one`)</td>
+                </tr>
+                <tr>
+                    <td><b>Initialization</b></td>
+                    <td>No special initialization required</td>
+                    <td>The `__init__.py` file can contain initialization code for the package</td>
+                </tr>
+            </tbody>
+        </table>
+
+        **Python Package Ecosystem**
+
+        The Python package ecosystem enables developers to publish, share, discover, and install reusable code libraries. Its foundation is PyPI, the primary repository for open-source packages. Community standards and formal proposals (PEPs) govern package formats, distribution, and installation, promoting compatibility across tools and platforms.
+
+        **Package Management Tools**
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>`pip`</th>
+                    <th>`conda`</th>
+                    <th>`Poetry`</th>
+                    <th>`Pipenv`</th>
+                    <th>`uv`</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Environments</td>
+                    <td>venv, virtualenv</td>
+                    <td>native</td>
+                    <td>built-in/env</td>
+                    <td>built-in/env</td>
+                    <td>built-in/env, venv</td>
+                </tr>
+                <tr>
+                        <td><b>Dependency Management</b></td>
+                        <td>requirements.txt, direct install</td>
+                        <td>environment.yml, conda install</td>
+                        <td>pyproject.toml, poetry.lock</td>
+                        <td>Pipfile, Pipfile.lock</td>
+                        <td>pyproject/requirements.lock</td>
+                </tr>
+                <tr>
+                        <td><b>Speed</b></td>
+                        <td>standard</td>
+                        <td>slower</td>
+                        <td>moderate</td>
+                        <td>moderate</td>
+                        <td>fastest</td>
+                </tr>
+                <tr>
+                        <td><b>Non-Python Support</b></td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                </tr>
+                <tr>
+                        <td><b>Lockfile Support</b></td>
+                        <td>partial (via pip-tools)</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                        <td>yes (requirements.lock)</td>
+                </tr>
+                <tr>
+                        <td><b>Typical Usage</b></td>
+                        <td>basic projects, scripts</td>
+                        <td>data science, cross-lang</td>
+                        <td>modern Python projects</td>
+                        <td>intermediate projects</td>
+                        <td>large/modern projects</td>
+                </tr>
+                <tr>
+                        <td><b>Pros</b></td>
+                        <td>simple, direct PyPI access</td>
+                        <td>handles non-Python packages</td>
+                        <td>modern, organized, isolated</td>
+                        <td>integrates pip+env, easy to use</td>
+                        <td>fast, automatic Python version</td>
+                </tr>
+                <tr>
+                        <td><b>Cons</b></td>
+                        <td>no environment isolation, manual lockfile</td>
+                        <td>heavyweight, slower, not pure Python</td>
+                        <td>no non-Python deps, native lockfile only</td>
+                        <td>fewer updates, sometimes buggy</td>
+                        <td>newer, less mature, Python-only</td>
+                </tr>
+                <tr>
+                        <td><b>Best For</b></td>
+                        <td>simple/small scripts</td>
+                        <td>data/data science</td>
+                        <td>robust apps/libraries</td>
+                        <td>basic to moderate apps</td>
+                        <td>fast prototyping, deployment</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="naming-conventions" label="Naming Conventions">
+        ## Naming Conventions
+
+        - name must start with a letter or the underscore character
+        - name cannot start with a number
+        - name can only contain alpha-numeric characters and underscores `[A-Za-z0-9_]`
+        - names are case-sensitive (firstname, Firstname, FirstName and FIRSTNAME) are different variables
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Convention</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>`snake_case`</td>
+                    <td>
+                        <ul>
+                            <li><b>variable names</b>: `first_name`</li>
+                            <li><b>attribute names</b>: `self.user_id`</li>
+                            <li><b>function names</b>: `def get_user_info()`</li>
+                            <li><b>method names</b>: `def calculate_total(self)`</li>
+                            <li><b>parameter names</b>: `def send_email(to_address)`</li>
+                            <li><b>module names</b>: `user_profile.py`</li>
+                            <li><b>decorator names</b>: `@login_required`</li>
+                            <li><b>package names</b>: `my_package`</li>
+                            <li><b>file names</b>: `data_processor.py`</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>`PascalCase`</td>
+                    <td>
+                        <ul>
+                            <li><b>class names</b>: `class UserProfile:`</li>
+                            <li><b>exception names</b>: `class UserNotFoundError(Exception):`</li>
+                            <li><b>interface names</b>: `class IUser:`</li>
+                            <li><b>enum names</b>: `class UserRole(Enum):`</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>`UPPER_CASE`</td>
+                    <td>
+                        <ul>
+                            <li><b>constant names</b>: `MAX_RETRIES = 5`</li>
+                            <li><b>global variables</b>: `API_URL = "https://api.example.com"`</li>
+                            <li><b>environment variables</b>: `DATABASE_URL = "postgres://user:pass@localhost/dbname"`</li>
+                            <li><b>configuration settings</b>: `DEBUG = True`</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </TabItem>
+    <TabItem value="syntax" label="Syntax">
+        <details>
+            <summary>Comments</summary>
+
+            ```python
+            # Single line comments start with a number symbol.
+
+            """ Multiline strings can be written
+                using three "s, and are often used
+                as documentation.
+            """
+            ```
+        </details>
+
+        <details>
+            <summary>Primitive Datatypes and Operators</summary>
+
+            ```python
+            # You have numbers
+            3  # => 3
+
+            # Math is what you would expect
+            1 + 1   # => 2
+            8 - 1   # => 7
+            10 * 2  # => 20
+            35 / 5  # => 7.0
+
+            # Floor division rounds towards negative infinity
+            5 // 3       # => 1
+            -5 // 3      # => -2
+            5.0 // 3.0   # => 1.0  # works on floats too
+            -5.0 // 3.0  # => -2.0
+
+            # The result of division is always a float
+            10.0 / 3  # => 3.3333333333333335
+
+            # Modulo operation
+            7 % 3   # => 1
+            # i % j have the same sign as j, unlike C
+            -7 % 3  # => 2
+
+            # Exponentiation (x**y, x to the yth power)
+            2**3  # => 8
+
+            # Enforce precedence with parentheses
+            1 + 3 * 2    # => 7
+            (1 + 3) * 2  # => 8
+
+            # Boolean values are primitives (Note: the capitalization)
+            True   # => True
+            False  # => False
+
+            # negate with not
+            not True   # => False
+            not False  # => True
+
+            # Boolean Operators
+            # Note "and" and "or" are case-sensitive
+            True and False  # => False
+            False or True   # => True
+
+            # True and False are actually 1 and 0 but with different keywords
+            True + True  # => 2
+            True * 8     # => 8
+            False - 5    # => -5
+
+            # Comparison operators look at the numerical value of True and False
+            0 == False   # => True
+            2 > True     # => True
+            2 == True    # => False
+            -5 != False  # => True
+
+            # None, 0, and empty strings/lists/dicts/tuples/sets all evaluate to False.
+            # All other values are True
+            bool(0)      # => False
+            bool("")     # => False
+            bool([])     # => False
+            bool({})     # => False
+            bool(())     # => False
+            bool(set())  # => False
+            bool(4)      # => True
+            bool(-6)     # => True
+
+            # Using boolean logical operators on ints casts them to booleans for evaluation,
+            # but their non-cast value is returned. Don't mix up with bool(ints) and bitwise
+            # and/or (&,|)
+            bool(0)   # => False
+            bool(2)   # => True
+            0 and 2   # => 0
+            bool(-5)  # => True
+            bool(2)   # => True
+            -5 or 0   # => -5
+
+            # Equality is ==
+            1 == 1  # => True
+            2 == 1  # => False
+
+            # Inequality is !=
+            1 != 1  # => False
+            2 != 1  # => True
+
+            # More comparisons
+            1 < 10  # => True
+            1 > 10  # => False
+            2 <= 2  # => True
+            2 >= 2  # => True
+
+            # Seeing whether a value is in a range
+            1 < 2 and 2 < 3  # => True
+            2 < 3 and 3 < 2  # => False
+            # Chaining makes this look nicer
+            1 < 2 < 3  # => True
+            2 < 3 < 2  # => False
+
+            # (is vs. ==) is checks if two variables refer to the same object, but == checks
+            # if the objects pointed to have the same values.
+            a = [1, 2, 3, 4]  # Point a at a new list, [1, 2, 3, 4]
+            b = a             # Point b at what a is pointing to
+            b is a            # => True, a and b refer to the same object
+            b == a            # => True, a's and b's objects are equal
+            b = [1, 2, 3, 4]  # Point b at a new list, [1, 2, 3, 4]
+            b is a            # => False, a and b do not refer to the same object
+            b == a            # => True, a's and b's objects are equal
+
+            # Strings are created with " or '
+            "This is a string."
+            'This is also a string.'
+
+            # Strings can be added too
+            "Hello " + "world!"  # => "Hello world!"
+            # String literals (but not variables) can be concatenated without using '+'
+            "Hello " "world!"    # => "Hello world!"
+
+            # A string can be treated like a list of characters
+            "Hello world!"[0]  # => 'H'
+
+            # You can find the length of a string
+            len("This is a string")  # => 16
+
+            # Since Python 3.6, you can use f-strings or formatted string literals.
+            name = "Joe"
+            f"He said his name is {name}."  # => "He said his name is Joe"
+            # Any valid Python expression inside these braces is returned to the string.
+            f"{name} is {len(name)} characters long."  # => "Joe is 3 characters long."
+
+            # None is an object
+            None  # => None
+
+            # Don't use the equality "==" symbol to compare objects to None
+            # Use "is" instead. This checks for equality of object identity.
+            "etc" is None  # => False
+            None is None   # => True
+            ```
+        </details>
+
+        <details>
+            <summary>Variables and Collections</summary>
+
+            ```python
+            # Python has a print function
+            print("I'm Python")  # => I'm Python
+
+            # By default the print function also prints out a newline at the end.
+            # Use the optional argument end to change the end string.
+            print("Hello, World", end="!")  # => Hello, World!
+
+            # Simple way to get input data from console
+            input_string_var = input("Enter some data: ")  # Returns the data as a string
+
+            # There are no declarations, only assignments.
+            some_var = 5
+            some_var  # => 5
+
+            # Accessing a previously unassigned variable is an exception.
+            some_unknown_var  # Raises a NameError
+
+            # if can be used as an expression
+            # Equivalent of C's '?:' ternary operator
+            "yes" if 0 > 1 else "no"  # => "no"
+
+            # Lists store sequences
+            li = []
+            # You can start with a prefilled list
+            other_li = [4, 5, 6]
+
+            # Add stuff to the end of a list with append
+            li.append(1)    # li is now [1]
+            li.append(2)    # li is now [1, 2]
+            li.append(3)    # li is now [1, 2, 3]
+            li.append(4)    # li is now [1, 2, 3, 4]
+            # Remove from the end with pop
+            li.pop()        # => 4 and li is now [1, 2, 3]
+            # Let's put it back
+            li.append(4)    # li is now [1, 2, 3, 4] again.
+
+            # Access a list like you would any array
+            li[0]   # => 1
+            # Look at the last element
+            li[-1]  # => 4
+
+            # Looking out of bounds is an IndexError
+            li[4]  # Raises an IndexError
+
+            # You can look at ranges with slice syntax.
+            # (It's a closed/open range for you mathy types.)
+            li[1:3]   # Return list from index 1 to 3 => [2, 3]
+            li[2:]    # Return list starting from index 2 => [3, 4]
+            li[:3]    # Return list from beginning until index 3  => [1, 2, 3]
+            li[::2]   # Return list selecting elements with a step size of 2 => [1, 3]
+            li[::-1]  # Return list in reverse order => [4, 3, 2, 1]
+            li[-3:-1] # Negative indices work too => [2, 3]
+            li[1:-1]  # => [2, 3]
+            li[-3:3]  # => [2, 3]
+            li[-3:]   # => [2, 3, 4]
+            li[:-1]   # => [1, 2, 3]
+            # Use any combination of these to make advanced slices
+            # li[start:end:step] # start (inclusive), end (exclusive), step
+
+            # Make a one layer deep copy using slices
+            li[::]       # Return a copy of the whole list => [1, 2, 3, 4]
+            li2 = li[:]  # => li2 = [1, 2, 3, 4] but (li2 is li) will result in false.
+
+            # Remove arbitrary elements from a list with "del"
+            del li[2]  # li is now [1, 2, 3]
+
+            # Remove first occurrence of a value
+            li.remove(2)  # li is now [1, 3]
+            li.remove(2)  # Raises a ValueError as 2 is not in the list
+
+            # Insert an element at a specific index
+            li.insert(1, 2)  # li is now [1, 2, 3] again
+
+            # Get the index of the first item found matching the argument
+            li.index(2)  # => 1
+            li.index(4)  # Raises a ValueError as 4 is not in the list
+
+            # You can add lists
+            # Note: values for li and for other_li are not modified.
+            li + other_li  # => [1, 2, 3, 4, 5, 6]
+
+            # Concatenate lists with "extend()"
+            li.extend(other_li)  # Now li is [1, 2, 3, 4, 5, 6]
+
+            # Check for existence in a list with "in"
+            1 in li  # => True
+
+            # Examine the length with "len()"
+            len(li)  # => 6
+
+
+            # Tuples are like lists but are immutable.
+            tup = (1, 2, 3)
+            tup[0]      # => 1
+            tup[0] = 3  # Raises a TypeError
+
+            # Note that a tuple of length one has to have a comma after the last element but
+            # tuples of other lengths, even zero, do not.
+            type((1))   # => <class 'int'>
+            type((1,))  # => <class 'tuple'>
+            type(())    # => <class 'tuple'>
+
+            # You can do most of the list operations on tuples too
+            len(tup)         # => 3
+            tup + (4, 5, 6)  # => (1, 2, 3, 4, 5, 6)
+            tup[:2]          # => (1, 2)
+            2 in tup         # => True
+
+            # You can unpack tuples (or lists) into variables
+            a, b, c = (1, 2, 3)  # a is now 1, b is now 2 and c is now 3
+            # You can also do extended unpacking
+            *a, b = (1, 2, 3, 4)  # a is now [1, 2, 3] and b is now 4
+            a, *b = (1, 2, 3, 4)  # a is now 1 and b is now [2, 3, 4]
+            a, *b, c = (1, 2, 3, 4)  # a is now 1, b is now [2, 3] and c is now 4
+            # Tuples are created by default if you leave out the parentheses
+            d, e, f = 4, 5, 6  # tuple 4, 5, 6 is unpacked into variables d, e and f
+            # respectively such that d = 4, e = 5 and f = 6
+            # Now look how easy it is to swap two values
+            e, d = d, e  # d is now 5 and e is now 4
+
+
+            # Dictionaries store mappings from keys to values
+            empty_dict = {}
+            # Here is a prefilled dictionary
+            filled_dict = {"one": 1, "two": 2, "three": 3}
+
+            # Note keys for dictionaries have to be immutable types. This is to ensure that
+            # the key can be converted to a constant hash value for quick look-ups.
+            # Immutable types include ints, floats, strings, tuples.
+            invalid_dict = {[1,2,3]: "123"}  # => Yield a TypeError: unhashable type: 'list'
+            valid_dict = {(1,2,3):[1,2,3]}   # Values can be of any type, however.
+
+            # Look up values with []
+            filled_dict["one"]  # => 1
+
+            # Get all keys as an iterable with "keys()". We need to wrap the call in list()
+            # to turn it into a list. We'll talk about those later.  Note - for Python
+            # versions <3.7, dictionary key ordering is not guaranteed. Your results might
+            # not match the example below exactly. However, as of Python 3.7, dictionary
+            # items maintain the order at which they are inserted into the dictionary.
+            list(filled_dict.keys())  # => ["three", "two", "one"] in Python <3.7
+            list(filled_dict.keys())  # => ["one", "two", "three"] in Python 3.7+
+
+
+            # Get all values as an iterable with "values()". Once again we need to wrap it
+            # in list() to get it out of the iterable. Note - Same as above regarding key
+            # ordering.
+            list(filled_dict.values())  # => [3, 2, 1]  in Python <3.7
+            list(filled_dict.values())  # => [1, 2, 3] in Python 3.7+
+
+            # Check for existence of keys in a dictionary with "in"
+            "one" in filled_dict  # => True
+            1 in filled_dict      # => False
+
+            # Looking up a non-existing key is a KeyError
+            filled_dict["four"]  # KeyError
+
+            # Use "get()" method to avoid the KeyError
+            filled_dict.get("one")      # => 1
+            filled_dict.get("four")     # => None
+            # The get method supports a default argument when the value is missing
+            filled_dict.get("one", 4)   # => 1
+            filled_dict.get("four", 4)  # => 4
+
+            # "setdefault()" inserts into a dictionary only if the given key isn't present
+            filled_dict.setdefault("five", 5)  # filled_dict["five"] is set to 5
+            filled_dict.setdefault("five", 6)  # filled_dict["five"] is still 5
+
+            # Adding to a dictionary
+            filled_dict.update({"four":4})  # => {"one": 1, "two": 2, "three": 3, "four": 4}
+            filled_dict["four"] = 4         # another way to add to dict
+
+            # Remove keys from a dictionary with del
+            del filled_dict["one"]  # Removes the key "one" from filled dict
+
+            # From Python 3.5 you can also use the additional unpacking options
+            {"a": 1, **{"b": 2}}  # => {'a': 1, 'b': 2}
+            {"a": 1, **{"a": 2}}  # => {'a': 2}
+
+
+            # Sets store ... well sets
+            empty_set = set()
+            # Initialize a set with a bunch of values.
+            some_set = {1, 1, 2, 2, 3, 4}  # some_set is now {1, 2, 3, 4}
+
+            # Similar to keys of a dictionary, elements of a set have to be immutable.
+            invalid_set = {[1], 1}  # => Raises a TypeError: unhashable type: 'list'
+            valid_set = {(1,), 1}
+
+            # Add one more item to the set
+            filled_set = some_set
+            filled_set.add(5)  # filled_set is now {1, 2, 3, 4, 5}
+            # Sets do not have duplicate elements
+            filled_set.add(5)  # it remains as before {1, 2, 3, 4, 5}
+
+            # Do set intersection with &
+            other_set = {3, 4, 5, 6}
+            filled_set & other_set  # => {3, 4, 5}
+
+            # Do set union with |
+            filled_set | other_set  # => {1, 2, 3, 4, 5, 6}
+
+            # Do set difference with -
+            {1, 2, 3, 4} - {2, 3, 5}  # => {1, 4}
+
+            # Do set symmetric difference with ^
+            {1, 2, 3, 4} ^ {2, 3, 5}  # => {1, 4, 5}
+
+            # Check if set on the left is a superset of set on the right
+            {1, 2} >= {1, 2, 3}  # => False
+
+            # Check if set on the left is a subset of set on the right
+            {1, 2} <= {1, 2, 3}  # => True
+
+            # Check for existence in a set with in
+            2 in filled_set   # => True
+            10 in filled_set  # => False
+
+            # Make a one layer deep copy
+            filled_set = some_set.copy()  # filled_set is {1, 2, 3, 4, 5}
+            filled_set is some_set        # => False
+
+            # Type Conversion Functions
+            bool(0)                     # This function is used to convert a value to boolean: => False, => True
+            bytes('hello', 'utf-8')     # This function is used to convert a string to bytes: => b'hello'
+            int(3.5)                    # converts any data type into integer type: => 3
+            float(3)                    # converts any data type into float type: => 3.0
+            hex(255)                    # converts integers to hexadecimal: => '0xff'
+            oct(8)                      # converts integer to octal: => '0o10'
+            str(123)                    # Used to convert integer into a string: => '123'
+            ord('a')                    # converts characters into integer: => 97
+            chr(97)                     # This function is used to convert an integer to a character: => 'a'
+            complex(3,4)                # This function converts real numbers to complex(real,imag) number: => (3+4j)
+            list((1,2,3))               # This function is used to convert any data type to a list type: => [1,2,3]
+            tuple([1,2,3])              # This function is used to convert to a tuple: => (1,2,3)
+            set([1,2,2,3])              # This function returns the type after converting to set: => {1,2,3}
+            dict([('a',1),('b',2)])     # This function is used to convert a tuple of order (key,value) into a dictionary: => {'a':1,'b':2}
+            ```
+        </details>
+
+        <details>
+            <summary>Binary Operations</summary>
+
+            ```python
+            # Binary literals start with 0b
+            0b1010  # => 10
+            # Hex literals start with 0x
+            0x1A  # => 26
+            # Octal literals start with 0o
+            0o12  # => 10
+
+            a = 5       # Binary 0101
+            b = 3       # Binary 0011
+            # Bitwise AND
+            a & b       # => 1 (Binary 0001)
+            # Bitwise OR
+            a | b       # => 7 (Binary 0111)
+            # Bitwise XOR
+            a ^ b       # => 6 (Binary 0110)
+            # Bitwise NOT
+            ~a          # => -6 (Binary ...11111010)
+            # Left Shift
+            a << 1      # => 10 (Binary 1010)
+            # Right Shift
+            a >> 1      # => 2 (Binary 0010)
+            ```
+        </details>
+
+        <details>
+            <summary>Regular Expressions</summary>
+
+            ```python
+            import re
+
+            # Match a pattern.
+            # Raw string literal. The `r` prefix tells Python
+            # to treat backslashes as literal characters and not as escape characters.
+            pattern = r"\d+"
+            text = "There are 123 apples"
+            match = re.search(pattern, text)
+            if match:
+                print("Found:", match.group()) # => Found: 123
+
+            # Find all matches
+            all_matches = re.findall(pattern, text)
+            print("All matches:", all_matches) # => All matches: ['123']
+
+            # Replace text
+            new_text = re.sub(pattern, "456", text)
+            print("Replaced text:", new_text) # => Replaced text: There are 456 apples
+
+            # Split text
+            split_text = re.split(r"\s+", text)
+            print("Split text:", split_text) # => Split text: ['There', 'are', '123', 'apples']
+
+            # Compile a regex for repeated use
+            compiled_pattern = re.compile(r"\w+")
+            words = compiled_pattern.findall(text)
+            print("Words:", words) # => Words: ['There', 'are', '123', 'apples']
+
+            # Regex flags
+            case_insensitive_pattern = re.compile(r"apples", re.IGNORECASE)
+            ```
+        </details>
+
+        <details>
+            <summary>Control Flow and Iterables</summary>
+
+            ```python
+            # Let's just make a variable
+            some_var = 5
+
+            # Here is an if statement. Indentation is significant in Python!
+            # Convention is to use four spaces, not tabs.
+            # This prints "some_var is smaller than 10"
+            if some_var > 10:
+                print("some_var is totally bigger than 10.")
+            elif some_var < 10:    # This elif clause is optional.
+                print("some_var is smaller than 10.")
+            else:                  # This is optional too.
+                print("some_var is indeed 10.")
+
+            # Match/Case — Introduced in Python 3.10
+            # It compares a value against multiple patterns and executes the matching case block.
+
+            command = "run"
+
+            match command:
+                case "run":
+                    print("The robot started to run 🏃‍♂️")
+                case "speak" | "say_hi":  # multiple options (OR pattern)
+                    print("The robot said hi 🗣️")
+                case code if command.isdigit():  # conditional
+                    print(f"The robot execute code: {code}")
+                case _:  # _ is a wildcard that never fails (like default/else)
+                    print("Invalid command ❌")
+
+            # Output: "the robot started to run 🏃‍♂️"
+
+            """
+            For loops iterate over lists
+            prints:
+                dog is a mammal
+                cat is a mammal
+                mouse is a mammal
+            """
+            for animal in ["dog", "cat", "mouse"]:
+                # You can use format() to interpolate formatted strings
+                print("{} is a mammal".format(animal))
+
+            """
+            "range(number)" returns an iterable of numbers
+            from zero up to (but excluding) the given number
+            prints:
+                0
+                1
+                2
+                3
+            """
+            for i in range(4):
+                print(i)
+
+            """
+            "range(lower, upper)" returns an iterable of numbers
+            from the lower number to the upper number
+            prints:
+                4
+                5
+                6
+                7
+            """
+            for i in range(4, 8):
+                print(i)
+
+            """
+            "range(lower, upper, step)" returns an iterable of numbers
+            from the lower number to the upper number, while incrementing
+            by step. If step is not indicated, the default value is 1.
+            prints:
+                4
+                6
+            """
+            for i in range(4, 8, 2):
+                print(i)
+
+            """
+            Loop over a list to retrieve both the index and the value of each list item:
+                0 dog
+                1 cat
+                2 mouse
+            """
+            animals = ["dog", "cat", "mouse"]
+            for i, value in enumerate(animals):
+                print(i, value)
+
+            """
+            While loops go until a condition is no longer met.
+            prints:
+                0
+                1
+                2
+                3
+            """
+            x = 0
+            while x < 4:
+                print(x)
+                x += 1  # Shorthand for x = x + 1
+
+            # Handle exceptions with a try/except block
+            try:
+                # Use "raise" to raise an error
+                raise IndexError("This is an index error")
+            except IndexError as e:
+                pass                 # Refrain from this, provide a recovery (next example).
+            except (TypeError, NameError):
+                pass                 # Multiple exceptions can be processed jointly.
+            else:                    # Optional clause to the try/except block. Must follow
+                                    # all except blocks.
+                print("All good!")   # Runs only if the code in try raises no exceptions
+            finally:                 # Execute under all circumstances
+                print("We can clean up resources here")
+
+            # Instead of try/finally to cleanup resources you can use a with statement
+            with open("myfile.txt") as f:
+                for line in f:
+                    print(line)
+
+            # Writing to a file
+            contents = {"aa": 12, "bb": 21}
+            with open("myfile1.txt", "w") as file:
+                file.write(str(contents))        # writes a string to a file
+
+            import json
+            with open("myfile2.txt", "w") as file:
+                file.write(json.dumps(contents))  # writes an object to a file
+
+            # Reading from a file
+            with open("myfile1.txt") as file:
+                contents = file.read()           # reads a string from a file
+            print(contents)
+            # print: {"aa": 12, "bb": 21}
+
+            with open("myfile2.txt", "r") as file:
+                contents = json.load(file)       # reads a json object from a file
+            print(contents)
+            # print: {"aa": 12, "bb": 21}
+
+
+            # Python offers a fundamental abstraction called the Iterable.
+            # An iterable is an object that can be treated as a sequence.
+            # The object returned by the range function, is an iterable.
+
+            filled_dict = {"one": 1, "two": 2, "three": 3}
+            our_iterable = filled_dict.keys()
+            print(our_iterable)  # => dict_keys(['one', 'two', 'three']). This is an object
+                                # that implements our Iterable interface.
+
+            # We can loop over it.
+            for i in our_iterable:
+                print(i)  # Prints one, two, three
+
+            # However we cannot address elements by index.
+            our_iterable[1]  # Raises a TypeError
+
+            # An iterable is an object that knows how to create an iterator.
+            our_iterator = iter(our_iterable)
+
+            # Our iterator is an object that can remember the state as we traverse through
+            # it. We get the next object with "next()".
+            next(our_iterator)  # => "one"
+
+            # It maintains state as we iterate.
+            next(our_iterator)  # => "two"
+            next(our_iterator)  # => "three"
+
+            # After the iterator has returned all of its data, it raises a
+            # StopIteration exception
+            next(our_iterator)  # Raises StopIteration
+
+            # We can also loop over it, in fact, "for" does this implicitly!
+            our_iterator = iter(our_iterable)
+            for i in our_iterator:
+                print(i)  # Prints one, two, three
+
+            # You can grab all the elements of an iterable or iterator by call of list().
+            list(our_iterable)  # => Returns ["one", "two", "three"]
+            list(our_iterator)  # => Returns [] because state is saved
+            ```
+        </details>
+
+        <details>
+            <summary>Functions</summary>
+
+            ```python
+            # Use "def" to create new functions
+            def add(x, y):
+                print("x is {} and y is {}".format(x, y))
+                return x + y  # Return values with a return statement
+
+            # Calling functions with parameters
+            add(5, 6)  # => prints out "x is 5 and y is 6" and returns 11
+
+            # Another way to call functions is with keyword arguments
+            add(y=6, x=5)  # Keyword arguments can arrive in any order.
+
+            # You can define functions that take a variable number of
+            # positional arguments
+            def varargs(*args):
+                return args
+
+            varargs(1, 2, 3)  # => (1, 2, 3)
+
+            # You can define functions that take a variable number of
+            # keyword arguments, as well
+            def keyword_args(**kwargs):
+                return kwargs
+
+            # Let's call it to see what happens
+            keyword_args(big="foot", loch="ness")  # => {"big": "foot", "loch": "ness"}
+
+
+            # You can do both at once, if you like
+            def all_the_args(*args, **kwargs):
+                print(args)
+                print(kwargs)
+            """
+            all_the_args(1, 2, a=3, b=4) prints:
+                (1, 2)
+                {"a": 3, "b": 4}
+            """
+
+            # When calling functions, you can do the opposite of args/kwargs!
+            # Use * to expand args (tuples) and use ** to expand kwargs (dictionaries).
+            args = (1, 2, 3, 4)
+            kwargs = {"a": 3, "b": 4}
+            all_the_args(*args)            # equivalent: all_the_args(1, 2, 3, 4)
+            all_the_args(**kwargs)         # equivalent: all_the_args(a=3, b=4)
+            all_the_args(*args, **kwargs)  # equivalent: all_the_args(1, 2, 3, 4, a=3, b=4)
+
+            # Returning multiple values (with tuple assignments)
+            def swap(x, y):
+                return y, x  # Return multiple values as a tuple without the parenthesis.
+                            # (Note: parenthesis have been excluded but can be included)
+
+            x = 1
+            y = 2
+            x, y = swap(x, y)     # => x = 2, y = 1
+            # (x, y) = swap(x,y)  # Again the use of parenthesis is optional.
+
+            # global scope
+            x = 5
+
+            def set_x(num):
+                # local scope begins here
+                # local var x not the same as global var x
+                x = num    # => 43
+                print(x)   # => 43
+
+            def set_global_x(num):
+                # global indicates that particular var lives in the global scope
+                global x
+                print(x)   # => 5
+                x = num    # global var x is now set to 6
+                print(x)   # => 6
+
+            set_x(43)
+            set_global_x(6)
+            """
+            prints:
+                43
+                5
+                6
+            """
+
+
+            # Python has first class functions
+            def create_adder(x):
+                def adder(y):
+                    return x + y
+                return adder
+
+            add_10 = create_adder(10)
+            add_10(3)   # => 13
+
+            # Closures in nested functions:
+            # We can use the nonlocal keyword to work with variables in nested scope which shouldn't be declared in the inner functions.
+            def create_avg():
+                total = 0
+                count = 0
+                def avg(n):
+                    nonlocal total, count
+                    total += n
+                    count += 1
+                    return total/count
+                return avg
+            avg = create_avg()
+            avg(3)  # => 3.0
+            avg(5)  # (3+5)/2 => 4.0
+            avg(7)  # (8+7)/3 => 5.0
+
+            # There are also anonymous functions
+            (lambda x: x > 2)(3)                  # => True
+            (lambda x, y: x ** 2 + y ** 2)(2, 1)  # => 5
+
+            # There are built-in higher order functions
+            list(map(add_10, [1, 2, 3]))          # => [11, 12, 13]
+            list(map(max, [1, 2, 3], [4, 2, 1]))  # => [4, 2, 3]
+
+            list(filter(lambda x: x > 5, [3, 4, 5, 6, 7]))  # => [6, 7]
+
+            # We can use list comprehensions for nice maps and filters
+            # List comprehension stores the output as a list (which itself may be nested).
+            [add_10(i) for i in [1, 2, 3]]         # => [11, 12, 13]
+            [x for x in [3, 4, 5, 6, 7] if x > 5]  # => [6, 7]
+
+            # You can construct set and dict comprehensions as well.
+            {x for x in "abcddeef" if x not in "abc"}  # => {'d', 'e', 'f'}
+            {x: x**2 for x in range(5)}  # => {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
+            ```
+        </details>
+
+        <details>
+            <summary>Modules</summary>
+
+            ```python
+            # You can import modules
+            import math
+            print(math.sqrt(16))  # => 4.0
+
+            # You can get specific functions from a module
+            from math import ceil, floor
+            print(ceil(3.7))   # => 4
+            print(floor(3.7))  # => 3
+
+            # You can import all functions from a module.
+            # Warning: this is not recommended
+            from math import *
+
+            # You can shorten module names
+            import math as m
+            math.sqrt(16) == m.sqrt(16)  # => True
+
+            # Python modules are just ordinary Python files. You
+            # can write your own, and import them. The name of the
+            # module is the same as the name of the file.
+
+            # You can find out which functions and attributes
+            # are defined in a module.
+            import math
+            dir(math)
+
+            # If you have a Python script named math.py in the same
+            # folder as your current script, the file math.py will
+            # be loaded instead of the built-in Python module.
+            # This happens because the local folder has priority
+            # over Python's built-in libraries.
+            ```
+        </details>
+
+        <details>
+            <summary>Classes</summary>
+
+            ```python
+            # We use the "class" statement to create a class
+            class Human:
+
+                # A class attribute. It is shared by all instances of this class
+                species = "H. sapiens"
+
+                # Basic initializer, this is called when this class is instantiated.
+                # Note that the double leading and trailing underscores denote objects
+                # or attributes that are used by Python but that live in user-controlled
+                # namespaces. Methods(or objects or attributes) like: __init__, __str__,
+                # __repr__ etc. are called special methods (or sometimes called dunder
+                # methods). You should not invent such names on your own.
+                def __init__(self, name):
+                    # Assign the argument to the instance's name attribute
+                    self.name = name
+
+                    # Initialize property
+                    self._age = 0   # the leading underscore indicates the "age" property is
+                                    # intended to be used internally
+                                    # do not rely on this to be enforced: it's a hint to other devs
+
+                # An instance method. All methods take "self" as the first argument
+                def say(self, msg):
+                    print("{name}: {message}".format(name=self.name, message=msg))
+
+                # Another instance method
+                def sing(self):
+                    return "yo... yo... microphone check... one two... one two..."
+
+                # A class method is shared among all instances
+                # They are called with the calling class as the first argument
+                @classmethod
+                def get_species(cls):
+                    return cls.species
+
+                # A static method is called without a class or instance reference
+                @staticmethod
+                def grunt():
+                    return "*grunt*"
+
+                # A property is just like a getter.
+                # It turns the method age() into a read-only attribute of the same name.
+                # There's no need to write trivial getters and setters in Python, though.
+                @property
+                def age(self):
+                    return self._age
+
+                # This allows the property to be set
+                @age.setter
+                def age(self, age):
+                    self._age = age
+
+                # This allows the property to be deleted
+                @age.deleter
+                def age(self):
+                    del self._age
+
+
+            # When a Python interpreter reads a source file it executes all its code.
+            # This __name__ check makes sure this code block is only executed when this
+            # module is the main program.
+            if __name__ == "__main__":
+                # Instantiate a class
+                i = Human(name="Ian")
+                i.say("hi")                     # "Ian: hi"
+                j = Human("Joel")
+                j.say("hello")                  # "Joel: hello"
+                # i and j are instances of type Human; i.e., they are Human objects.
+
+                # Call our class method
+                i.say(i.get_species())          # "Ian: H. sapiens"
+                # Change the shared attribute
+                Human.species = "H. neanderthalensis"
+                i.say(i.get_species())          # => "Ian: H. neanderthalensis"
+                j.say(j.get_species())          # => "Joel: H. neanderthalensis"
+
+                # Call the static method
+                print(Human.grunt())            # => "*grunt*"
+
+                # Static methods can be called by instances too
+                print(i.grunt())                # => "*grunt*"
+
+                # Update the property for this instance
+                i.age = 42
+                # Get the property
+                i.say(i.age)                    # => "Ian: 42"
+                j.say(j.age)                    # => "Joel: 0"
+                # Delete the property
+                del i.age
+                # i.age                         # => this would raise an AttributeError
+            ```
+        </details>
+
+        <details>
+            <summary>Inheritance</summary>
+
+            ```python
+            # Inheritance allows new child classes to be defined that inherit methods and
+            # variables from their parent class.
+
+            # Using the Human class defined above as the base or parent class, we can
+            # define a child class, Superhero, which inherits variables like "species",
+            # "name", and "age", as well as methods, like "sing" and "grunt"
+            # from the Human class, but can also have its own unique properties.
+
+            # To take advantage of modularization by file you could place the classes above
+            # in their own files, say, human.py
+
+            # To import functions from other files use the following format
+            # from "filename-without-extension" import "function-or-class"
+
+            from human import Human
+
+
+            # Specify the parent class(es) as parameters to the class definition
+            class Superhero(Human):
+
+                # If the child class should inherit all of the parent's definitions without
+                # any modifications, you can just use the "pass" keyword (and nothing else)
+                # but in this case it is commented out to allow for a unique child class:
+                # pass
+
+                # Child classes can override their parents' attributes
+                species = "Superhuman"
+
+                # Children automatically inherit their parent class's constructor including
+                # its arguments, but can also define additional arguments or definitions
+                # and override its methods such as the class constructor.
+                # This constructor inherits the "name" argument from the "Human" class and
+                # adds the "superpower" and "movie" arguments:
+                def __init__(self, name, movie=False,
+                            superpowers=["super strength", "bulletproofing"]):
+
+                    # add additional class attributes:
+                    self.fictional = True
+                    self.movie = movie
+                    # be aware of mutable default values, since defaults are shared
+                    self.superpowers = superpowers
+
+                    # The "super" function lets you access the parent class's methods
+                    # that are overridden by the child, in this case, the __init__ method.
+                    # This calls the parent class constructor:
+                    super().__init__(name)
+
+                # override the sing method
+                def sing(self):
+                    return "Dun, dun, DUN!"
+
+                # add an additional instance method
+                def boast(self):
+                    for power in self.superpowers:
+                        print("I wield the power of {pow}!".format(pow=power))
+
+
+            if __name__ == "__main__":
+                sup = Superhero(name="Tick")
+
+                # Instance type checks
+                if isinstance(sup, Human):
+                    print("I am human")
+                if type(sup) is Superhero:
+                    print("I am a superhero")
+
+                # Get the "Method Resolution Order" used by both getattr() and super()
+                # (the order in which classes are searched for an attribute or method)
+                # This attribute is dynamic and can be updated
+                print(Superhero.__mro__)    # => (<class '__main__.Superhero'>,
+                                            # => <class 'human.Human'>, <class 'object'>)
+
+                # Calls parent method but uses its own class attribute
+                print(sup.get_species())    # => Superhuman
+
+                # Calls overridden method
+                print(sup.sing())           # => Dun, dun, DUN!
+
+                # Calls method from Human
+                sup.say("Spoon")            # => Tick: Spoon
+
+                # Call method that exists only in Superhero
+                sup.boast()                 # => I wield the power of super strength!
+                                            # => I wield the power of bulletproofing!
+
+                # Inherited class attribute
+                sup.age = 31
+                print(sup.age)              # => 31
+
+                # Attribute that only exists within Superhero
+                print("Am I Oscar eligible? " + str(sup.movie))
+            ```
+        </details>
+
+        <details>
+            <summary>Multiple Inheritance</summary>
+
+            ```python
+            # Another class definition
+            # bat.py
+            class Bat:
+
+                species = "Baty"
+
+                def __init__(self, can_fly=True):
+                    self.fly = can_fly
+
+                # This class also has a say method
+                def say(self, msg):
+                    msg = "... ... ..."
+                    return msg
+
+                # And its own method as well
+                def sonar(self):
+                    return "sonar"
+
+
+            if __name__ == "__main__":
+                b = Bat()
+                print(b.say("hello"))
+                print(b.fly)
+
+
+            # And yet another class definition that inherits from Superhero and Bat
+            # superhero.py
+            from superhero import Superhero
+            from bat import Bat
+
+            # Define Batman as a child that inherits from both Superhero and Bat
+            class Batman(Superhero, Bat):
+
+                def __init__(self, *args, **kwargs):
+                    # Typically to inherit attributes you have to call super:
+                    # super(Batman, self).__init__(*args, **kwargs)
+                    # However we are dealing with multiple inheritance here, and super()
+                    # only works with the next base class in the MRO list.
+                    # So instead we explicitly call __init__ for all ancestors.
+                    # The use of *args and **kwargs allows for a clean way to pass
+                    # arguments, with each parent "peeling a layer of the onion".
+                    Superhero.__init__(self, "anonymous", movie=True,
+                                    superpowers=["Wealthy"], *args, **kwargs)
+                    Bat.__init__(self, *args, can_fly=False, **kwargs)
+                    # override the value for the name attribute
+                    self.name = "Bat Man"
+
+                def sing(self):
+                    return "batman!"
+
+
+            if __name__ == "__main__":
+                sup = Batman()
+
+                # The Method Resolution Order
+                print(Batman.__mro__)     # => (<class '__main__.Batman'>,
+                                        # => <class 'superhero.Superhero'>,
+                                        # => <class 'human.Human'>,
+                                        # => <class 'bat.Bat'>, <class 'object'>)
+
+                # Calls parent method but uses its own class attribute
+                print(sup.get_species())  # => Superhuman
+
+                # Calls overridden method
+                print(sup.sing())         # => nan nan nan nan nan batman!
+
+                # Calls method from Human, because inheritance order matters
+                sup.say("I agree")        # => Sad Affleck: I agree
+
+                # Call method that exists only in 2nd ancestor
+                print(sup.sonar())        # => ))) ... (((
+
+                # Inherited class attribute
+                sup.age = 100
+                print(sup.age)            # => 100
+
+                # Inherited attribute from 2nd ancestor whose default value was overridden.
+                print("Can I fly? " + str(sup.fly))  # => Can I fly? False
+            ```
+        </details>
+
+        <details>
+            <summary>Advanced</summary>
+
+            ```python
+            # Generators help you make lazy code.
+            def double_numbers(iterable):
+                for i in iterable:
+                    yield i + i
+
+            # Generators are memory-efficient because they only load the data needed to
+            # process the next value in the iterable. This allows them to perform
+            # operations on otherwise prohibitively large value ranges.
+            # NOTE: `range` replaces `xrange` in Python 3.
+            for i in double_numbers(range(1, 900000000)):  # `range` is a generator.
+                print(i)
+                if i >= 30:
+                    break
+
+            # Just as you can create a list comprehension, you can create generator
+            # comprehensions as well.
+            values = (-x for x in [1,2,3,4,5])
+            for x in values:
+                print(x)  # prints -1 -2 -3 -4 -5 to console/terminal
+
+            # You can also cast a generator comprehension directly to a list.
+            values = (-x for x in [1,2,3,4,5])
+            gen_to_list = list(values)
+            print(gen_to_list)  # => [-1, -2, -3, -4, -5]
+
+
+            # Decorators are a form of syntactic sugar.
+            # They make code easier to read while accomplishing clunky syntax.
+
+            # Wrappers are one type of decorator.
+            # They're really useful for adding logging to existing functions without needing to modify them.
+
+            def log_function(func):
+                def wrapper(*args, **kwargs):
+                    print("Entering function", func.__name__)
+                    result = func(*args, **kwargs)
+                    print("Exiting function", func.__name__)
+                    return result
+                return wrapper
+
+            @log_function               # equivalent:
+            def my_function(x,y):       # def my_function(x,y):
+                """Adds two numbers together."""
+                return x+y              #   return x+y
+                                        # my_function = log_function(my_function)
+            # The decorator @log_function tells us as we begin reading the function definition
+            # for my_function that this function will be wrapped with log_function.
+            # When function definitions are long, it can be hard to parse the non-decorated
+            # assignment at the end of the definition.
+
+            my_function(1,2)  # => "Entering function my_function"
+                            # => "3"
+                            # => "Exiting function my_function"
+
+            # But there's a problem.
+            # What happens if we try to get some information about my_function?
+
+            print(my_function.__name__)  # => 'wrapper'
+            print(my_function.__doc__)  # => None (wrapper function has no docstring)
+
+            # Because our decorator is equivalent to my_function = log_function(my_function)
+            # we've replaced information about my_function with information from wrapper
+
+            # Fix this using functools
+
+            from functools import wraps
+
+            def log_function(func):
+                @wraps(func)  # this ensures docstring, function name, arguments list, etc. are all copied
+                            # to the wrapped function - instead of being replaced with wrapper's info
+                def wrapper(*args, **kwargs):
+                    print("Entering function", func.__name__)
+                    result = func(*args, **kwargs)
+                    print("Exiting function", func.__name__)
+                    return result
+                return wrapper
+
+            @log_function
+            def my_function(x,y):
+                """Adds two numbers together."""
+                return x+y
+
+            my_function(1,2)  # => "Entering function my_function"
+                            # => "3"
+                            # => "Exiting function my_function"
+
+            print(my_function.__name__)  # => 'my_function'
+            print(my_function.__doc__)  # => 'Adds two numbers together.'
+            ```
+        </details>
+    </TabItem>
+    <TabItem value="knowledge" label="Knowledge">
+        <details>
+            <summary>Built-in data types</summary>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th>Immutable</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="1">Text</td>
+                        <td>`str`</td>
+                        <td>✅</td>
+                        <td>String of Unicode characters</td>
+                        <td>`"Hello, World"`</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Numeric</td>
+                        <td>`int`</td>
+                        <td>✅</td>
+                        <td>Integer (whole number)</td>
+                        <td>`42`</td>
+                    </tr>
+                    <tr>
+                        <td>`float`</td>
+                        <td>✅</td>
+                        <td>Floating-point number (decimal)</td>
+                        <td>`3.14`</td>
+                    </tr>
+                    <tr>
+                        <td>`complex`</td>
+                        <td>✅</td>
+                        <td>Complex number (real and imaginary parts)</td>
+                        <td>`1 + 2j`</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Sequence</td>
+                        <td>`list`</td>
+                        <td>❌</td>
+                        <td>Ordered, mutable collection of items</td>
+                        <td>`[1, 2, 3]`</td>
+                    </tr>
+                    <tr>
+                        <td>`tuple`</td>
+                        <td>✅</td>
+                        <td>Ordered, immutable collection of items</td>
+                        <td>`(1, 2, 3)`</td>
+                    </tr>
+                    <tr>
+                        <td>`range`</td>
+                        <td>✅</td>
+                        <td>Immutable sequence of numbers (often used in loops)</td>
+                        <td>`range(0, 10)`</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1">Mapping</td>
+                        <td>`dict`</td>
+                        <td>❌</td>
+                        <td>Unordered collection of key-value pairs</td>
+                        <td>`{"key": "value"}`</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Set</td>
+                        <td>`set`</td>
+                        <td>❌</td>
+                        <td>Unordered collection of unique items</td>
+                        <td>`{1, 2, 3}`</td>
+                    </tr>
+                    <tr>
+                        <td>`frozenset`</td>
+                        <td>✅</td>
+                        <td>Immutable version of a set</td>
+                        <td>`frozenset([1, 2, 3])`</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1">Boolean</td>
+                        <td>`bool`</td>
+                        <td>✅</td>
+                        <td>Represents truth values</td>
+                        <td>`True` or `False`</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">Binary</td>
+                        <td>`bytes`</td>
+                        <td>✅</td>
+                        <td>Immutable sequence of bytes</td>
+                        <td>`b"Hello"`</td>
+                    </tr>
+                    <tr>
+                        <td>`bytearray`</td>
+                        <td>❌</td>
+                        <td>Mutable sequence of bytes</td>
+                        <td>`bytearray(b"Hello")`</td>
+                    </tr>
+                    <tr>
+                        <td>`memoryview`</td>
+                        <td>❌</td>
+                        <td>Memory view object (allows access to the internal data of an object)</td>
+                        <td>`memoryview(b"Hello")`</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1">None Type</td>
+                        <td>`NoneType`</td>
+                        <td>✅</td>
+                        <td>Represents the absence (NULL) of a value</td>
+                        <td>`None`</td>
+                    </tr>
+                </tbody>
+            </table>
+        </details>
+
+        <details>
+            <summary>List, Tuple, Set, Dictionary</summary>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>List</th>
+                        <th>Tuple</th>
+                        <th>Set</th>
+                        <th>Dictionary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Syntax</td>
+                        <td>`[ ]`</td>
+                        <td>`( )`</td>
+                        <td>`{ }`</td>
+                        <td>`{key: value}`</td>
+                    </tr>
+                    <tr>
+                        <td>Mutability</td>
+                        <td>Mutable</td>
+                        <td>Immutable</td>
+                        <td>Mutable</td>
+                        <td>Mutable</td>
+                    </tr>
+                    <tr>
+                        <td>Order</td>
+                        <td>Ordered</td>
+                        <td>Ordered</td>
+                        <td>Unordered</td>
+                        <td>Ordered (Python 3.7+)</td>
+                    </tr>
+                    <tr>
+                        <td>Duplicate elements</td>
+                        <td>Allowed</td>
+                        <td>Allowed</td>
+                        <td>Not allowed</td>
+                        <td>Keys unique, values allowed</td>
+                    </tr>
+                    <tr>
+                        <td>Indexing</td>
+                        <td>Supports integer indexing</td>
+                        <td>Supports integer indexing</td>
+                        <td>No indexing</td>
+                        <td>Key-based indexing</td>
+                    </tr>
+                    <tr>
+                        <td>Addition of elements</td>
+                        <td>Yes, using append()/insert()</td>
+                        <td>No</td>
+                        <td>Yes, using add()</td>
+                        <td>Yes, by key assignment</td>
+                    </tr>
+                    <tr>
+                        <td>Deletion of elements</td>
+                        <td>Yes, using pop()/del</td>
+                        <td>No</td>
+                        <td>Yes, using pop()/remove()</td>
+                        <td>Yes, by key</td>
+                    </tr>
+                    <tr>
+                        <td>Heterogeneous elements<br/>(store elements of different data types)</td>
+                        <td>Allowed</td>
+                        <td>Allowed</td>
+                        <td>Allowed</td>
+                        <td>Allowed (keys and values)</td>
+                    </tr>
+                    <tr>
+                        <td>Nesting</td>
+                        <td>Allowed</td>
+                        <td>Allowed</td>
+                        <td>Allowed</td>
+                        <td>Allowed</td>
+                    </tr>
+                    <tr>
+                        <td>Typical Use Case</td>
+                        <td>Ordered collection, modifiable</td>
+                        <td>Fixed collection, constant data</td>
+                        <td>Unique collection, unordered</td>
+                        <td>Key-value pairs, fast lookup</td>
+                    </tr>
+                    <tr>
+                        <td>Performance Notes</td>
+                        <td>Slower than tuple for iteration</td>
+                        <td>Faster than list, space efficient</td>
+                        <td>Fast for membership (`in` / `not in`) checks</td>
+                        <td>Fast lookups via hashing</td>
+                    </tr>
+                </tbody>
+            </table>
+        </details>
+
+        <details>
+            <summary>Shallow vs. Deep Copy</summary>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Shallow Copy</th>
+                        <th>Deep Copy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Definition</td>
+                        <td>Creates a new object, but inserts references into it to the objects found in the original</td>
+                        <td>Creates a new object and recursively adds copies of nested objects found in the original</td>
+                    </tr>
+                    <tr>
+                        <td>Use Case</td>
+                        <td>When you want a new collection but are okay with shared references to nested objects</td>
+                        <td>When you need a completely independent copy of an object and all its nested objects</td>
+                    </tr>
+                    <tr>
+                        <td>Implementation</td>
+                        <td>Using the `copy` module's `copy()` function or slicing for lists</td>
+                        <td>Using the `copy` module's `deepcopy()` function</td>
+                    </tr>
+                    <tr>
+                        <td>Example</td>
+                        <td>
+                            ```python
+                            from copy import copy
+
+                            original = [[1, 2, 3], [4, 5, 6]]
+                            shallow_copied = copy(original)
+                            shallow_copied[0][0] = 'X'
+                            print(original)  # => [['X', 2, 3], [4, 5, 6]]
+                            ```
+                        </td>
+                        <td>
+                            ```python
+                            from copy import deepcopy
+
+                            original = [[1, 2, 3], [4, 5, 6]]
+                            deep_copied = deepcopy(original)
+                            deep_copied[0][0] = 'X'
+                            print(original)  # => [[1, 2, 3], [4, 5, 6]]
+                            ```
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </details>
+
+        <details>
+            <summary>Monkey Patching</summary>
+
+            ```python
+            # Monkey patching is a technique to modify or extend code at runtime.
+            # It is often used to change or extend the behavior of libraries or classes
+            # without modifying their source code.
+            class A:
+                def method(self):
+                    return "original method"
+            a = A()
+            print(a.method())  # => "original method"
+            # Now we will monkey patch the method
+            def new_method(self):
+                return "patched method"
+            A.method = new_method
+            print(a.method())  # => "patched method"
+            ```
+        </details>
+
+        <details>
+            <summary>Regular vs. Metaclasses</summary>
+
+            <table className="text_vertical">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Regular Classes</th>
+                        <th>Metaclasses</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Definition</td>
+                        <td>Blueprints for creating instances (objects)</td>
+                        <td>Classes that define how other classes are created (blueprints of classes)</td>
+                    </tr>
+                    <tr>
+                        <td>Purpose</td>
+                        <td>Define attributes and behaviors of instances</td>
+                        <td>Define attributes and behaviors of classes themselves</td>
+                    </tr>
+                    <tr>
+                        <td>Instantiation</td>
+                        <td>Creating instances (objects) of the class</td>
+                        <td>Creating classes (which in turn create instances)</td>
+                    </tr>
+                    <tr>
+                        <td>Default Metaclass</td>
+                        <td>N/A (they are instances of metaclasses)</td>
+                        <td>The default metaclass is <code>type</code> in Python, which creates all regular classes</td>
+                    </tr>
+                    <tr>
+                        <td>How created</td>
+                        <td>Defined using the <code>class</code> keyword</td>
+                        <td>Usually created by subclassing <code>type</code> and overriding methods</td>
+                    </tr>
+                    <tr>
+                        <td>Use Cases</td>
+                        <td>Modeling real-world entities and data structures</td>
+                        <td>Customizing or controlling class creation, enforcing constraints, injecting methods, creating frameworks</td>
+                    </tr>
+                    <tr>
+                        <td>Relationship</td>
+                        <td>Classes are instances of metaclasses</td>
+                        <td>Metaclasses are classes whose instances are classes</td>
+                    </tr>
+                    <tr>
+                        <td>Complexity</td>
+                        <td>Basic OOP concept, broadly used</td>
+                        <td>Advanced topic, used mainly for metaprogramming or framework development</td>
+                    </tr>
+                    <tr>
+                        <td>Example</td>
+                        <td>
+                            ```python
+                            class Dog:
+                                def bark(self):
+                                    return "Woof!"
+                            my_dog = Dog()
+                            print(my_dog.bark())  # => "Woof!"
+                            ```
+                        </td>
+                        <td>
+                            ```python
+                            class Meta(type):
+                                def __new__(cls, name, bases, attrs):
+                                    attrs['greet'] = lambda self: "Hello from " + name
+                                    return super().__new__(cls, name, bases, attrs)
+
+                            class Cat(metaclass=Meta):
+                                pass
+
+                            my_cat = Cat()
+                            print(my_cat.greet())  # => "Hello from Cat"
+                            ```
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </details>
+
+        <details>
+            <summary>Access Specifier</summary>
+
+            <table className="text_vertical">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Public</th>
+                        <th>Protected</th>
+                        <th>Private</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Definition</td>
+                        <td>Members are open and can be accessed from any part of the program without restriction</td>
+                        <td>Members are meant to be accessed only within the class and its derived classes as a convention only</td>
+                        <td>Members are restricted to the defining class and not accessible directly from outside or subclasses</td>
+                    </tr>
+                    <tr>
+                        <td>Naming Convention</td>
+                        <td>No underscore prefix</td>
+                        <td>Single underscore prefix (`_name`)</td>
+                        <td>Double underscore prefix (`__name`)</td>
+                    </tr>
+                    <tr>
+                        <td>Visibility</td>
+                        <td>Accessible from anywhere (inside and outside the class)</td>
+                        <td>Accessible within the class and subclasses, not outside</td>
+                        <td>Accessible only inside the class where defined</td>
+                    </tr>
+                    <tr>
+                        <td>Example</td>
+                        <td>
+                            ```python
+                            class MyClass:
+                                def __init__(self):
+                                    self.public_var = "I am public"
+                            obj = MyClass()
+                            print(obj.public_var)  # => "I am public"
+                            ```
+                        </td>
+                        <td>
+                            ```python
+                            class MyClass:
+                                def __init__(self):
+                                    self._protected_var = "I am protected"
+                            obj = MyClass()
+                            print(obj._protected_var)
+                            # => "I am protected" (but should be treated as non-public)
+                            ```
+                        </td>
+                        <td>
+                            ```python
+                            class MyClass:
+                                def __init__(self):
+                                    self.__private_var = "I am private"
+                                def get_private(self):
+                                    return self.__private_var
+                            obj = MyClass()
+                            print(obj.get_private())  # => "I am private"
+                            # print(obj.__private_var)  # => AttributeError
+                            ```
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </details>
+
+        <details>
+            <summary>Walrus Operator</summary>
+
+            ```python
+            # The walrus operator (:=) allows assignment and return of a value in the same
+            # expression. It is useful in situations where you want to both assign a value
+            # to a variable and use that value in a condition or expression.
+            numbers = [1, 2, 3, 4, 5]
+
+            # Example 1: Using walrus operator in a while loop
+            if (n := len(numbers)) > 3:
+                print(f"List is too long ({n} elements, expected <= 3)")
+
+            # Example 2: Using walrus operator in a list comprehension
+            while (n := len(numbers)) > 0:
+                print(numbers.pop())
+            ```
+        </details>
+
+        <details>
+            <summary>`*args` vs. `**kwargs`</summary>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>`*args`</th>
+                        <th>`**kwargs`</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Syntax</td>
+                        <td>A single asterisk `*` before a parameter name</td>
+                        <td>Double asterisks `**` before a parameter name</td>
+                    </tr>
+                    <tr>
+                        <td>Parameter type</td>
+                        <td>Collects extra positional arguments</td>
+                        <td>Collects extra keyword (named) arguments</td>
+                    </tr>
+                    <tr>
+                        <td>Data type inside function</td>
+                        <td>Tuple of positional arguments</td>
+                        <td>Dictionary of keyword arguments (key-value pairs)</td>
+                    </tr>
+                    <tr>
+                        <td>Usage scenario</td>
+                        <td>When number of positional arguments is variable</td>
+                        <td>When number of keyword arguments is variable</td>
+                    </tr>
+                    <tr>
+                        <td>Access</td>
+                        <td>Iterate over tuple or access by index</td>
+                        <td>Iterate over dictionary items (key-value)</td>
+                    </tr>
+                    <tr>
+                        <td>Example of function definition</td>
+                        <td>`def func(*args):`</td>
+                        <td>`def func(**kwargs):`</td>
+                    </tr>
+                    <tr>
+                        <td>Example input</td>
+                        <td>`func(1, 2, 3)`</td>
+                        <td>`func(name='John', age=25)`</td>
+                    </tr>
+                    <tr>
+                        <td>Use with keyword args</td>
+                        <td>Does not handle keyword arguments</td>
+                        <td>Handles only keyword arguments</td>
+                    </tr>
+                    <tr>
+                        <td>Ordering in function definition</td>
+                        <td>Must come before `**kwargs`</td>
+                        <td>Must come after `*args`</td>
+                    </tr>
+                    <tr>
+                        <td>Common usage</td>
+                        <td>When expecting multiple non-keyword parameters</td>
+                        <td>When expecting multiple named parameters</td>
+                    </tr>
+                </tbody>
+            </table>
+        </details>
+
+        <details>
+            <summary>Method Resolution Order (MRO)</summary>
+
+            ```python
+            # MRO is the order in which base classes are searched when executing a method.
+            # It is especially important in the context of multiple inheritance.
+            # Python uses the C3 linearization algorithm to determine the MRO.
+            class A:
+                def method(self):
+                    return "Method from A"
+            class B(A):
+                def method(self):
+                    return "Method from B"
+            class C(A):
+                def method(self):
+                    return "Method from C"
+            class D(B, C):
+                pass
+            d = D()
+            print(d.method())  # => "Method from B"
+            print(D.__mro__)  # => (<class '__main__.D'>, <class '__main__.B'>,
+                              # => <class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
+            ```
+        </details>
+    </TabItem>
+    <TabItem value="libraries" label="Libraries">
+        <Tabs queryString="secondary">
+            <TabItem value="numpy" label="NumPy" attributes={{className: 'tabs__vertical'}}>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Python Lists</th>
+                        <th>NumPy Arrays</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Storage Mechanism</b></td>
+                        <td>General-purpose, store various data types, items stored contiguously but list is array of references</td>
+                        <td>Homogeneous (same type) data, elements in contiguous block of memory, more memory-efficient, faster access</td>
+                    </tr>
+                    <tr>
+                        <td><b>Underlying Optimizations</b></td>
+                        <td>Not specialized for numerical operations, slower, dynamic size</td>
+                        <td>Optimized for numerical computations, vectorized operations, fixed size</td>
+                    </tr>
+                    <tr>
+                        <td><b>Performance Considerations</b></td>
+                        <td colspan="2">
+                            <ul>
+                                <li>Memory Efficiency: NumPy arrays more efficient for large datasets, no type info per element</li>
+                                <li>Element-Wise Operations: NumPy faster, no loops</li>
+                                <li>Size Flexibility: Lists dynamic, overhead; NumPy fixed, memory-friendly</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Use in Machine Learning</b></td>
+                        <td>General data-handling, before converting to arrays</td>
+                        <td>Foundational for numerical data, used by TensorFlow, scikit-learn</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            ```python
+            # Essential for numerical computing, providing powerful array objects and
+            # tools for mathematical operations, especially in scientific and
+            # technical computing
+            # Use Cases: Numerical simulations, data analysis, and mathematical modeling
+
+            import numpy as np
+
+            np_file = np.load('data.npy')                   # Load data from a .npy file
+            np.save('output.npy', np_file)                  # Save data to a .npy file
+
+            arr_asarray = np.asarray(arr1d)                 # Convert a list to a NumPy array: array([1, 2, 3, 4, 5])
+            arr_iter = np.fromiter(range(5), dtype=int)     # Create a NumPy array from an iterable: array([0, 1, 2, 3, 4])
+            arr1d = np.array([1, 2, 3, 4, 5])               # Create a 1D NumPy array
+            arr2d = np.array([[1, 2, 3], [4, 5, 6]])        # Create a 2D NumPy array (matrix)
+
+            # Array operations
+
+            arr_add = arr1d + 10                    # Add 10 to each element: [11, 12, 13, 14, 15]
+            arr_sum = np.sum(arr1d)                 # Sum of all elements: 15
+            arr_dot = np.dot(arr1d, arr1d)          # Dot product of arr1d with itself: 55
+            arr_mean = np.mean(arr1d)               # Mean of the array: 3.0
+            arr_reshaped = arr2d.reshape(3, 2)      # Reshape 2D array to 3x2: [[1, 2], [3, 4], [5, 6]]
+            arr_transposed = arr2d.transpose()      # Transpose the 2D array: [[1, 4], [2, 5], [3, 6]]
+            arr_filtered = arr1d[arr1d > 2]         # Filter elements greater than 2: [3, 4, 5]
+            arr_sorted = np.sort(arr1d)             # Sort the array: [1, 2, 3, 4, 5]
+            arr_unique = np.unique(arr1d)           # Unique elements in the array: [1, 2, 3, 4, 5]
+            arr_random = np.random.rand(3, 3)       # Create a 3x3 array of random numbers: [[0.1, 0.2, 0.3], [0.4, 0.5, 0.6], [0.7, 0.8, 0.9]]
+            arr_zeros = np.zeros((2, 3))            # Create a 2x3 array of zeros: [[0, 0, 0], [0, 0, 0]]
+            arr_ones = np.ones((2, 4))              # Create a 2x4 array of ones: [[1, 1, 1, 1], [1, 1, 1, 1]]
+            arr_empty = np.empty((3, 2))            # Create a 3x2 empty array: uninitialized values
+            arr_range = np.arange(0, 10, 2)         # Create an array with values from 0 to 10 with step 2: [0, 2, 4, 6, 8]
+            arr_linspace = np.linspace(0, 1, 5)     # Create an array with 5 evenly spaced values between 0 and 1: [0.0, 0.25, 0.5, 0.75, 1.0]
+            arr_sqrt = np.sqrt(arr1d)               # Square root of each element: [1.0, 1.414, 1.732, 2.0, 2.236]
+            arr_power = np.power(arr1d, 3)          # Raise each element to the power of 3: [1, 8, 27, 64, 125]
+            arr_variance = np.var(arr1d)            # Variance of the array: 2.0
+            arr_std = np.std(arr1d)                 # Standard deviation of the array: 1.414
+            arr_min = np.min(arr1d)                 # Minimum element in the array: 1
+            arr_max = np.max(arr1d)                 # Maximum element in the array: 5
+            ```
+            </TabItem>
+            <TabItem value="pandas" label="Pandas">
+                ```python
+                # Powerful data manipulation and analysis library built on top of NumPy,
+                # offering data structures like DataFrames for handling structured data.
+                # Use Cases: Data cleaning, transformation, and analysis in data science and machine
+                # learning workflows.
+                import pandas as pd
+
+                df_file = pd.read_csv('data.csv')                       # Read data from a CSV file
+                df_file.to_csv('output.csv', index=False)                    # Write DataFrame to a CSV file
+
+                df = pd.DataFrame({'Name': ['Alice', 'Bob', 'Charlie'], 'Age': [25, 30, 35], 'City': ['New York', 'Los Angeles', 'Chicago']})
+                df2 = pd.DataFrame({'Name': ['David', 'Eva'], 'Age': [28, 22], 'City': ['Miami', 'Seattle']})
+
+                print(df.head())                                        # Display the first few rows of the DataFrame
+                #       Name  Age         City
+                # 0    Alice   25     New York
+                # 1      Bob   30  Los Angeles
+                # 2  Charlie   35      Chicago
+
+                print(df.tail())                                        # Display the last few rows of the DataFrame
+                #       Name  Age         City
+                # 0    Alice   25     New York
+                # 1      Bob   30  Los Angeles
+                # 2  Charlie   35      Chicago
+
+                print(df.info())                                        # Get a summary of the DataFrame
+                # <class 'pandas.core.frame.DataFrame'>
+                # RangeIndex: 3 entries, 0 to 2
+                # Data columns (total 3 columns):
+                #  #   Column  Non-Null Count  Dtype
+                # ---  ------  --------------  -----
+                #  0   Name    3 non-null      object
+                #  1   Age     3 non-null      int64
+                #  2   City    3 non-null      object
+                # dtypes: int64(1), object(2)
+                # memory usage: 120.0+ bytes
+
+                print(df.describe())                                    # Get descriptive statistics for numerical columns
+                #              Age
+                # count   3.000000
+                # mean   30.000000
+                # std     5.000000
+                # min    25.000000
+                # 25%    27.500000
+                # 50%    30.000000
+                # 75%    32.500000
+                # max    35.000000
+
+                print(df.shape)                                         # Get the dimensions of the DataFrame
+                # (3, 3)
+
+                print(df.dtypes)                                        # Get the data types of each column
+                # Name     object
+                # Age      int64
+                # City     object
+                # dtype: object
+
+                print(df['Name'].unique())                              # Get unique values in the 'Name' column
+                # ['Alice' 'Bob' 'Charlie']
+
+                print(df.isnull())                                      # Check for missing values in each column
+                # Name    False
+                # Age     False
+                # City    False
+                # dtype: bool
+
+                df.fillna(0, inplace=True)                              # Fill missing values with 0
+                #       Name  Age         City
+                # 0    Alice   25     New York
+                # 1      Bob   30  Los Angeles
+                # 2  Charlie   35      Chicago
+
+                df.dropna(inplace=True)                                 # Drop rows with any missing values
+                #      Name  Age         City
+                # 0    Alice   25     New York
+                # 1      Bob   30  Los Angeles
+                # 2  Charlie   35      Chicago
+
+                print(df.iloc[0])                                       # Access the first row by index
+                # Name      Alice
+                # Age          25
+                # City    New York
+                # Name: 0, dtype: object
+
+                df.sort_values('Age', inplace=True)                     # Sort DataFrame by 'Age' column
+                #       Name  Age         City
+                # 0    Alice   25     New York
+                # 1      Bob   30  Los Angeles
+                # 2  Charlie   35      Chicago
+
+                print(df['City'].value_counts())                        # Count occurrences of each unique value in 'City' column
+                # New York       1
+                # Los Angeles    1
+                # Chicago        1
+                # Name: City, dtype: int64
+
+                grouped = df.groupby('City').mean()                     # Group by 'City' and calculate mean of numerical columns
+                #                   Age
+                # City
+                # Chicago          35.0
+                # Los Angeles      30.0
+                # New York         25.0
+
+                df['Age'] = df['Age'].apply(lambda x: x * 2)            # Apply a function to double the 'Age' values
+                #       Name  Age         City
+                # 0    Alice   50     New York
+                # 1      Bob   60  Los Angeles
+                # 2  Charlie   70      Chicago
+
+                merged_df = pd.merge(df, df2, on='Name', how='outer')   # Merge two DataFrames on 'Name' column
+                #       Name  Age         City
+                # 0    Alice   50     New York
+                # 1      Bob   60  Los Angeles
+                # 2  Charlie   70      Chicago
+                # 3    David   28        Miami
+                # 4      Eva   22      Seattle
+
+                concatenated_df = pd.concat([df, df2])                  # Concatenate two DataFrames
+                #       Name  Age         City
+                # 0    Alice   50     New York
+                # 1      Bob   60  Los Angeles
+                # 2  Charlie   70      Chicago
+                # 0    David   28        Miami
+                # 1      Eva   22      Seattle
+
+                df.rename(columns={'Name': 'Full Name'}, inplace=True)  # Rename 'Name' column to 'Full Name'
+                #      Full Name  Age         City
+                # 0    Alice      50     New York
+                # 1      Bob      60  Los Angeles
+                # 2  Charlie      70      Chicago
+                # 3    David      28        Miami
+                # 4      Eva      22      Seattle
+
+                df.drop('City', axis=1, inplace=True)                   # Drop the 'City' column
+                #      Full Name  Age
+                # 0    Alice      50
+                # 1      Bob      60
+                # 2  Charlie      70
+                # 3    David      28
+                # 4      Eva      22
+                ```
+            </TabItem>
+            <TabItem value="matplotlib" label="Matplotlib">
+                ```python
+                # A fundamental library for data visualization, enabling the creation of
+                # static, animated, and interactive plots and charts.
+                # Use Cases: Visualizing data trends, distributions, and relationships in scientific
+                # computing and data analysis.
+
+                import matplotlib.pyplot as plt
+
+                x = [1, 2, 3, 4, 5]
+                y = [2, 3, 5, 7, 11]
+
+                plt.plot(x, y)                                                              # Plots a line graph between two variables
+                plt.scatter(x, y)                                                           # Creates a scatter plot from two variables
+                plt.bar(['A', 'B', 'C'], [5, 7, 3])                                         # Makes a bar chart for categorical data
+                plt.hist([1, 2, 2, 3, 3, 3, 4, 4, 4, 4], bins=4)                            # Creates a histogram for numerical data distribution
+                plt.pie([10, 20, 30], labels=['X', 'Y', 'Z'])                               # Generates a pie chart representing category proportions
+                plt.boxplot([[1, 2, 3], [2, 3, 4], [3, 4, 5]])                              # Draws a box plot to show data spread and outliers
+                plt.imshow([[1, 2], [3, 4]])                                                # Displays image data as a plot
+                plt.contour([[1, 2], [3, 4]])                                               # Makes contour plots for 3D surface-like data
+                plt.errorbar(x, y, yerr=[0.5, 0.4, 0.3, 0.2, 0.1])                          # Plots error bars for observations with their uncertainties
+                plt.stem(x, y)                                                              # Produces a stem plot for discrete sequences
+                plt.fill(x, y)                                                              # Fills the area between two lines on a plot
+                plt.plot_date(['2023-01-01', '2023-01-02', '2023-01-03'], y)                # Creates a line plot for time series data with dates
+                plt.table(cellText=[[1, 2], [3, 4]], colLabels=['A', 'B'], loc='bottom')    # Adds a table to a plot beneath graphs for detailed data checks
+                plt.text(2, 5, "Sample Text")                                               # Inserts text annotations into a plot
+                plt.xlabel('X axis')                                                        # Sets label text for x axis
+                plt.ylabel('Y axis')                                                        # Sets label text for y axis
+                plt.title('Sample Plot')                                                    # Adds a title to the plot
+                plt.legend(['Line', 'Scatter'])                                             # Displays legend to label elements on the plot
+                plt.show()                                                                  # Displays the final rendered plot
+                plt.savefig('plot.png')                                                     # Saves the plot as an image file
+
+                ```
+            </TabItem>
+            <TabItem value="scikit-learn" label="Scikit-learn">
+                ```python
+                # A powerful and widely-used machine learning library for Python,
+                # providing simple and efficient tools for data mining and data analysis.
+                # Use Cases: Classification, regression, clustering, and dimensionality reduction tasks.
+
+                from sklearn.model_selection import train_test_split
+                from sklearn.preprocessing import StandardScaler
+                from sklearn.linear_model import LogisticRegression
+                from sklearn.ensemble import RandomForestClassifier
+                from sklearn.svm import SVC
+                from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+                from sklearn.datasets import load_iris
+
+                # Load dataset
+                data = load_iris()
+                # Splits dataset into training and test sets for model validation
+                trX, X_test, trY, y_test = train_test_split(data.data, data.target, test_size=0.2, random_state=42)
+
+                # Standardizes features by removing the mean and scaling to unit variance
+                scaler = StandardScaler()
+                # Fits the scaler on training data and transforms it
+                trX = scaler.fit_transform(trX)
+                # Transforms test data using the fitted scaler
+                X_test = scaler.transform(X_test)
+
+
+                # An ensemble method to train random forest models, increasing accuracy over single trees
+                model = RandomForestClassifier(n_estimators=100, random_state=42)
+                # Trains/learns a model or transformer using training data
+                model.fit(trX, trY)
+                # Uses a trained model to predict target values for new or test data
+                y_pred = model.predict(X_test)
+                # Evaluates a model using cross-validation, returning consistency/stability metrics
+                cross_val_score(model, data.data, data.target, cv=5)
+                # Incrementally trains models (useful for large datasets)
+                model.partial_fit(trX, trY, classes=[0, 1, 2])
+
+
+                # Converts Python dictionaries to NumPy/SciPy arrays for feature extraction
+                vec = DictVectorizer()
+                # Fits and transforms data using the vectorizer
+                vec.fit_transform(data.data)
+
+                # An ensemble method to train random forest models, increasing accuracy over single trees
+                clf = RandomForestClassifier(n_estimators=100)
+                # Trains/learns a model or transformer using training data
+                clf.fit(trX, trY)
+                ```
+            </TabItem>
+        </Tabs>
+    </TabItem>
+
+</Tabs>
