@@ -877,6 +877,7 @@ import Tabs from "@theme/Tabs";
 
             # Writing to a file
             contents = {"aa": 12, "bb": 21}
+            # Context Managers set up and automatically clean up resources for code blocks, commonly used with the `with` statement
             with open("myfile1.txt", "w") as file:
                 file.write(str(contents))        # writes a string to a file
 
@@ -2027,6 +2028,33 @@ import Tabs from "@theme/Tabs";
             print(D.__mro__)  # => (<class '__main__.D'>, <class '__main__.B'>,
                               # => <class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
             ```
+        </details>
+
+        <details>
+            <summary>Dunder (magic methods)</summary>
+
+            Dunder ("Double Under (Underscores)") methods (or magic methods) in Python are special methods with double underscores used for internal operations. They allow custom classes to mimic built-in types, enabling operator overloading (like `+` via `__add__`) and integration with functions (like `len()` via `__len__`). Python invokes them automatically for interactions with operators or built-ins.
+
+            **Common dunder methods:**
+
+            - `__init__(self, ...)`: Initializes a new instance (constructor method)
+            - `__str__(self)`: Returns a human-readable string representation
+            - `__repr__(self)`: Returns an official string representation
+            - `__len__(self)`: Enables the use of len() on the object
+            - `__add__(self, other)`: Defines behavior for the + operator
+            - `__eq__(self, other)`: Defines behavior for the == operator
+            - `__getitem__(self, key)`: Enables indexing using square brackets
+            - `__setitem__(self, key, value)`: Enables item assignment
+
+            **How does it work?**
+
+            Python doesn't require direct calls to these methods—they're invoked automatically by operations, operators, or built-in functions when appropriate. For instance, creating a new object from a class calls `__init__`, and printing an object calls `__str__`.
+
+            **Benefits**
+
+            - **Operator Overloading**: Customize how operators work with your objects
+            - **Integration with Built-ins**: Make your objects compatible with built-in functions
+            - **Custom Behavior**: Define how your objects behave in various contexts
         </details>
     </TabItem>
     <TabItem value="libraries" label="Libraries">
