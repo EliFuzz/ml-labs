@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkclassic=self.webpackChunkclassic||[]).push([[1914],{5232:e=>{e.exports=JSON.parse('{"categoryGeneratedIndex":{"title":"Python","slug":"/category/python","permalink":"/ml-labs/docs/category/python","sidebar":"education","navigation":{"next":{"title":"Basics","permalink":"/ml-labs/docs/education/python/overview"}}}}')}}]);
