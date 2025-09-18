@@ -434,6 +434,29 @@ import Tabs from "@theme/Tabs";
             # Any valid Python expression inside these braces is returned to the string.
             f"{name} is {len(name)} characters long."  # => "Joe is 3 characters long."
 
+            num = 1000000
+            print(f"{num:,}")  # => "1,000,000"
+            print(f"{num:_}")  # => "1_000_000"
+
+            str = "name"
+            print(f"{str:^20}")   # => "        name        "
+            print(f"{str:|^20}")  # => "||||||||name||||||||"
+            print(f"{str:>20}")   # => "                name"
+            print(f"{str:<20}:")  # => "name                :"
+            print(f"{str:20}:")   # => "name                :"
+
+            date = datetime.now()
+            print(f"{date:%Y-%m-%d}")  # => "2023-10-05"
+            print(f"{date:%c}")  # local datetime: => "Wed Jan 01 01:00:00 2025"
+
+            float_num = 3.141
+            print(f"{float_num:.2f}")  # => "3.14"
+
+            a = 5
+            b = 10
+            print(f"a + b = {a + b}") # => "a + b = 15"
+            print(f"{a + b = }")      # => "a + b = 15"
+
             # None is an object
             None  # => None
 
