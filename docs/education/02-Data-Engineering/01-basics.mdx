@@ -2899,88 +2899,147 @@ import Tabs from "@theme/Tabs";
     </table>
 
   </TabItem>
-<TabItem value="data-access" label="Data Access">
-    ### Access Frequency
-
-    <table>
-        <thead>
-            <tr>
-                <th>Aspect</th>
-                <th>Hot Data</th>
-                <th>Lukewarm (Warm) Data</th>
-                <th>Cold Data</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Definition</td>
-                <td>Frequently accessed, high-value, real-time or near-real-time data</td>
-                <td>Moderately accessed, regularly needed but not instant</td>
-                <td>Infrequently accessed, usually retained for archival purposes</td>
-            </tr>
-            <tr>
-                <td>Access Frequency</td>
-                <td>Constant, immediate, sub-second or millisecond response</td>
-                <td>Scheduled, hours to days, moderate latency</td>
-                <td>Rare, weeks to years, high latency</td>
-            </tr>
-            <tr>
-                <td>Access Latency</td>
-                <td>Sub-second or millisecond</td>
-                <td>Seconds to minutes</td>
-                <td>Minutes to hours</td>
-            </tr>
-            <tr>
-                <td>Storage Media</td>
-                <td>RAM, in-memory database, SSDs, high-performance NAS</td>
-                <td>Mid-tier SSDs, high-speed HDDs, cloud object storage</td>
-                <td>Low-cost HDDs, archival cloud storage</td>
-            </tr>
-            <tr>
-                <td>Retention Policy</td>
-                <td>Short-term, transactional</td>
-                <td>Weeks to months, operational</td>
-                <td>Long-term, years (or indefinitely for compliance)</td>
-            </tr>
-            <tr>
-                <td>Data Volume</td>
-                <td>Typically smaller, volume managed for speed</td>
-                <td>Medium</td>
-                <td>Very large, bulk data</td>
-            </tr>
-            <tr>
-                <td>Data Value</td>
-                <td>Immediate, high business impact</td>
-                <td>Useful, moderate business impact</td>
-                <td>Historical, regulatory, analytical</td>
-            </tr>
-            <tr>
-                <td>Security Requirements</td>
-                <td>Highest, critical for business operations</td>
-                <td>Moderate, standard access protection</td>
-                <td>Encryption, integrity, regulatory compliance</td>
-            </tr>
-            <tr>
-                <td>Scalability</td>
-                <td>Vertical scaling for speed</td>
-                <td>Horizontal scaling, cost-performance balance</td>
-                <td>Massive horizontal scaling, low access needs</td>
-            </tr>
-            <tr>
-                <td>Challenges</td>
-                <td>High cost, data lifecycle, scalability</td>
-                <td>Balancing cost and access</td>
-                <td>Retrieval speed, data integrity, long-term maintenance</td>
-            </tr>
-            <tr>
-                <td>Use Cases</td>
-                <td>Fraud detection, real-time stock trading, network monitoring</td>
-                <td>Monthly business reporting, operational data</td>
-                <td>Legal audits, disaster recovery, regulatory reporting</td>
-            </tr>
-        </tbody>
-    </table>
-
+  <TabItem value="data-access" label="Data Access">
+    <Tabs queryString="secondary">
+      <TabItem value="data-access-frequency" label="Access Frequency" attributes={{ className: "tabs__vertical" }}>
+        <table>
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Hot Data</th>
+                    <th>Lukewarm (Warm) Data</th>
+                    <th>Cold Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Definition</td>
+                    <td>Frequently accessed, high-value, real-time or near-real-time data</td>
+                    <td>Moderately accessed, regularly needed but not instant</td>
+                    <td>Infrequently accessed, usually retained for archival purposes</td>
+                </tr>
+                <tr>
+                    <td>Access Frequency</td>
+                    <td>Constant, immediate, sub-second or millisecond response</td>
+                    <td>Scheduled, hours to days, moderate latency</td>
+                    <td>Rare, weeks to years, high latency</td>
+                </tr>
+                <tr>
+                    <td>Access Latency</td>
+                    <td>Sub-second or millisecond</td>
+                    <td>Seconds to minutes</td>
+                    <td>Minutes to hours</td>
+                </tr>
+                <tr>
+                    <td>Storage Media</td>
+                    <td>RAM, in-memory database, SSDs, high-performance NAS</td>
+                    <td>Mid-tier SSDs, high-speed HDDs, cloud object storage</td>
+                    <td>Low-cost HDDs, archival cloud storage</td>
+                </tr>
+                <tr>
+                    <td>Retention Policy</td>
+                    <td>Short-term, transactional</td>
+                    <td>Weeks to months, operational</td>
+                    <td>Long-term, years (or indefinitely for compliance)</td>
+                </tr>
+                <tr>
+                    <td>Data Volume</td>
+                    <td>Typically smaller, volume managed for speed</td>
+                    <td>Medium</td>
+                    <td>Very large, bulk data</td>
+                </tr>
+                <tr>
+                    <td>Data Value</td>
+                    <td>Immediate, high business impact</td>
+                    <td>Useful, moderate business impact</td>
+                    <td>Historical, regulatory, analytical</td>
+                </tr>
+                <tr>
+                    <td>Security Requirements</td>
+                    <td>Highest, critical for business operations</td>
+                    <td>Moderate, standard access protection</td>
+                    <td>Encryption, integrity, regulatory compliance</td>
+                </tr>
+                <tr>
+                    <td>Scalability</td>
+                    <td>Vertical scaling for speed</td>
+                    <td>Horizontal scaling, cost-performance balance</td>
+                    <td>Massive horizontal scaling, low access needs</td>
+                </tr>
+                <tr>
+                    <td>Challenges</td>
+                    <td>High cost, data lifecycle, scalability</td>
+                    <td>Balancing cost and access</td>
+                    <td>Retrieval speed, data integrity, long-term maintenance</td>
+                </tr>
+                <tr>
+                    <td>Use Cases</td>
+                    <td>Fraud detection, real-time stock trading, network monitoring</td>
+                    <td>Monthly business reporting, operational data</td>
+                    <td>Legal audits, disaster recovery, regulatory reporting</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="data-structured-vs-unstructured" label="Structured vs. Unstructured">
+        <table>
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Structured Data</th>
+                    <th>Unstructured Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Definition</td>
+                    <td>Data that adheres to a predefined schema or model, organized in rows and columns</td>
+                    <td>Data that does not have a predefined structure or schema, often text-heavy or multimedia</td>
+                </tr>
+                <tr>
+                    <td>Storage</td>
+                    <td>Stored in relational databases (SQL)</td>
+                    <td>Stored in NoSQL databases, data lakes, file systems</td>
+                </tr>
+                <tr>
+                    <td>Data Model</td>
+                    <td>Predefined schema with fixed fields and data types</td>
+                    <td>No fixed schema; flexible and dynamic formats</td>
+                </tr>
+                <tr>
+                    <td>Querying</td>
+                    <td>Easily queried using SQL with structured queries</td>
+                    <td>Requires specialized tools (e.g., text mining, image recognition) for analysis</td>
+                </tr>
+                <tr>
+                    <td>Analysis Complexity</td>
+                    <td>Straightforward analysis using traditional BI tools</td>
+                    <td>Complex analysis often requiring machine learning or advanced analytics techniques</td>
+                </tr>
+                <tr>
+                    <td>Volume</td>
+                    <td>Typically smaller in volume due to structured nature</td>
+                    <td>Larger in volume due to diverse formats and types</td>
+                </tr>
+                <tr>
+                    <td>Processing Speed</td>
+                    <td>Faster processing due to defined structure and indexing</td>
+                    <td>Slower processing due to need for parsing and interpretation</td>
+                </tr>
+                <tr>
+                    <td>Use Cases</td>
+                    <td>Financial transactions, customer records, inventory management</td>
+                    <td>Customer feedback analysis, media content management, sentiment analysis</td>
+                </tr>
+                <tr>
+                    <td>Examples</td>
+                    <td>Relational databases, spreadsheets, CSV files</td>
+                    <td>Emails, social media posts, images, videos, audio files, documents (PDFs, Word)</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+    </Tabs>
   </TabItem>
   <TabItem value="data-transformation" label="Data Transformation">
     ### ETL/ELT vs. Medallion Architecture
@@ -3901,7 +3960,7 @@ import Tabs from "@theme/Tabs";
         </tbody>
       </table>
 
-      ## Star vs. Snowflake Schema
+      ## Star vs. Snowflake vs. Galaxy Schema
 
       <table>
           <thead>
@@ -3909,6 +3968,7 @@ import Tabs from "@theme/Tabs";
                   <th>Aspect</th>
                   <th>Star Schema</th>
                   <th>Snowflake Schema</th>
+                  <th>Galaxy Schema</th>
               </tr>
           </thead>
           <tbody>
@@ -3916,6 +3976,7 @@ import Tabs from "@theme/Tabs";
                   <td>Structure</td>
                   <td>Central fact table linked to denormalized dimension tables</td>
                   <td>Fact table linked to normalized dimension tables, split hierarchically</td>
+                  <td>Multiple fact tables sharing dimension tables, can be a mix of star and snowflake</td>
               </tr>
               <tr>
                   <td>Visualization</td>
@@ -4034,96 +4095,180 @@ import Tabs from "@theme/Tabs";
                         }
                     ```
                   </td>
+                  <td>
+                    ```mermaid
+                    erDiagram
+                    DIM_DATE {
+                      string DateKey PK "Primary Key"
+                      date FullDate
+                      string DayOfWeek
+                      string Month
+                      string Quarter
+                      string Year
+                    }
+                    DIM_PRODUCT {
+                      string ProductKey PK "Primary Key"
+                      string ProductName
+                      string Category
+                      string Brand
+                    }
+                    DIM_STORE {
+                      string StoreKey PK "Primary Key"
+                      string StoreName
+                      string StoreLocation
+                      string StoreManager
+                    }
+                    DIM_CUSTOMER {
+                      string CustomerKey PK "Primary Key"
+                      string FirstName
+                      string LastName
+                      string Gender
+                      string Email
+                    }
+
+                    FACT_SALES {
+                        string SalesID PK "Primary Key"
+                        string DateKey FK
+                        string ProductKey FK
+                        string StoreKey FK
+                        string CustomerKey FK
+                        int QuantitySold
+                        decimal SalesAmount
+                    }
+                    FACT_INVENTORY {
+                        string InventoryID PK "Primary Key"
+                        string DateKey FK
+                        string ProductKey FK
+                        string StoreKey FK
+                        int QuantityOnHand
+                        decimal InventoryValue
+                    }
+                    FACT_SHIPPING {
+                        string ShippingID PK "Primary Key"
+                        string DateKey FK
+                        string ProductKey FK
+                        string StoreKey FK
+                        string ShippingCarrier
+                        int QuantityShipped
+                        decimal ShippingCost
+                    }
+
+                    DIM_DATE ||--o{ FACT_SALES : "date of"
+                    DIM_PRODUCT ||--o{ FACT_SALES : "product sold in"
+                    DIM_STORE ||--o{ FACT_SALES : "store where sold"
+                    DIM_CUSTOMER ||--o{ FACT_SALES : "customer buying"
+
+                    DIM_DATE ||--o{ FACT_INVENTORY : "date recorded"
+                    DIM_PRODUCT ||--o{ FACT_INVENTORY : "product in inventory"
+                    DIM_STORE ||--o{ FACT_INVENTORY : "store inventory"
+
+                    DIM_DATE ||--o{ FACT_SHIPPING : "shipping date"
+                    DIM_PRODUCT ||--o{ FACT_SHIPPING : "product shipped"
+                    DIM_STORE ||--o{ FACT_SHIPPING : "dispatch store"
+                    ```
+                  </td>
               </tr>
               <tr>
                   <td>Data Normalization</td>
                   <td>Dimension tables are denormalized (flat structure, redundancy present)</td>
                   <td>Dimension tables are normalized (data split into sub-tables, minimal redundancy)</td>
+                  <td>Typically involves normalized or partially normalized dimension tables to reduce data redundancy. Dimensions are often conformed (shared across fact tables). Normalization level can vary depending on design goals</td>
               </tr>
               <tr>
                   <td>Query Performance</td>
                   <td>Faster query execution due to fewer joins</td>
                   <td>Slower query execution due to multiple joins required</td>
+                  <td>Performance can vary; may benefit from fewer joins but could be impacted by complexity</td>
               </tr>
               <tr>
                   <td>Query Complexity</td>
                   <td>Simpler queries, fewer joins, easy to write and understand</td>
                   <td>More complex queries, requires deeper understanding and multiple joins</td>
+                  <td>Queries can be complex due to multiple fact tables and shared dimensions; requires good understanding of schema</td>
               </tr>
               <tr>
                   <td>Storage Requirements</td>
                   <td>Higher storage use due to redundant and denormalized data</td>
                   <td>More storage efficient; reduced duplication through normalization</td>
+                  <td>Storage efficiency varies; can be optimized through shared dimensions but may still have redundancy depending on design</td>
               </tr>
               <tr>
                   <td>Data Redundancy</td>
                   <td>Higher - dimensions repeat attribute values in multiple rows</td>
                   <td>Lower - most redundant data is eliminated</td>
+                  <td>Varies - some redundancy may remain depending on design</td>
               </tr>
               <tr>
                   <td>Space Usage</td>
                   <td>More storage space required for large datasets</td>
                   <td>Less storage space through normalization</td>
+                  <td>Varies - can be optimized but may still require significant space depending on data volume and design</td>
               </tr>
               <tr>
                   <td>Foreign Keys</td>
                   <td>Fewer foreign keys (simple design)</td>
                   <td>More foreign keys due to multiple related tables</td>
+                  <td>Multiple foreign keys due to shared dimensions; complexity depends on design</td>
               </tr>
               <tr>
                   <td>Data Integrity</td>
                   <td>Lower: Denormalization risks inconsistency due to data being updated in many places</td>
                   <td>Higher: Normalization enforces referential integrity and consistency</td>
+                  <td>Varies - can be managed but may require more effort to maintain consistency</td>
               </tr>
               <tr>
                   <td>Updates and Modifications</td>
                   <td>Harder to update - redundant data increases risk of inconsistent modifications</td>
                   <td>Easier for updates - changes in an attribute only affect one table</td>
+                  <td>Varies - updates may be easier due to shared dimensions but can be complex depending on relationships</td>
               </tr>
               <tr>
                   <td>Dimension Table Structure</td>
                   <td>Flat structure - each dimension is a single table, no sub-tables</td>
                   <td>Multi-layered - each dimension may be decomposed into sub-dimensions</td>
+                  <td>Varies - dimensions can be flat or multi-layered depending on design</td>
               </tr>
               <tr>
                   <td>BI & Reporting Suitability</td>
                   <td>Best for BI tools, dashboards, and quick ad hoc queries</td>
                   <td>Better for complex analytical queries, detailed reporting, and multidimensional analysis</td>
+                  <td>Suitable for complex reporting needs involving multiple fact tables; requires good understanding of schema</td>
               </tr>
               <tr>
                   <td>Maintainability</td>
                   <td>Easier to maintain, intuitive design</td>
                   <td>More difficult to maintain, complex design</td>
+                  <td>Varies - can be complex to maintain due to multiple fact tables and shared dimensions</td>
               </tr>
               <tr>
                   <td>Design Complexity</td>
                   <td>Easier and faster to design and implement</td>
                   <td>Requires careful design due to hierarchical splitting</td>
+                  <td>Varies - can be complex to design depending on relationships and shared dimensions</td>
               </tr>
               <tr>
                   <td>Scalability</td>
                   <td>Scalable for typical analytic workloads, though can suffer performance issues at extreme scale due to redundancy</td>
                   <td>Good scalability, especially for complex and large-scale data with multiple hierarchies</td>
-              </tr>
-              <tr>
-                  <td>Learning Curve</td>
-                  <td>Easier to learn and implement - well-suited for teams new to data warehousing</td>
-                  <td>More challenging to learn - the normalized structure may be less accessible to business users</td>
+                  <td>Scalability varies; can handle complex data but may require careful design to avoid performance bottlenecks</td>
               </tr>
               <tr>
                   <td>ETL/ELT Complexity</td>
                   <td>Simpler ETL/ELT pipelines - fewer tables to populate and maintain</td>
                   <td>More complex ETL/ELT - hierarchical normalization requires careful loading and management</td>
+                  <td>ETL/ELT complexity varies; may require more sophisticated pipelines to manage multiple fact tables and shared dimensions</td>
               </tr>
               <tr>
                   <td>Drawbacks</td>
                   <td>Data redundancy, storage waste, potential for inconsistencies, not suited for high-cardinality or complex hierarchies</td>
                   <td>Query slowness for basic analytics, complexity in query construction and ETL, harder for non-technical users to understand and navigate</td>
+                  <td>Complexity in design and maintenance, potential performance issues if not well-optimized</td>
               </tr>
               <tr>
                   <td>Use Cases</td>
                   <td>Retail sales analysis with simple product/geography/time/customer dimensions</td>
                   <td>Data warehouses with complex product/customer/location hierarchies, and systems requiring fine-grained data integrity</td>
+                  <td>Enterprise data warehouses with multiple business processes, complex reporting needs, and shared dimensions across fact tables</td>
               </tr>
           </tbody>
       </table>
