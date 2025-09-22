@@ -14,23 +14,17 @@ import Tabs from "@theme/Tabs";
         <th>Aspect</th>
         <th>Data Engineer</th>
         <th>Data Analyst</th>
+        <th>Machine Learning Engineer</th>
         <th>Data Scientist</th>
       </tr>
       <tr>
         <td>
           <b>Primary Role</b>
         </td>
-        <td>
-          Design, build, and maintain data infrastructure, pipelines, and
-          architectures
-        </td>
-        <td>
-          Collect, clean, analyze, and visualize data for business insights
-        </td>
-        <td>
-          Build and test advanced models for predictive analytics and machine
-          learning
-        </td>
+        <td>Design, build, and maintain data infrastructure, pipelines, and architectures</td>
+        <td>Collect, clean, analyze, and visualize data for business insights</td>
+        <td>Develop, deploy, and maintain machine learning models in production</td>
+        <td>Build and test advanced models for predictive analytics and machine learning</td>
       </tr>
       <tr>
         <td>
@@ -38,6 +32,7 @@ import Tabs from "@theme/Tabs";
         </td>
         <td>Data infrastructure, reliability, scalability</td>
         <td>Business insights, decision support, reporting</td>
+        <td>Model deployment, monitoring, and optimization</td>
         <td>Predictive modeling, AI, driving strategic value</td>
       </tr>
       <tr>
@@ -62,6 +57,16 @@ import Tabs from "@theme/Tabs";
             <li>Generate reports</li>
             <li>Interpret and communicate findings</li>
             <li>Maintain data quality</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>Deploy ML models to production</li>
+            <li>Monitor and maintain model performance</li>
+            <li>Optimize model efficiency</li>
+            <li>Collaborate with data scientists and engineers</li>
+            <li>Implement scalable ML solutions</li>
+            <li>Ensure model reliability and security</li>
           </ul>
         </td>
         <td>
@@ -96,11 +101,23 @@ import Tabs from "@theme/Tabs";
           <ul>
             <li>SQL</li>
             <li>Excel</li>
-            <li>Python (basic)</li>
+            <li>Python</li>
             <li>Tableau</li>
             <li>Power BI</li>
             <li>Spreadsheets</li>
             <li>Looker</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>Python (advanced)</li>
+            <li>TensorFlow</li>
+            <li>PyTorch</li>
+            <li>MLflow</li>
+            <li>Kubernetes</li>
+            <li>Docker</li>
+            <li>AWS/GCP/Azure</li>
+            <li>CI/CD tools</li>
           </ul>
         </td>
         <td>
@@ -120,37 +137,27 @@ import Tabs from "@theme/Tabs";
         <td>
           <b>Programming Requirements</b>
         </td>
-        <td>
-          Advanced: Python, Java, Scala, SQL (expert), scripting for automation
-        </td>
-        <td>Moderate: SQL, Python (basic), data manipulation</td>
-        <td>
-          Advanced: Python, R, statistical programming, proficiency in ML
-          libraries
-        </td>
+        <td>Advanced: Python, Java, Scala, SQL (expert), scripting for automation</td>
+        <td>Moderate: SQL, Python, data manipulation</td>
+        <td>Intermediate: R, Python, data manipulation</td>
+        <td>Advanced: Python, R, statistical programming, proficiency in ML libraries </td>
       </tr>
       <tr>
         <td>
           <b>Statistical Knowledge</b>
         </td>
-        <td>
-          Basic: Schema design, query optimization, limited direct analytics
-        </td>
+        <td>Basic: Schema design, query optimization, limited direct analytics</td>
         <td>Intermediate: Regression, hypothesis testing, basic stats</td>
-        <td>
-          Advanced: Probability, Bayesian methods, time series, deep statistical
-          analysis
-        </td>
+        <td>Intermediate: Statistical concepts for model evaluation</td>
+        <td>Advanced: Probability, Bayesian methods, time series, deep statistical analysis</td>
       </tr>
       <tr>
         <td>
           <b>Database Expertise</b>
         </td>
-        <td>
-          SQL (expert), NoSQL (MongoDB, Cassandra), database design and
-          optimization
-        </td>
+        <td>SQL (expert), NoSQL (MongoDB, Cassandra), database design and optimization</td>
         <td>SQL (advanced), relational databases</td>
+        <td>SQL (intermediate), NoSQL (basic), works with data for modeling</td>
         <td>SQL/NoSQL (basic), interacts with preprocessed datasets</td>
       </tr>
       <tr>
@@ -159,19 +166,16 @@ import Tabs from "@theme/Tabs";
         </td>
         <td>AWS/GCP/Azure (advanced), Spark, Kafka, Data Lakes</td>
         <td>Cloud basics (BigQuery, Redshift), limited big data interaction</td>
-        <td>
-          Uses big data tools for ML modeling (PySpark, Databricks), basic cloud
-          usage
-        </td>
+        <td>Cloud (AWS/GCP/Azure) for deployment, Docker, Kubernetes</td>
+        <td>Uses big data tools for ML modeling (PySpark, Databricks), basic cloud usage</td>
       </tr>
       <tr>
         <td>
           <b>Data Pipeline Focus</b>
         </td>
-        <td>
-          High: Designs and maintains ETL/ELT, data warehousing, automation
-        </td>
+        <td>High: Designs and maintains ETL/ELT, data warehousing, automation</td>
         <td>Low: Sometimes uses simple automations for data scraping</td>
+        <td>Low: Deploys models, may build simple pipelines</td>
         <td>Medium: Processes data for modeling, sometimes builds pipelines</td>
       </tr>
       <tr>
@@ -179,62 +183,44 @@ import Tabs from "@theme/Tabs";
           <b>Machine Learning/AI</b>
         </td>
         <td>Rarely involved directly, may deploy or support ML models</td>
-        <td>
-          Rarely creates ML models, may use predictive analytics/simpler
-          techniques
-        </td>
-        <td>
-          Highly involved: experiments, builds, and deploys ML and deep learning
-          models
-        </td>
+        <td>Rarely creates ML models, may use predictive analytics/simpler techniques</td>
+        <td>Highly involved: deploys, monitors, and optimizes ML models in production</td>
+        <td>Highly involved: experiments, builds, and deploys ML and deep learning models</td>
       </tr>
       <tr>
         <td>
           <b>Visualization Skills</b>
         </td>
         <td>Low: Occasional, for pipeline monitoring</td>
-        <td>
-          High: Charts, dashboards, reporting, storytelling for stakeholders
-        </td>
-        <td>
-          Medium: Data exploration, result presentation (Matplotlib, Seaborn)
-        </td>
+        <td>High: Charts, dashboards, reporting, storytelling for stakeholders</td>
+        <td>Low: Basic, for model performance monitoring</td>
+        <td>Medium: Data exploration, result presentation (Matplotlib, Seaborn)</td>
       </tr>
       <tr>
         <td>
           <b>Business Interaction</b>
         </td>
         <td>Indirect: Supports data ecosystem</td>
-        <td>
-          Direct: Collaborates closely with business teams and stakeholders
-        </td>
+        <td>Direct: Collaborates closely with business teams and stakeholders</td>
+        <td>Indirect: Works with data scientists and engineers</td>
         <td>Occasional: Interfaces for requirements, presents insights</td>
       </tr>
       <tr>
         <td>
           <b>Real-World Application</b>
         </td>
-        <td>
-          Building scalable data platforms, integrating data sources, ensuring
-          data quality
-        </td>
-        <td>
-          Reporting on sales trends, customer analytics, optimization of
-          business processes
-        </td>
-        <td>
-          Fraud detection, recommendation engines, sales forecasting, advanced
-          customer analytics
-        </td>
+        <td>Building scalable data platforms, integrating data sources, ensuring data quality</td>
+        <td>Reporting on sales trends, customer analytics, optimization of business processes</td>
+        <td>Customer segmentation, A/B testing, user behavior analysis</td>
+        <td>Fraud detection, recommendation engines, sales forecasting, advanced customer analytics</td>
       </tr>
       <tr>
         <td>
           <b>Typical Career Path</b>
         </td>
-        <td>Junior Engineer → Data Engineer → Senior/Lead/Architect</td>
-        <td>
-          Junior Analyst → Data Analyst → Senior Analyst/Business Intelligence
-        </td>
+        <td>Junior Data Engineer → Data Engineer → Senior/Lead/Architect</td>
+        <td>Junior Analyst → Data Analyst → Senior Analyst/Business Intelligence</td>
+        <td>Junior ML Engineer → ML Engineer → Senior/Lead/AI Engineer</td>
         <td>Analyst/Engineer → Data Scientist → Lead Scientist/AI Engineer</td>
       </tr>
     </table>
