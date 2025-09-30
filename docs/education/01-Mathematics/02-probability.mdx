@@ -1,0 +1,579 @@
+---
+title: Probability
+description: Probability & Statistics Fundamentals
+hide_table_of_contents: true
+---
+
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+
+<Tabs queryString="primary">
+    <TabItem value="basic-concepts" label="Basic Concepts">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Definition</th>
+                    <th>Characteristics/Rules</th>
+                    <th>Examples</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Experiment</b></td>
+                    <td>A process producing uncertain but well-defined outcomes</td>
+                    <td>Outcomes known in advance, actual outcome uncertain, repeatable</td>
+                    <td>Flipping a coin, rolling a die, drawing a card, clicking an ad</td>
+                    <td>Defines the starting point of probability analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Outcome</b></td>
+                    <td>A single possible result of an experiment</td>
+                    <td>Represents one element from the sample space</td>
+                    <td>Heads, Tails, rolling a "3", Ace of Spades</td>
+                    <td>Used to build sample spaces</td>
+                </tr>
+                <tr>
+                    <td><b>Sample Space (S)</b></td>
+                    <td>The set of all possible outcomes of an experiment</td>
+                    <td>Finite (discrete) or infinite/continuous</td>
+                    <td>$$ S=\{H,T\} $$ for a coin</td>
+                    <td>Framework for defining events</td>
+                </tr>
+                <tr>
+                    <td><b>Event (E)</b></td>
+                    <td>A subset of the sample space</td>
+                    <td>Can contain one or multiple outcomes</td>
+                    <td>"Even die roll" = \{2,4,6\}; "at least one Head" = \{HH,HT,TH\}</td>
+                    <td>Basis for probability calculations</td>
+                </tr>
+                <tr>
+                    <td><b>Probability of an Event</b></td>
+                    <td>Numerical measure of likelihood (0 to 1)</td>
+                    <td>$$ P(E)=0 $$ impossible, $$ P(E)=1 $$ certain</td>
+                    <td>Probability of rolling 3 on die = 1/6</td>
+                    <td>Quantifies uncertainty</td>
+                </tr>
+                <tr>
+                    <td><b>Classical Probability</b></td>
+                    <td>A priori assumption of equal likelihood</td>
+                    <td>$$ P(E) = \frac{\text{favorable outcomes}}{\text{total outcomes}} $$</td>
+                    <td>Rolling a 3 on a fair die = 1/6</td>
+                    <td>Used in games of chance, theoretical problems</td>
+                </tr>
+                <tr>
+                    <td><b>Empirical Probability</b></td>
+                    <td>Based on observed data/frequency</td>
+                    <td>$$ P(E) = \frac{\text{observed occurrences of E}}{\text{total trials}} $$</td>
+                    <td>Ad clicks: 150/1000 = 0.15</td>
+                    <td>Foundation of data-driven analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Subjective Probability</b></td>
+                    <td>Based on judgment or intuition</td>
+                    <td>Not derived from calculation</td>
+                    <td>Analyst predicts 70% chance of product success</td>
+                    <td>Used in business decisions with scarce data</td>
+                </tr>
+                <tr>
+                    <td><b>Complementary Events</b></td>
+                    <td>Opposite of an event ($$E'$$)</td>
+                    <td>Rule: $$ P(E') = 1 - P(E) $$</td>
+                    <td>Click rate 0.15 → No Click 0.85</td>
+                    <td>Helps compute probabilities indirectly</td>
+                </tr>
+                <tr>
+                    <td><b>Mutually Exclusive Events</b></td>
+                    <td>Events that cannot occur together</td>
+                    <td>Rule: $$ P(A \cup B) = P(A) + P(B) $$</td>
+                    <td>Even vs odd die roll outcomes</td>
+                    <td>Useful in disjoint scenarios</td>
+                </tr>
+                <tr>
+                    <td><b>Non-Mutually Exclusive Events</b></td>
+                    <td>Events that can overlap</td>
+                    <td>Rule: $$ P(A \cup B) = P(A) + P(B) - P(A \cap B) $$</td>
+                    <td>Rolling even OR >4 → 2/3</td>
+                    <td>Key in overlapping categories or risks</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="conditional-probability" label="Conditional Probability">
+        <table className="probability-concepts">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Formula</th>
+                    <th>Example</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Conditional Probability</b></td>
+                    <td>Probability of event A given event B: $$P(A|B) = \frac{P(A \cap B)}{P(B)}$$</td>
+                    <td>From a 52-card deck: Given the card is a Face Card, probability it's a King = 1/3</td>
+                    <td>Used in click-through rates, churn prediction, and medical diagnosis</td>
+                </tr>
+                <tr>
+                    <td><b>Independent Events</b></td>
+                    <td>One event does not affect the other. $$P(A|B) = P(A),\; P(A \cap B) = P(A) \cdot P(B)$$</td>
+                    <td>Two coin flips: probability of heads on first and second flip = $$0.5 \cdot 0.5 = 0.25$$</td>
+                    <td>Simplifies modeling; many tests assume independence</td>
+                </tr>
+                <tr>
+                    <td><b>Dependent Events</b></td>
+                    <td>One event affects the probability of the other. $$P(A \cap B) = P(A) \cdot P(B|A)$$</td>
+                    <td>Drawing two Kings in a row without replacement: $$\frac{4}{52} \cdot \frac{3}{51} ≈ 0.0045$$</td>
+                    <td>Critical for sequential data, customer behavior, anomaly chains</td>
+                </tr>
+                <tr>
+                    <td><b>Bayes' Theorem</b></td>
+                    <td>Updates probability of A given evidence B: $$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$</td>
+                    <td>Medical test: 1% prevalence, 95% true positive, 10% false positive. $$P(D|T) ≈ 8.75\%$$</td>
+                    <td>Core for A/B testing, spam filtering, fraud detection, Naive Bayes models</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="random-variables" label="Random Variables">
+        <table className="text_vertical">
+            <thead>
+            <tr>
+                <th>Concept</th>
+                <th>Definition</th>
+                <th>Properties</th>
+                <th>Examples</th>
+                <th>Use Cases</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><b>Random Variable</b></td>
+                <td>A function mapping outcomes of a random experiment to real numbers</td>
+                <td>Represents the numerical result of an unpredictable event</td>
+                <td>Number of heads in flips, height of a person, number of customers in a store</td>
+                <td>Forms foundation of modeling uncertainty and statistical inference</td>
+            </tr>
+            <tr>
+                <td><b>Discrete Random Variable</b></td>
+                <td>Takes on finite or countably infinite distinct values (often integers)</td>
+                <td>Possible outcomes are countable</td>
+                <td>Coin flips, number of defective items, die roll, customer arrivals</td>
+                <td>Modeled with <b>discrete distributions</b> (e.g., Binomial, Poisson)</td>
+            </tr>
+            <tr>
+                <td><b>Continuous Random Variable</b></td>
+                <td>Takes on values from any interval within the real line</td>
+                <td>Outcomes come from measurement, uncountably infinite</td>
+                <td>Height, weight, time to complete a task, daily sales revenue</td>
+                <td>Modeled with <b>continuous distributions</b> (e.g., Normal, Exponential)</td>
+            </tr>
+            <tr>
+                <td><b>Probability Distribution</b></td>
+                <td>Describes how probabilities are assigned over possible values</td>
+                <td>Defines likelihood structure of a random variable</td>
+                <td>PMF for discrete, PDF for continuous, CDF for both</td>
+                <td>Core tool to compute likelihood, support inference, and fit models</td>
+            </tr>
+            <tr>
+                <td><b>PMF (Probability Mass Function)</b></td>
+                <td>Assigns a probability to each possible value of a discrete random variable</td>
+                <td>
+                    <ul>
+                        <li>$$0 \leq P(X=x) \leq 1$$</li>
+                        <li>$$\sum P(X=x)=1$$</li>
+                    </ul>
+                </td>
+                <td>Number of heads in two coin flips: PMF = $$\{P(0)=1/4, P(1)=1/2, P(2)=1/4\}$$</td>
+                <td>Essential for modeling counts and categorical outcomes</td>
+            </tr>
+            <tr>
+                <td><b>PDF (Probability Density Function)</b></td>
+                <td>Describes density for continuous random variables; probability is area under curve</td>
+                <td>
+                    <ul>
+                        <li>$$f(x) \geq 0$$</li>
+                        <li>$$\int_{-\infty}^{\infty} f(x) dx = 1$$</li>
+                    </ul>
+                </td>
+                <td>Heights modeled by Normal distribution</td>
+                <td>Basis for calculating probabilities of ranges in continuous data</td>
+            </tr>
+            <tr>
+                <td><b>CDF (Cumulative Distribution Function)</b></td>
+                <td>Gives probability that $$X \leq x$$. Works for both discrete and continuous variables</td>
+                <td>
+                    <ul>
+                        <li>$$F(x) = P(X \leq x)$$</li>
+                        <li>Non-decreasing</li>
+                        <li>Limits: $$F(-\infty)=0, F(\infty)=1$$</li>
+                    </ul>
+                </td>
+                <td>Coin flip example: $$F(0)=1/4, F(1)=3/4, F(2)=1$$</td>
+                <td>Used for quantiles, percentiles, range probabilities, and model fitting</td>
+            </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="probability-distributions" label="Probability Distributions">
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Distribution</th>
+                    <th>Parameters</th>
+                    <th>PMF/PDF</th>
+                    <th>Mean</th>
+                    <th>Variance</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowSpan="4"><b>Discrete</b></td>
+                    <td><b>Bernoulli</b></td>
+                    <td>$$p$$</td>
+                    <td>$$P(X=k) = p^k (1-p)^{1-k}, \, k \in \{0,1\}$$</td>
+                    <td>$$p$$</td>
+                    <td>$$p(1-p)$$</td>
+                    <td>Binary outcomes, click/no-click, churn models</td>
+                </tr>
+                <tr>
+                    <td><b>Binomial</b></td>
+                    <td>$$n, p$$</td>
+                    <td>$$P(X=k)=\binom{n}{k}p^k(1-p)^{n-k}$$</td>
+                    <td>$$np$$</td>
+                    <td>$$np(1-p)$$</td>
+                    <td>A/B testing, quality control, survey responses</td>
+                </tr>
+                <tr>
+                    <td><b>Poisson</b></td>
+                    <td>$$\lambda$$</td>
+                    <td>$$P(X=k)=\frac{e^{-\lambda}\lambda^k}{k!}$$</td>
+                    <td>$$\lambda$$</td>
+                    <td>$$\lambda$$</td>
+                    <td>Rare events, call arrivals, web traffic, defects count</td>
+                </tr>
+                <tr>
+                    <td><b>Geometric</b></td>
+                    <td>$$p$$</td>
+                    <td>$$P(X=k)=(1-p)^{k-1}p, \, k \geq 1$$</td>
+                    <td>$$1/p$$</td>
+                    <td>$$(1-p)/p^2$$</td>
+                    <td>Reliability, marketing conversion attempts, first defect detection</td>
+                </tr>
+                <tr>
+                    <td rowSpan="7"><b>Continuous</b></td>
+                    <td><b>Uniform</b></td>
+                    <td>$$a, b$$</td>
+                    <td>$$f(x)=\frac{1}{b-a}, \, a \leq x \leq b$$</td>
+                    <td>$$(a+b)/2$$</td>
+                    <td>$$(b-a)^2/12$$</td>
+                    <td>Random number generation, baseline models</td>
+                </tr>
+                <tr>
+                    <td><b>Normal</b></td>
+                    <td>$$\mu, \sigma$$</td>
+                    <td>$$f(x)=\frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}$$</td>
+                    <td>$$\mu$$</td>
+                    <td>$$\sigma^2$$</td>
+                    <td>Natural phenomena, CLT, parametric statistical tests, ML</td>
+                </tr>
+                <tr>
+                    <td><b>Standard Normal</b></td>
+                    <td>$$\mu=0,\sigma=1$$</td>
+                    <td>$$f(z)=\frac{1}{\sqrt{2\pi}} e^{-z^2/2}$$</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>Z-scores, standardization, hypothesis testing</td>
+                </tr>
+                <tr>
+                    <td><b>Exponential</b></td>
+                    <td>$$\lambda$$</td>
+                    <td>$$f(x)=\lambda e^{-\lambda x}, \, x \geq 0$$</td>
+                    <td>$$1/\lambda$$</td>
+                    <td>$$1/\lambda^2$$</td>
+                    <td>Reliability engineering, waiting times, customer lifetime</td>
+                </tr>
+                <tr>
+                    <td><b>Chi-squared</b></td>
+                    <td>$$k$$ (df)</td>
+                    <td>Sum of squares of $$k$$ standard normals</td>
+                    <td>$$k$$</td>
+                    <td>$$2k$$</td>
+                    <td>Goodness-of-fit, independence tests, variance CI</td>
+                </tr>
+                <tr>
+                    <td><b>t-distribution</b></td>
+                    <td>$$\nu$$ (df)</td>
+                    <td>Symmetric, bell-shaped, heavier tails</td>
+                    <td>0</td>
+                    <td>$$\nu/(\nu-2), \, \nu > 2$$</td>
+                    <td>t-tests, CI for mean, small samples</td>
+                </tr>
+                <tr>
+                    <td><b>F-distribution</b></td>
+                    <td>$$d_1, d_2$$</td>
+                    <td>Ratio of scaled chi-squared variates</td>
+                    <td>$$\frac{d_2}{d_2-2}, d_2>2$$</td>
+                    <td>Varies</td>
+                    <td>ANOVA, regression model significance, variance comparison</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="variance-of-random-variables" label="Variance of Random Variables">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Expected Value ($$E[X]$$)</th>
+                    <th>Variance ($$Var[X]$$)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>The theoretical average (mean) of a random variable; a measure of central tendency</td>
+                    <td>The average squared deviation from the mean; a measure of spread or variability</td>
+                </tr>
+                <tr>
+                    <td><b>Notation</b></td>
+                    <td>$$E[X]$$ or $$\mu$$</td>
+                    <td>$$Var[X]$$ or $$\sigma^2$$</td>
+                </tr>
+                <tr>
+                    <td><b>Discrete Formula</b></td>
+                    <td>$$E[X] = \sum_{i=1}^{k} x_i P(X=x_i)$$</td>
+                    <td>$$Var[X] = \sum_{i=1}^{k} (x_i - \mu)^2 P(X=x_i)$$ or $$Var[X] = E[X^2] - (E[X])^2$$</td>
+                </tr>
+                <tr>
+                    <td><b>Continuous Formula</b></td>
+                    <td>$$E[X] = \int_{-\infty}^{\infty} x f(x) dx$$</td>
+                    <td>$$Var[X] = \int_{-\infty}^{\infty} (x - \mu)^2 f(x) dx$$ or $$Var[X] = E[X^2] - (E[X])^2$$</td>
+                </tr>
+                <tr>
+                    <td><b>Units</b></td>
+                    <td>Same as the random variable $$X$$</td>
+                    <td>Squared units of $$X$$. Standard deviation ($$\sigma = \sqrt{Var[X]}$$) restores original units</td>
+                </tr>
+                <tr>
+                    <td><b>Properties</b></td>
+                    <td>
+                        <ul>
+                            <li>Linearity: $$E[aX+bY+c] = aE[X] + bE[Y] + c$$</li>
+                            <li>Expected value of constant: $$E[c] = c$$</li>
+                            <li>Not necessarily a possible outcome</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Always non-negative</li>
+                            <li>Scaling: $$Var[cX] = c^2 Var[X]$$</li>
+                            <li>Translation: $$Var[X+c] = Var[X]$$</li>
+                            <li>For independent RVs: $$Var[X+Y] = Var[X] + Var[Y]$$</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Interpretation</b></td>
+                    <td>Long-run average or "center" of the distribution</td>
+                    <td>Degree of dispersion around the mean; how "spread out" values are</td>
+                </tr>
+                <tr>
+                    <td><b>Examples</b></td>
+                    <td>
+                        <ul>
+                            <li>Discrete: Average number of customer complaints = 0.95</li>
+                            <li>Continuous: Exponential RV with rate $$\lambda = 0.5$$ has $$E[X] = 2$$</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Discrete: Variance of complaints = 0.7475</li>
+                            <li>Continuous: Exponential RV with rate $$\lambda = 0.5$$ has $$Var[X] = 4$$</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Use Cases</b></td>
+                    <td>Decision making, expected returns, risk assessment, fairness in probability games, model evaluation</td>
+                    <td>Risk measurement, quality control, hypothesis testing, error analysis (MSE), variability comparison between processes</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="central-limit-theorem" label="Central Limit Theorem">
+        <table>
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Summary</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>States that the sampling distribution of the sample mean (or sum) of a large number of independent, identically distributed random variables approaches a normal distribution, regardless of the original population distribution</td>
+                </tr>
+                <tr>
+                    <td><b>Conditions</b></td>
+                    <td>
+                        <ul>
+                            <li>Sufficiently large sample size (rule of thumb: $$n \geq 30$$)</li>
+                            <li>Independent observations</li>
+                            <li>Identically distributed data</li>
+                            <li>Population with finite variance</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Key Properties</b></td>
+                    <td>
+                        <ul>
+                            <li>Sampling distribution of mean is approximately normal</li>
+                            <li>Mean of sample means equals population mean ($$\mu_{\bar{X}} = \mu$$)</li>
+                            <li>Standard error of mean: $$\sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}}$$</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Importance</b></td>
+                    <td>
+                        <ul>
+                            <li>Justifies use of normality-based statistical methods (t-tests, ANOVA, regression)</li>
+                            <li>Allows estimation of population means</li>
+                            <li>Foundation for confidence intervals and hypothesis testing</li>
+                            <li>Explains naturally occurring normal distributions in phenomena</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Applications</b></td>
+                    <td>
+                        <ul>
+                            <li>Constructing confidence intervals: $$\bar{X} \pm Z^* \left(\frac{\sigma}{\sqrt{n}}\right)$$</li>
+                            <li>Hypothesis testing with Z/t statistics</li>
+                            <li>Quality control and process monitoring</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Examples</b></td>
+                    <td>
+                        <ul>
+                            <li>Estimating average transaction value from a sample of 100 transactions</li>
+                            <li>Testing if new product ratings differ from historical average of 4.0</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Limitations</b></td>
+                    <td>
+                        <ul>
+                            <li>Requires sufficiently large sample sizes, especially for skewed populations</li>
+                            <li>Does not apply if data are dependent or from distributions with infinite variance (e.g., Cauchy)</li>
+                            <li>Applies mainly to means/sums, not all statistics</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Conceptual Visualization</b></td>
+                    <td>
+                        <ul>
+                            <li>Rolling dice: distribution of averages becomes increasingly normal as $$n$$ increases</li>
+                            <li>$$n=1$$: uniform distribution</li>
+                            <li>$$n=2$$: beginning of bell-shape</li>
+                            <li>$$n=30$$: strong normal curve around population mean (3.5)</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="law-of-large-numbers" label="Law of Large Numbers">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Definition</th>
+                    <th>Key Properties</th>
+                    <th>Applications</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Law of Large Numbers (LLN)</b></td>
+                    <td>As sample size increases, the sample mean converges to the population mean</td>
+                    <td>
+                        <ul>
+                            <li>Weak LLN: convergence in probability</li>
+                            <li>Strong LLN: almost sure convergence</li>
+                            <li>Requires independent, identically distributed samples</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Justifies using sample statistics as population estimates</li>
+                            <li>Foundation for Monte Carlo methods and simulation</li>
+                            <li>Explains why larger samples give more reliable estimates</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Weak Law of Large Numbers</b></td>
+                    <td>Sample average converges to expected value in probability: $$ \bar{X}_n \xrightarrow{P} \mu $$</td>
+                    <td>
+                        <ul>
+                            <li>Probability that $$ |\bar{X}_n - \mu| > \epsilon $$ approaches 0 as n increases</li>
+                            <li>Most commonly used version in practice</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Large sample confidence in statistical estimates</li>
+                            <li>Risk management and insurance calculations</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Strong Law of Large Numbers</b></td>
+                    <td>Sample average converges to expected value almost surely: $$ \bar{X}_n \xrightarrow{a.s.} \mu $$</td>
+                    <td>
+                        <ul>
+                            <li>Stronger guarantee than weak LLN</li>
+                            <li>Sample mean will eventually be arbitrarily close to true mean</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Theoretical foundation for long-term convergence</li>
+                            <li>Used in proving consistency of estimators</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Applications in Data Analysis</b></td>
+                    <td>Explains why we can trust sample statistics with large samples</td>
+                    <td>
+                        <ul>
+                            <li>Survey sampling and opinion polls</li>
+                            <li>Quality control and process monitoring</li>
+                            <li>A/B testing and experimental design</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Foundation for statistical inference</li>
+                            <li>Justifies central limit theorem assumptions</li>
+                            <li>Essential for understanding estimator consistency</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+</Tabs>

@@ -1,0 +1,925 @@
+---
+title: Optimization
+description: Advanced Optimization Techniques
+hide_table_of_contents: true
+---
+
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+
+<Tabs queryString="primary">
+  <TabItem value="optimization-theory" label="Optimization Theory">
+    <table className="text_vertical">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Definition</th>
+          <th>Key Components</th>
+          <th>Examples</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <b>Unconstrained Optimization</b>
+          </td>
+          <td>Optimization without explicit constraints on variables</td>
+          <td>
+            <ul>
+              <li>Gradient Descent (Batch, Stochastic, Mini-batch)</li>
+              <li>Momentum, Adagrad, RMSprop, Adam optimizers</li>
+              <li>Newton's Method, Quasi-Newton Methods (BFGS, L-BFGS)</li>
+            </ul>
+          </td>
+          <td>Most machine learning training algorithms</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Constrained Optimization</b>
+          </td>
+          <td>Optimization with explicit constraints on variables</td>
+          <td>
+            <ul>
+              <li>Lagrangian Multipliers, KKT conditions</li>
+              <li>Penalty methods</li>
+            </ul>
+          </td>
+          <td>Resource allocation, portfolio optimization</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Convex Optimization</b>
+          </td>
+          <td>Optimization over convex sets with convex objective functions</td>
+          <td>
+            <ul>
+              <li>Convex sets, convex functions</li>
+              <li>Importance for guaranteeing global optima</li>
+              <li>
+                Applications in SVMs and various regularization techniques
+              </li>
+            </ul>
+          </td>
+          <td>Support Vector Machines, L1/L2 regularization</td>
+        </tr>
+      </tbody>
+    </table>
+  </TabItem>
+  <TabItem value="cost-loss" label="Cost Loss">
+    <table className="text_vertical">
+      <thead>
+        <tr>
+          <th>Function</th>
+          <th>Purpose</th>
+          <th>Formula</th>
+          <th>Key Characteristics</th>
+          <th>Use Cases</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <b>Mean Squared Error (MSE) / L2 Loss</b>
+          </td>
+          <td>
+            Regression: minimize squared differences between predicted and
+            actual values
+          </td>
+          <td>
+            $$ MSE = \frac{1} {n} \sum_{(i = 1)}^{n} (Y_i - \hat{Y}_i)^2 $$
+          </td>
+          <td>
+            Differentiable, convex (for linear regression), sensitive to
+            outliers
+          </td>
+          <td>Linear regression, continuous value prediction</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Mean Absolute Error (MAE) / L1 Loss</b>
+          </td>
+          <td>
+            Regression: minimize absolute differences between predicted and
+            actual values
+          </td>
+          <td>$$ MAE = \frac{1}{n} \sum_{(i = 1)}^{n} |Y_i - \hat{Y}_i| $$</td>
+          <td>Robust to outliers, not differentiable at zero</td>
+          <td>Regression tasks with outliers, robust error measurement</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Binary Cross-Entropy / Log Loss</b>
+          </td>
+          <td>
+            Binary classification: measure prediction accuracy when output is
+            probability between 0 and 1
+          </td>
+          <td>$$ C = - \frac{1}{n} \sum_{(i = 1)}^{n} [Y_i \log(\hat{Y}_i) + (1-Y_i) \log(1-\hat{Y}_i)] $$</td>
+          <td>
+            Penalizes wrong confident predictions, differentiable, pairs with
+            sigmoid activation
+          </td>
+          <td>Logistic regression, spam detection, medical diagnosis</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Categorical Cross-Entropy (Softmax Loss)</b>
+          </td>
+          <td>
+            Multi-class classification: evaluate predictions across multiple
+            classes
+          </td>
+          <td>
+            $$ C = - \frac{1}
+            {n} \sum_{(i = 1)}^{n} \sum_{(j = 1)}^{C} Y_{ij} \log(\hat{Y}_{ij})
+            $$
+          </td>
+          <td>
+            Extension of binary version, works with softmax, differentiable
+          </td>
+          <td>Image recognition, NLP tasks, multi-class classification</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Hinge Loss</b>
+          </td>
+          <td>Classification (esp. SVM): maximize margin between classes</td>
+          <td>
+            $$ L(y, \hat{y}) = \max(0, 1 - y \cdot \hat{y}) $$
+          </td>
+          <td>
+            Zero loss region for confident predictions, not differentiable at
+            all points
+          </td>
+          <td>Support Vector Machines, margin-based classifiers</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </TabItem>
+  <TabItem value="gradient-descent" label="Gradient Descent">
+    <table>
+      <thead>
+        <tr>
+          <th>Variant</th>
+          <th>Concept</th>
+          <th>Pros</th>
+          <th>Cons</th>
+          <th>Update Rule</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <b>Batch Gradient Descent (BGD)</b>
+          </td>
+          <td>
+            Uses the <em>entire dataset</em> to compute the gradient before each
+            update
+          </td>
+          <td>
+            <ul>
+              <li>Stable convergence</li>
+              <li>
+                Reliable (global minimum for convex, local for non-convex)
+              </li>
+              <li>Deterministic updates</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Very slow for large datasets</li>
+              <li>High memory/computation cost</li>
+              <li>Not suitable for online learning</li>
+            </ul>
+          </td>
+          <td>$$\theta = \theta - \alpha \nabla J(\theta)$$ with all data</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Stochastic Gradient Descent (SGD)</b>
+          </td>
+          <td>
+            Updates parameters after computing gradient for{" "}
+            <em>each data point</em>
+          </td>
+          <td>
+            <ul>
+              <li>Fast updates</li>
+              <li>Enables online learning</li>
+              <li>Noise can help escape local minima/saddle points</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Noisy updates cause fluctuations</li>
+              <li>May oscillate around minimum</li>
+              <li>Can fail to converge precisely</li>
+            </ul>
+          </td>
+          <td>
+            $$\theta = \theta - \alpha \nabla J(\theta; x^{i}, y^{i})$$ with one
+            example
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Mini-Batch Gradient Descent (MBGD)</b>
+          </td>
+          <td>
+            Updates based on <em>small batches</em> of examples
+          </td>
+          <td>
+            <ul>
+              <li>Balances stability (BGD) and speed (SGD)</li>
+              <li>Efficient with vectorized ops</li>
+              <li>More stable convergence vs. SGD</li>
+              <li>Some noise helps avoid local minima</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Requires selecting/tuning batch size</li>
+            </ul>
+          </td>
+          <td>
+            $$\theta = \theta - \alpha \nabla J(\theta; X^{j}, Y^{j})$$ with
+            batch
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Momentum</b>
+          </td>
+          <td>
+            Adds a fraction of the <em>previous update</em> to the current
+            update (like rolling a ball downhill)
+          </td>
+          <td>
+            <ul>
+              <li>Accelerates convergence in relevant direction</li>
+              <li>Reduces oscillations</li>
+              <li>Helps escape shallow minima</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Adds extra hyperparameter (momentum term)</li>
+              <li>Can overshoot if poorly tuned</li>
+            </ul>
+          </td>
+          <td>Similar to GD but with momentum term accumulated</td>
+        </tr>
+        <tr>
+          <td>
+            <b>RMSprop</b>
+          </td>
+          <td>
+            Divides learning rate by root mean square of historical gradients
+          </td>
+          <td>
+            <ul>
+              <li>Handles differing gradient scales</li>
+              <li>Effective in non-stationary problems</li>
+              <li>Faster convergence than vanilla GD</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Learning rate must still be tuned</li>
+              <li>Sensitive to hyperparameters</li>
+            </ul>
+          </td>
+          <td>Adaptive per-parameter learning rate</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Adam</b>
+          </td>
+          <td>
+            Combines Momentum + RMSprop, using first (mean) and second
+            (variance) moments of gradients
+          </td>
+          <td>
+            <ul>
+              <li>Widely used "default" optimizer</li>
+              <li>Fast convergence</li>
+              <li>Works well out-of-box</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Sometimes generalizes worse than SGD</li>
+              <li>More hyperparameters (though defaults often okay)</li>
+            </ul>
+          </td>
+          <td>Adaptive moment estimates for update</td>
+        </tr>
+      </tbody>
+    </table>
+  </TabItem>
+  <TabItem value="convexity" label="Convexity">
+    <table>
+      <thead>
+        <tr>
+          <th>Aspect</th>
+          <th>Convex Functions</th>
+          <th>Non-Convex Functions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <b>Shape</b>
+          </td>
+          <td>Bowl-shaped; "cups upwards"</td>
+          <td>Complex landscapes with hills, valleys, and plateaus</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Mathematical Condition</b>
+          </td>
+          <td>$$ f(tx_1 + (1-t)x_2) \le t f(x_1) + (1-t) f(x_2) $$</td>
+          <td>Does not satisfy convex inequality for all points</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Local vs Global Minima</b>
+          </td>
+          <td>Any local minimum is also a global minimum</td>
+          <td>Multiple local minima, saddle points, and flat regions</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Optimization Guarantee</b>
+          </td>
+          <td>
+            Gradient descent (with proper learning rate) always converges to the
+            global minimum
+          </td>
+          <td>
+            Gradient descent may get stuck in local minima or saddle points
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Sensitivity to Initialization</b>
+          </td>
+          <td>
+            Low; starting point less critical as all paths lead to same minimum
+          </td>
+          <td>High; results depend heavily on initial parameter values</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Convergence</b>
+          </td>
+          <td>Deterministic and reliable</td>
+          <td>Can be slow, with risk of poor solutions</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Optimization Methods</b>
+          </td>
+          <td>
+            Simple methods like gradient descent or closed-form solutions often
+            sufficient
+          </td>
+          <td>
+            Require advanced optimizers (Adam, RMSprop, SGD with momentum),
+            multiple restarts, or careful initialization
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Theoretical Guarantees</b>
+          </td>
+          <td>Strong; ensures uniqueness and optimality of solution</td>
+          <td>Weak; solutions may be suboptimal and vary between runs</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Examples</b>
+          </td>
+          <td>
+            Mean Squared Error (linear regression), Cross-Entropy (logistic
+            regression), L2-regularized loss
+          </td>
+          <td>Deep neural networks, complex non-linear models</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Use in Data Analysis</b>
+          </td>
+          <td>
+            Enables reliable model interpretation and parameter estimates (e.g.,
+            regression coefficients)
+          </td>
+          <td>
+            Powerful for complex models, but less interpretable and harder to
+            optimize
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </TabItem>
+  <TabItem value="time-series" label="Time Series">
+    <table className="text_vertical">
+      <thead>
+        <tr>
+          <th>Concept</th>
+          <th>Definition</th>
+          <th>Purpose</th>
+          <th>Indicators & Techniques</th>
+          <th>Use Cases</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <b>Stationarity</b>
+          </td>
+          <td>
+            Statistical properties (mean, variance, autocorrelation) remain
+            constant over time
+          </td>
+          <td>
+            Ensures model validity, reliable inference, stable forecasting
+          </td>
+          <td>
+            <ul>
+              <li>Strict vs. Weak Stationarity</li>
+              <li>
+                Achieved via differencing, log transforms, seasonal differencing
+              </li>
+            </ul>
+          </td>
+          <td>
+            Core assumption for AR, MA, ARIMA; non-stationarity (trends,
+            seasonality, heteroscedasticity) must be corrected
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>ACF (Autocorrelation Function)</b>
+          </td>
+          <td>Correlation of a series with its lagged versions</td>
+          <td>Reveals lag dependencies; detects seasonality or trends</td>
+          <td>
+            <ul>
+              <li>Slow decay → trend or non-stationarity</li>
+              <li>Sharp drop-off → MA component</li>
+              <li>Spikes at certain lags → seasonality</li>
+            </ul>
+          </td>
+          <td>
+            Crucial for identifying `q` (MA order) in ARIMA and capturing
+            dependencies
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>PACF (Partial Autocorrelation Function)</b>
+          </td>
+          <td>
+            Correlation between series and lagged values with intermediate lags
+            removed
+          </td>
+          <td>Measures direct lag effects</td>
+          <td>
+            <ul>
+              <li>Sharp drop-off → AR component</li>
+              <li>Helps differentiate AR vs. MA structure</li>
+            </ul>
+          </td>
+          <td>
+            Identifies `p` (AR order) in ARIMA; builds feature lags for models
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>ARIMA Models</b>
+          </td>
+          <td>Combines AR (past values), I (differencing), and MA (errors)</td>
+          <td>Forecasting sequential data</td>
+          <td>
+            <ul>
+              <li>AR: past value relationships (PACF guides `p`)</li>
+              <li>I: differencing for stationarity (`d`)</li>
+              <li>MA: past error terms (ACF guides `q`)</li>
+            </ul>
+          </td>
+          <td>
+            Widely used for short/medium-term forecasts, benchmark models,
+            trend/seasonality decomposition
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Spectral Analysis</b>
+          </td>
+          <td>Represents data in frequency domain via sinusoidal components</td>
+          <td>Detects hidden cycles, dominant frequencies</td>
+          <td>
+            <ul>
+              <li>Uses periodogram/Power Spectral Density (PSD)</li>
+              <li>Peaks → dominant periodicities</li>
+            </ul>
+          </td>
+          <td>
+            Identifies seasonality, key for signal processing, feature
+            extraction
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Fourier Transform</b>
+          </td>
+          <td>
+            Converts time-domain signal into frequency-domain representation
+          </td>
+          <td>
+            Reveals underlying frequencies; enables reconstruction and filtering
+          </td>
+          <td>
+            <ul>
+              <li>Continuous FT, Discrete FT, FFT for computation</li>
+              <li>Inverse FT reconstructs original signal</li>
+            </ul>
+          </td>
+          <td>
+            Used in decomposition, noise filtering, audio/image processing, and
+            advanced time series models
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </TabItem>
+  <TabItem value="bayesian-statistics" label="Bayesian Statistics">
+    <table className="text_vertical">
+      <thead>
+        <tr>
+          <th>Aspect</th>
+          <th>Bayesian Statistics</th>
+          <th>Frequentist Statistics</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <b>Core Idea</b>
+          </td>
+          <td>
+            Updates beliefs with data; probabilities represent{" "}
+            <em>degrees of belief</em>
+          </td>
+          <td>
+            Focuses on probability of data given a fixed hypothesis;
+            probabilities represent long-run frequencies
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Foundation</b>
+          </td>
+          <td>Bayes' Theorem: $$ P(H|E) \propto P(E|H) \cdot P(H) $$</td>
+          <td>Hypothesis testing and confidence intervals</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Parameters</b>
+          </td>
+          <td>Treated as random variables with probability distributions</td>
+          <td>Treated as fixed, unknown quantities</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Priors</b>
+          </td>
+          <td>
+            Incorporates <b>prior knowledge</b> (informative, non-informative,
+            conjugate)
+          </td>
+          <td>No role for prior probabilities</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Inference Result</b>
+          </td>
+          <td>
+            Full <b>posterior distribution</b> summarizing uncertainty
+          </td>
+          <td>
+            Point estimates and p-values; intervals are confidence intervals
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Hypothesis Testing</b>
+          </td>
+          <td>
+            Uses <b>posterior probabilities</b> and <b>Bayes factors</b> for
+            model comparison
+          </td>
+          <td>Uses significance tests and p-values</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Uncertainty Quantification</b>
+          </td>
+          <td>
+            <b>Credible intervals</b>: direct probability statements about
+            parameters
+          </td>
+          <td>
+            <b>Confidence intervals</b>: indirect interpretation across repeated
+            samples
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Computation</b>
+          </td>
+          <td>
+            Often requires advanced techniques like <b>MCMC</b>{" "}
+            (Metropolis-Hastings, Gibbs, HMC)
+          </td>
+          <td>Closed-form or asymptotic approximations more common</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Flexibility</b>
+          </td>
+          <td>
+            Naturally handles small datasets, expert knowledge, hierarchical
+            models, complex structures
+          </td>
+          <td>
+            Stronger with large datasets; less flexible for complex prior
+            information
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Use Cases</b>
+          </td>
+          <td>
+            A/B testing, diagnostics, machine learning (Bayesian optimization,
+            networks), risk assessment
+          </td>
+          <td>
+            Classical hypothesis testing, large-scale statistical inference
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </TabItem>
+  <TabItem value="information-theory" label="Information Theory">
+    <table className="text_vertical">
+      <thead>
+        <tr>
+          <th>Concept</th>
+          <th>Formula</th>
+          <th>What it Measures</th>
+          <th>Key Interpretations</th>
+          <th>Use Cases</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <b>Entropy</b>
+          </td>
+          <td>
+            $$ H(X) = - \sum_{(i = 1)}^{n} P(x_i) \log_b(P(x_i)) $$
+          </td>
+          <td>Uncertainty/randomness in a probability distribution</td>
+          <td>
+            <ul>
+              <li>High entropy = high uncertainty</li>
+              <li>Zero entropy = completely certain outcome</li>
+              <li>Maximum entropy when outcomes are equally likely</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Feature selection (information gain in decision trees)</li>
+              <li>Data compression (lower bound on encoding)</li>
+              <li>Model evaluation for uncertainty</li>
+              <li>Anomaly detection via abnormal entropy levels</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Cross-Entropy</b>
+          </td>
+          <td>
+            $$ H(P, Q) = - \sum_{(i = 1)}^{n} P(x_i) \log_b(Q(x_i)) $$
+          </td>
+          <td>
+            Difference between true distribution $$P$$ and predicted
+            distribution $$Q$$
+          </td>
+          <td>
+            <ul>
+              <li>Lower values = predicted distribution closer to true</li>
+              <li>Higher values = greater disagreement</li>
+              <li>Commonly used as a loss function</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Binary cross-entropy/log loss for binary classification</li>
+              <li>Categorical cross-entropy for multi-class classification</li>
+              <li>
+                Core loss function in logistic regression, neural networks
+              </li>
+              <li>Optimizing probabilistic outputs during model training</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>KL Divergence</b>
+          </td>
+          <td>
+            $$ H(X) = - \sum_{(i = 1)}^{n} P(x_i) \log_b(P(x_i)) $$
+          </td>
+          <td>
+            Information loss when approximating distribution $$P$$ with $$Q$$
+          </td>
+          <td>
+            <ul>
+              <li>Always ≥ 0, equals 0 if $$P=Q$$</li>
+              <li>
+                Asymmetric: $$D_{KL}(P||Q) \neq D_{KL}(Q||P)$$
+              </li>
+              <li>Measures extra bits needed using wrong distribution</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Training generative models (VAEs, GANs)</li>
+              <li>Dimensionality reduction (t-SNE)</li>
+              <li>Reinforcement learning (policy optimization)</li>
+              <li>Bayesian inference (info gain from prior → posterior)</li>
+              <li>Comparing model probability outputs</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </TabItem>
+  <TabItem value="numerical-methods" label="Numerical Methods">
+    <table className="text_vertical">
+      <thead>
+        <tr>
+          <th>Aspect</th>
+          <th>Key Concepts</th>
+          <th>Challenges</th>
+          <th>Use Cases</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <b>Floating-Point Arithmetic</b>
+          </td>
+          <td>
+            <ul>
+              <li>Finite precision (`float32`, `float64`)</li>
+              <li>Rounding errors (e.g., `0.1 + 0.2 ≠ 0.3`)</li>
+              <li>Limited numerical range (`inf`, `NaN`)</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Accumulation of errors over many operations</li>
+              <li>
+                Catastrophic cancellation (subtracting nearly equal numbers)
+              </li>
+              <li>
+                Loss of significance when adding very small to very large
+                numbers
+              </li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Impacts stability of optimization</li>
+              <li>Affects statistical metrics (variance, correlation, etc.)</li>
+              <li>Equality checks unreliable (use tolerance)</li>
+              <li>Guides design of numerically stable algorithms</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Numerical Stability</b>
+          </td>
+          <td>
+            <ul>
+              <li>Stability means small input errors → small output errors</li>
+              <li>
+                Stability depends on algorithm formulation and problem
+                conditioning
+              </li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Ill-conditioned problems (e.g., near-singular matrices)</li>
+              <li>Unstable algorithms magnify small errors</li>
+              <li>Floating-point limitations worsen instability</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Robust model training</li>
+              <li>
+                Matrix operations (e.g., regression with multicollinearity)
+              </li>
+              <li>Reproducibility across systems</li>
+              <li>Algorithm selection (e.g., `np.linalg.solve` vs `inv(A)`)</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Newton's Method</b>
+          </td>
+          <td>
+            <ul>
+              <li>Uses gradient + Hessian to jump directly toward minima</li>
+              <li>Quadratic convergence near optimum</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>High computational cost (Hessian inversion)</li>
+              <li>Requires second derivatives</li>
+              <li>Sensitive to initialization</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Used in logistic regression, GLMs, statistical modeling</li>
+              <li>
+                Benchmark for fast convergence when parameter size is manageable
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Quasi-Newton Methods (BFGS, L-BFGS)</b>
+          </td>
+          <td>
+            <ul>
+              <li>Approximate Hessian using gradient history</li>
+              <li>Faster than gradient descent with curvature info</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>More costly than simple first-order methods</li>
+              <li>Still heavy for ultra high-dimension problems</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Widely used in optimization libraries</li>
+              <li>Commonly applied in fitting smooth loss models</li>
+              <li>L-BFGS practical for large-scale ML</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Conjugate Gradient Method</b>
+          </td>
+          <td>
+            <ul>
+              <li>Solves large systems iteratively without explicit Hessian</li>
+              <li>Works along conjugate directions</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Limited to quadratic/linear functions</li>
+              <li>Sensitive to poorly conditioned matrices</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li>Linear regression with very large datasets</li>
+              <li>Efficient for sparse systems</li>
+              <li>Applications in scientific computing and PDEs</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </TabItem>
+</Tabs>

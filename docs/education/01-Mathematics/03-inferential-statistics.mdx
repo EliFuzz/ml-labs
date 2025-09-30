@@ -1,0 +1,556 @@
+---
+title: Inferential Statistics
+description: Inferential Statistics Fundamentals
+hide_table_of_contents: true
+---
+
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+
+<Tabs queryString="primary">
+    <TabItem value="sampling-and-estimation" label="Sampling and Estimation">
+        ## Population vs Sample
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Description</th>
+                    <th>Pros</th>
+                    <th>Cons</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Population</b></td>
+                    <td>Entire group of interest (all individuals/objects)</td>
+                    <td>Complete source of truth</td>
+                    <td>Usually too large/infinite to study fully</td>
+                    <td>All voters in a country</td>
+                </tr>
+                <tr>
+                    <td><b>Sample</b></td>
+                    <td>Subset of population chosen for study</td>
+                    <td>Practical, manageable, enables inference</td>
+                    <td>May mislead if non-representative</td>
+                    <td>1,000 voters surveyed</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Probability Sampling
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                    <th>Pros</th>
+                    <th>Cons</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Simple Random Sampling (SRS)</b></td>
+                    <td>Every individual has equal chance of selection</td>
+                    <td>Easy, unbiased</td>
+                    <td>Impractical for large groups; may miss subgroups</td>
+                    <td>Randomly choosing 100 IDs</td>
+                </tr>
+                <tr>
+                    <td><b>Stratified Sampling</b></td>
+                    <td>Population divided into homogeneous subgroups (strata); random sampling within each</td>
+                    <td>Ensures subgroup representation; more precise</td>
+                    <td>Requires population info; complex</td>
+                    <td>Sampling students by grade level</td>
+                </tr>
+                <tr>
+                    <td><b>Systematic Sampling</b></td>
+                    <td>Select every k-th element after random start</td>
+                    <td>Simple, efficient</td>
+                    <td>Bias risk if population has patterns</td>
+                    <td>Every 10th store customer</td>
+                </tr>
+                <tr>
+                    <td><b>Cluster Sampling</b></td>
+                    <td>Divide into clusters, randomly select clusters, then sample all in them</td>
+                    <td>Cost-effective; useful for dispersed groups</td>
+                    <td>Higher error if clusters heterogeneous</td>
+                    <td>Survey all students in 10 selected schools</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Non-Probability Sampling
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                    <th>Pros</th>
+                    <th>Cons</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Convenience Sampling</td>
+                    <td>Use easily accessible participants</td>
+                    <td>Fast, cheap</td>
+                    <td>Strong bias risk, not representative</td>
+                    <td>Surveying people in one street</td>
+                </tr>
+                <tr>
+                    <td>Purposive Sampling</td>
+                    <td>Researcher selects based on judgment/criteria</td>
+                    <td>Good for niche cases or experts</td>
+                    <td>Bias-prone, not generalizable</td>
+                    <td>Interviewing only industry experts</td>
+                </tr>
+                <tr>
+                    <td>Quota Sampling</td>
+                    <td>Fill quotas for subgroups without randomization</td>
+                    <td>Ensures subgroup presence</td>
+                    <td>Still biased; no random selection</td>
+                    <td>50 men, 50 women chosen by interviewer</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Sampling Distribution & Estimation
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Description</th>
+                    <th>Key Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Sampling Distribution</td>
+                    <td>Distribution of a statistic across all possible samples</td>
+                    <td>Central Limit Theorem ensures approximate normality for large n. Standard Error measures precision</td>
+                </tr>
+                <tr>
+                    <td>Point Estimate</td>
+                    <td>Single sample statistic used to estimate population parameter</td>
+                    <td>Simple, quick, but no reliability measure</td>
+                </tr>
+                <tr>
+                    <td>Interval Estimate (Confidence Intervals)</td>
+                    <td>Range around point estimate with confidence level</td>
+                    <td>Captures uncertainty, widely used in decision-making. Not probability for one sample - reflects long-run accuracy</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="hypothesis-testing" label="Hypothesis Testing">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Definition</th>
+                    <th>Key Characteristics</th>
+                    <th>Examples</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Null Hypothesis ($$H_0$$)</b></td>
+                    <td>Statement of no effect, no difference, or existing status quo. Always involves equality ($$=, \le, \ge$$)</td>
+                    <td>Assumed true until evidence suggests otherwise; refers to population parameter; target of skepticism</td>
+                    <td>$$H_0: \mu = 50$$; $$H_0: p \le 0.20$$; $$H_0: \mu_1 = \mu_2$$</td>
+                </tr>
+                <tr>
+                    <td><b>Alternative Hypothesis ($$H_1$$ or $$H_a$$)</b></td>
+                    <td>Statement conflicting with $$H_0$$; represents effect/researcher's claim. Uses $$\neq, <, >$$</td>
+                    <td>What we conclude if evidence is sufficient; also refers to population parameter; usually the hypothesis we want to support</td>
+                    <td>$$H_1: \mu \neq 50$$ (two-tailed); $$H_1: p > 0.20$$ (right-tailed); $$H_1: \mu_1 < \mu_2$$ (left-tailed)</td>
+                </tr>
+                <tr>
+                    <td><b>Type I Error ($$\alpha$$)</b></td>
+                    <td>Rejecting $$H_0$$ when $$H_0$$ is true (false positive)</td>
+                    <td>Probability = $$\alpha$$; controlled via significance level</td>
+                    <td>Convicting an innocent person; concluding a campaign increased conversions when it did not</td>
+                </tr>
+                <tr>
+                    <td><b>Type II Error ($$\beta$$)</b></td>
+                    <td>Failing to reject $$H_0$$ when $$H_0$$ is false (false negative)</td>
+                    <td>Probability = $$\beta$$; occurs when test lacks sensitivity</td>
+                    <td>Letting a guilty person go free; missing that a campaign actually increased conversions</td>
+                </tr>
+                <tr>
+                    <td><b>Significance Level ($$\alpha$$)</b></td>
+                    <td>Maximum acceptable probability of Type I error set before test</td>
+                    <td>Common levels: 0.05, 0.01, 0.10; smaller $$\alpha$$ reduces false positives but increases false negatives</td>
+                    <td>If $$P \le \alpha$$, reject $$H_0$$</td>
+                </tr>
+                <tr>
+                    <td><b>P-value</b></td>
+                    <td>Probability of observing data as extreme or more extreme given $$H_0$$ is true</td>
+                    <td>Small $$P \le \alpha$$: reject $$H_0$$; Large $$P > \alpha$$: fail to reject $$H_0$$. Not the probability that $$H_0$$ is true</td>
+                    <td>Example: $$P = 0.03 \le 0.05$$ → reject $$H_0$$</td>
+                </tr>
+                <tr>
+                    <td><b>Power ($$1 - \beta$$)</b></td>
+                    <td>Probability of correctly rejecting a false $$H_0$$</td>
+                    <td>Desired ≥ 80%; increases with sample size, higher $$\alpha$$, larger effect size, lower variability</td>
+                    <td>Ensures study design is sensitive enough to detect meaningful effects; linked to resource planning</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="common-tests" label="Common Tests">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                <th>Test</th>
+                <th>Purpose</th>
+                <th>When to Use</th>
+                <th>Assumptions</th>
+                <th>Use Case</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Z-test</b></td>
+                    <td>Compares a sample mean to a population mean, or two sample means, when σ is known</td>
+                    <td>Population standard deviation known; large n ≥ 30</td>
+                    <td>Data is interval level; normal distribution (or CLT applies)</td>
+                    <td>Test if average delivery time differs from 30 minutes when σ is known</td>
+                </tr>
+                <tr>
+                    <td><b>t-test (One-sample)</b></td>
+                    <td>Compares sample mean to a hypothesized population mean when σ is unknown</td>
+                    <td>σ unknown; small to moderate sample size</td>
+                    <td>Approx. normal distribution; independent observations</td>
+                    <td>Check if average product weight differs from 100g</td>
+                </tr>
+                <tr>
+                    <td><b>t-test (Independent samples)</b></td>
+                    <td>Compares means of two independent groups</td>
+                    <td>σ unknown; two independent groups</td>
+                    <td>Normality; independence; equal variances (if using pooled)</td>
+                    <td>Compare sales from two ad campaigns</td>
+                </tr>
+                <tr>
+                    <td><b>t-test (Paired samples)</b></td>
+                    <td>Compares means of two related groups (before - after, matched)</td>
+                    <td>σ unknown; paired observations</td>
+                    <td>Differences approx. normally distributed</td>
+                    <td>Compare satisfaction before and after service improvement</td>
+                </tr>
+                <tr>
+                    <td><b>ANOVA (One-way)</b></td>
+                    <td>Tests if 3+ group means differ significantly (one factor)</td>
+                    <td>Comparing ≥3 group means</td>
+                    <td>Independence; normality; equal variances</td>
+                    <td>Test if spending differs across customer segments</td>
+                </tr>
+                <tr>
+                    <td><b>ANOVA (Two-way)</b></td>
+                    <td>Tests effect of two categorical factors on a quantitative outcome (plus interaction)</td>
+                    <td>Two factors, multiple groups</td>
+                    <td>Same as above</td>
+                    <td>Compare sales across marketing channels and regions</td>
+                </tr>
+                <tr>
+                    <td><b>Chi-squared Goodness-of-Fit</b></td>
+                    <td>Tests if observed categorical distribution matches expected</td>
+                    <td>Categorical count data; expected distribution known</td>
+                    <td>Expected counts ≥5 per cell (approx.); independence</td>
+                    <td>Test if website traffic matches equal distribution across pages</td>
+                </tr>
+                <tr>
+                    <td><b>Chi-squared Test of Independence</b></td>
+                    <td>Tests association between two categorical variables</td>
+                    <td>Contingency tables for two categorical variables</td>
+                    <td>Large enough expected counts; independence</td>
+                    <td>Test if gender and product preference are associated</td>
+                </tr>
+                <tr>
+                    <td><b>Mann-Whitney U (Non-parametric)</b></td>
+                    <td>Alternative to independent t-test (ranks)</td>
+                    <td>Two independent samples; non-normal or ordinal data</td>
+                    <td>Independence; ordinal/continuous ranked</td>
+                    <td>Compare two groups with skewed data</td>
+                </tr>
+                <tr>
+                    <td><b>Wilcoxon Signed-Rank (Non-parametric)</b></td>
+                    <td>Alternative to paired t-test (ranks differences)</td>
+                    <td>Paired sample, non-normal</td>
+                    <td>Symmetry of differences (less strict than normality)</td>
+                    <td>Before - after ratings with skewed scores</td>
+                </tr>
+                <tr>
+                    <td><b>Kruskal-Wallis (Non-parametric)</b></td>
+                    <td>Alternative to one-way ANOVA (ranks)</td>
+                    <td>3+ independent groups; non-normal</td>
+                    <td>Independence; ordinal/continuous ranked</td>
+                    <td>Compare ranks of satisfaction across multiple regions</td>
+                </tr>
+                <tr>
+                    <td><b>Spearman's Rank Correlation</b></td>
+                    <td>Measures monotonic relationship between variables (non-parametric)</td>
+                    <td>Ranked or ordinal data; non-linear monotonic</td>
+                    <td>Independence; ordinal/continuous</td>
+                    <td>Correlation between income rank and lifestyle scores</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="confidence-intervals" label="Confidence Intervals">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Description</th>
+                    <th>Formula</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>A range of values likely to contain the true population parameter, providing a measure of estimate reliability</td>
+                    <td>"We are 95% confident that the true mean is between L and U."</td>
+                </tr>
+                <tr>
+                    <td><b>Purpose</b></td>
+                    <td>Quantify the uncertainty around point estimates and provide plausible ranges for population parameters</td>
+                    <td>A point estimate: $$\bar{x}$$. CI: $$\bar{x} \pm \text{Margin of Error}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Point Estimate</b></td>
+                    <td>Best guess from sample statistic (mean $$\bar{x}$$ or proportion $$\hat{p}$$). Forms the center of interval</td>
+                    <td>If $$\bar{x} = 150$$, CI centers around 150</td>
+                </tr>
+                <tr>
+                    <td><b>Margin of Error</b></td>
+                    <td>Accounts for sampling variability</td>
+                    <td>Formula: $$ \text{MOE} = \text{Critical Value} \times \text{Standard Error} $$</td>
+                </tr>
+                <tr>
+                    <td><b>Critical Value</b></td>
+                    <td>From a distribution (Z or t) based on confidence level. Determines width of interval</td>
+                    <td>95% confidence → $$Z^* = 1.96$$</td>
+                </tr>
+                <tr>
+                    <td><b>Standard Error</b></td>
+                    <td>Measures variability of sample statistic</td>
+                    <td>Mean: $$SE_{\bar{x}} = \sigma/\sqrt{n}$$. Proportion: $$SE_{\hat{p}} = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Confidence Level</b></td>
+                    <td>Probability that CI method captures the true parameter (e.g., 90%, 95%, 99%)</td>
+                    <td>95% CI does <b>not</b> mean 95% chance the parameter is inside this specific interval</td>
+                </tr>
+                <tr>
+                    <td><b>Formula (General)</b></td>
+                    <td>$$ \text{Point Estimate} \pm (\text{Critical Value} \times \text{Standard Error}) $$</td>
+                    <td>Applies to means and proportions</td>
+                </tr>
+                <tr>
+                    <td><b>Mean (σ known)</b></td>
+                    <td>Large $$n$$ or known σ → Z distribution</td>
+                    <td>$$\bar{x} \pm Z^* \frac{\sigma}{\sqrt{n}}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Mean (σ unknown)</b></td>
+                    <td>Small $$n$$, unknown σ → t distribution with $$df=n-1$$</td>
+                    <td>$$\bar{x} \pm t^* \frac{s}{\sqrt{n}}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Proportion (p)</b></td>
+                    <td>Uses Z distribution</td>
+                    <td>$$\hat{p} \pm Z^* \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Relationship to Hypothesis Testing</b></td>
+                    <td>If null value not in CI → reject null; if it is → fail to reject</td>
+                    <td>Null $$H_0: \mu=9$$. CI (10,15) → reject</td>
+                </tr>
+                <tr>
+                    <td><b>Factors Affecting Width</b></td>
+                    <td>
+                        <ul>
+                        <li>Confidence Level ↑ → wider CI</li>
+                        <li>Sample Size ↑ → narrower CI</li>
+                        <li>Variability ↑ → wider CI</li>
+                        </ul>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><b>Advantages</b></td>
+                    <td>More informative than a point estimate or single p-value</td>
+                    <td>Provides range of plausible values instead of binary decision</td>
+                </tr>
+                <tr>
+                    <td><b>Applications</b></td>
+                    <td>Quantify uncertainty, inform business or research decisions, present results clearly to stakeholders</td>
+                    <td>e.g., "Conversion rate likely increased by 2 - 5%."</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="regression-analysis" label="Regression Analysis">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Simple Linear Regression</th>
+                    <th>Multiple Linear Regression</th>
+                    <th>Logistic Regression</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Purpose</b></td>
+                    <td>Models the relationship between one dependent variable (Y) and one independent variable (X)</td>
+                    <td>Models the relationship between one dependent variable (Y) and multiple independent variables (X₁, X₂, …, Xₖ)</td>
+                    <td>Models the probability of a binary outcome (e.g., yes/no, success/failure)</td>
+                </tr>
+                <tr>
+                    <td><b>Equation</b></td>
+                    <td>$$ Y = \beta_0 + \beta_1 X + \epsilon $$</td>
+                    <td>$$ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \ldots + \beta_k X_k + \epsilon $$</td>
+                    <td>$$ P(Y=1|X) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 X_1 + \ldots + \beta_k X_k)}} $$</td>
+                </tr>
+                <tr>
+                    <td><b>Interpretation of Coefficients</b></td>
+                    <td>$$ \beta_1 $$: Expected change in Y for a one-unit increase in X</td>
+                    <td>$$ \beta_j $$: Expected change in Y for a one-unit increase in $$ X_j $$, <em>holding all others constant</em></td>
+                    <td>Coefficients affect the log-odds of Y=1; positive values increase probability, negative values decrease it</td>
+                </tr>
+                <tr>
+                    <td><b>Estimation Method</b></td>
+                    <td>Ordinary Least Squares (minimizing SSR)</td>
+                    <td>Ordinary Least Squares (extended to multiple predictors)</td>
+                    <td>Maximum Likelihood Estimation (MLE)</td>
+                </tr>
+                <tr>
+                    <td><b>Assumptions</b></td>
+                    <td>Linearity, independence of errors, homoscedasticity, normality of errors, no measurement error in X</td>
+                    <td>All simple assumptions, plus no multicollinearity and no endogeneity</td>
+                    <td>Assumes linear relationship between predictors and log-odds, independence of observations</td>
+                </tr>
+                <tr>
+                    <td><b>Goodness of Fit</b></td>
+                    <td>$$ R^2 $$ (proportion of variance explained)</td>
+                    <td>Adjusted $$ R^2 $$ (accounts for multiple predictors), $$ R^2 $$</td>
+                    <td>Pseudo-$$ R^2 $$, accuracy, AUC (Area Under Curve)</td>
+                </tr>
+                <tr>
+                    <td><b>Hypothesis Tests</b></td>
+                    <td>Slope test: $$ H_0: \beta_1 = 0 $$</td>
+                    <td>Slope tests for each predictor: $$ H_0: \beta_j = 0 $$</td>
+                    <td>Tests for significance of predictors on log-odds ($$ H_0: \beta_j = 0 $$)</td>
+                </tr>
+                <tr>
+                    <td><b>Challenges</b></td>
+                    <td>Nonlinear relationships, violation of assumptions</td>
+                    <td>Multicollinearity, overfitting, omitted variable bias</td>
+                    <td>Probability calibration, handling class imbalance</td>
+                </tr>
+                <tr>
+                    <td><b>Applications</b></td>
+                    <td>Predicting sales from advertising spend, predicting height from age</td>
+                    <td>Predicting house price from square footage, bedrooms, and location</td>
+                    <td>Fraud detection, medical diagnosis, churn prediction, spam email detection</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="estimation-methods" label="Estimation Methods">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Definition</th>
+                    <th>Key Concepts</th>
+                    <th>Applications</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Maximum Likelihood Estimation (MLE)</b></td>
+                    <td>Finds parameter values that maximize the likelihood of observing the given data</td>
+                    <td>
+                        <ul>
+                            <li>Likelihood function: $$ L(\theta|x) = \prod p(x_i|\theta) $$</li>
+                            <li>Log-likelihood: $$ \ell(\theta) = \sum \log p(x_i|\theta) $$</li>
+                            <li>Solution: $$ \hat{\theta} = \arg\max_\theta L(\theta|x) $$</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Parameter estimation in regression, classification</li>
+                            <li>Distribution fitting and model selection</li>
+                            <li>Foundation for many ML algorithms</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Maximum A Posteriori (MAP)</b></td>
+                    <td>Bayesian estimation that maximizes posterior probability including prior beliefs</td>
+                    <td>
+                        <ul>
+                            <li>Posterior: $$ P(\theta|x) \propto P(x|\theta) \cdot P(\theta) $$</li>
+                            <li>MAP: $$ \hat{\theta} = \arg\max_\theta P(\theta|x) $$</li>
+                            <li>Balances data fit with prior assumptions</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Regularized regression (ridge, lasso)</li>
+                            <li>Bayesian neural networks</li>
+                            <li>When prior knowledge is available</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Method of Moments</b></td>
+                    <td>Equates population moments with sample moments to estimate parameters</td>
+                    <td>
+                        <ul>
+                            <li>For distribution with k parameters, use first k moments</li>
+                            <li>Mean: $$ E[X] = \bar{X} $$, Variance: $$ E[X^2] - (E[X])^2 = s^2 $$</li>
+                            <li>Simple but less efficient than MLE</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Quick parameter estimation</li>
+                            <li>When MLE is difficult to compute</li>
+                            <li>Educational and theoretical contexts</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Least Squares Estimation</b></td>
+                    <td>Minimizes sum of squared residuals between observed and predicted values</td>
+                    <td>
+                        <ul>
+                            <li>Objective: $$ \min_\beta \sum (y_i - \hat{y}_i)^2 $$</li>
+                            <li>Normal equations: $$ (X^T X)^{-1} X^T y $$</li>
+                            <li>Special case of MLE for Gaussian errors</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Linear and nonlinear regression</li>
+                            <li>Foundation of many statistical models</li>
+                            <li>Computational efficiency for large datasets</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+
+</Tabs>

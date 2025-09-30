@@ -1,0 +1,320 @@
+---
+title: Calculus
+description: Calculus Fundamentals
+hide_table_of_contents: true
+---
+
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+
+<Tabs queryString="primary">
+    <TabItem value="limits" label="Limits">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Limits</th>
+                    <th>Continuity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>Describes the value a function approaches as input nears a point or infinity</td>
+                    <td>A function is continuous at a point if it has no breaks, jumps, or holes there</td>
+                </tr>
+                <tr>
+                    <td><b>Formal Expression</b></td>
+                    <td>$$\lim_{x \to c} f(x) = L$$, meaning as $$x$$ approaches $$c$$, $$f(x)$$ approaches $$L$$</td>
+                    <td>$$f(x)$$ is continuous at $$c$$ if: $$f(c)$$ is defined, $$\lim_{x \to c} f(x)$$ exists, and both are equal</td>
+                </tr>
+                <tr>
+                    <td><b>Purpose</b></td>
+                    <td>Helps analyze function behavior at undefined points or extremes</td>
+                    <td>Ensures smoothness of function behavior across its domain</td>
+                </tr>
+                <tr>
+                    <td><b>Examples</b></td>
+                    <td>
+                        <ul>
+                        <li>Linear: $$\lim_{x \to 3} (2x+1)=7$$</li>
+                        <li>Hole: $$\lim_{x \to 1} \frac{x^2-1}{x-1} = 2$$</li>
+                        <li>Asymptote: $$\lim_{x \to \infty} \frac{1}{x} = 0$$</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                        <li><b>Removable</b>: hole in function though limit exists</li>
+                        <li><b>Jump</b>: left- and right-hand limits differ</li>
+                        <li><b>Infinite</b>: vertical asymptote, e.g., $$f(x)=1/x$$ at $$x=0$$</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Key Role in Calculus</b></td>
+                    <td>Foundation for defining derivatives and integrals</td>
+                    <td>Precondition for differentiability and smooth curve behavior</td>
+                </tr>
+                <tr>
+                    <td><b>Relevance to Data Analysis</b></td>
+                    <td>
+                        <ul>
+                        <li>Models at undefined/extreme input values</li>
+                        <li>Asymptotic properties of estimators (e.g., CLT)</li>
+                        <li>Anticipating numerical instabilities</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                        <li>Smoothness needed for optimization (e.g., gradient descent)</li>
+                        <li>Assumption in regression, neural nets, interpolation</li>
+                        <li>Understanding thresholds in piecewise models like decision trees</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="derivatives" label="Derivatives">
+        <table>
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Definition / Formula</th>
+                    <th>Key Example</th>
+                    <th>Relevance to Data Analysis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Derivative (Rate of Change)</b></td>
+                    <td>$$ f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h} $$</td>
+                    <td>For $$ f(x) = x^3 $$, $$ f'(x) = 3x^2 $$</td>
+                    <td>Measures sensitivity of outputs to inputs, marginal effects, rates of change</td>
+                </tr>
+                <tr>
+                    <td><b>Average vs Instantaneous Rate</b></td>
+                    <td>Avg: $$ \frac{f(x_2)-f(x_1)}{x_2-x_1} $$; Inst: limit form above</td>
+                    <td>Slope of secant vs slope of tangent</td>
+                    <td>Distinguishes between overall vs. pointwise change</td>
+                </tr>
+                <tr>
+                    <td><b>Notation</b></td>
+                    <td>$$ f'(x) $$, $$ \frac{dy}{dx} $$, $$ \frac{d}{dx} f(x) $$</td>
+                    <td>$$ y' $$</td>
+                    <td>Different notations useful in various contexts (Leibniz, Lagrange)</td>
+                </tr>
+                <tr>
+                    <td><b>Power Rule</b></td>
+                    <td>$$ \frac{d}{dx}(x^n) = nx^{n-1} $$</td>
+                    <td>$$ (x^3)' = 3x^2 $$, $$ (\sqrt{x})' = \frac{1}{2\sqrt{x}} $$</td>
+                    <td>Core tool for polynomial/exponential changes</td>
+                </tr>
+                <tr>
+                    <td><b>Constant Multiple Rule</b></td>
+                    <td>$$ (cf(x))' = c f'(x) $$</td>
+                    <td>$$ (5x^3)' = 15x^2 $$</td>
+                    <td>Simplifies scaling derivatives in models</td>
+                </tr>
+                <tr>
+                    <td><b>Sum/Difference Rule</b></td>
+                    <td>$$ (f(x)\pm g(x))' = f'(x)\pm g'(x) $$</td>
+                    <td>$$ (4x^2+7x-2)'= 8x+7 $$</td>
+                    <td>Enables decomposition of model functions</td>
+                </tr>
+                <tr>
+                    <td><b>Product Rule</b></td>
+                    <td>$$ (fg)' = f'g + fg' $$</td>
+                    <td>$$ (x^2 e^x)' = e^x(2x+x^2) $$</td>
+                    <td>Needed for features interacting multiplicatively</td>
+                </tr>
+                <tr>
+                    <td><b>Quotient Rule</b></td>
+                    <td>$$ \Big(\frac{f}{g}\Big)' = \frac{f'g - fg'}{g^2} $$</td>
+                    <td>$$ \Big(\frac{x^2}{x+1}\Big)' = \frac{x^2+2x}{(x+1)^2} $$</td>
+                    <td>Used when variables appear in ratios</td>
+                </tr>
+                <tr>
+                    <td><b>Chain Rule</b></td>
+                    <td>$$ (f(g(x)))' = f'(g(x))g'(x) $$</td>
+                    <td>$$ ((x^2+3x)^5)' = 5(x^2+3x)^4(2x+3) $$</td>
+                    <td>Central to backpropagation in neural networks</td>
+                </tr>
+                <tr>
+                    <td><b>Common Functions</b></td>
+                    <td>$$ (e^x)'=e^x $$, $$ (\ln x)'=\frac{1}{x} $$, $$ (\sin x)'=\cos x $$, $$ (\cos x)'=-\sin x $$</td>
+                    <td>Trigonometric and exponential forms</td>
+                    <td>Key in interpreting exponential growth/periodicity</td>
+                </tr>
+                <tr>
+                    <td><b>Partial Derivatives</b></td>
+                    <td>$$ \frac{\partial f}{\partial x} $$, hold others constant</td>
+                    <td>For $$ f(x,y)=x^2y+3xy^3 $$, $$ \frac{\partial f}{\partial x}=2xy+3y^3 $$</td>
+                    <td>Measures effect of single feature</td>
+                </tr>
+                <tr>
+                    <td><b>Gradient</b></td>
+                    <td>$$ \nabla f = \big(\frac{\partial f}{\partial x_1}, \ldots, \frac{\partial f}{\partial x_n}\big)^T $$</td>
+                    <td>For earlier $$ f(x,y) $$: $$ (2xy+3y^3,\; x^2+9xy^2) $$</td>
+                    <td>Fundamental to gradient descent optimization</td>
+                </tr>
+                <tr>
+                    <td><b>Second-order Derivatives</b></td>
+                    <td>Pure: $$ \frac{\partial^2 f}{\partial x^2} $$; Mixed: $$ \frac{\partial^2 f}{\partial x \partial y} $$</td>
+                    <td>Concavity/curvature along axes</td>
+                    <td>Determines shape and inflection, used in convexity analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Hessian Matrix</b></td>
+                    <td>Matrix of all 2nd-order partials</td>
+                    <td>For multivariable $$ f(x_1,\ldots,x_n) $$ → Hessian $$ H $$</td>
+                    <td>Used in Newton's method, uncertainty estimation</td>
+                </tr>
+                <tr>
+                    <td><b>Applications</b></td>
+                    <td>Optimization, sensitivity, feature importance, backpropagation, marginal analysis</td>
+                    <td>Loss minimization, elasticity, customer growth rates</td>
+                    <td>Core to machine learning training and interpretability</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="integrals" label="Integrals">
+        <table>
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Formula</th>
+                    <th>Geometric Interpretation</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Integral (general)</b></td>
+                    <td>Summation of infinitesimal changes; inverse of derivative. Notation: $$ \int f(x)dx $$</td>
+                    <td>Area under a curve of $$f(x)$$</td>
+                    <td>Fundamental for accumulation, total quantities, probability, and advanced methods</td>
+                </tr>
+                <tr>
+                    <td><b>Indefinite Integral</b></td>
+                    <td>$$ \int f(x) dx = F(x) + C $$ where $$F'(x) = f(x)$$</td>
+                    <td>Family of anti-derivatives, no fixed interval</td>
+                    <td>Useful for theoretical derivations, recovering functions from their rates</td>
+                </tr>
+                <tr>
+                    <td><b>Basic Rules (examples)</b></td>
+                    <td>Power Rule: $$ \int x^n dx = \frac{x^{n+1}}{n+1} + C$$, $$ \int e^x dx = e^x + C$$, etc</td>
+                    <td>Reverse of differentiation rules</td>
+                    <td>Needed for solving analytical integration problems in modeling</td>
+                </tr>
+                <tr>
+                    <td><b>Definite Integral</b></td>
+                    <td>$$ \int_a^b f(x) dx $$. Results in a number</td>
+                    <td>Net area under curve between $$a$$ and $$b$$; negative if below x-axis</td>
+                    <td>Widely used (e.g., probability, computing totals from rates)</td>
+                </tr>
+                <tr>
+                    <td><b>Fundamental Theorem of Calculus</b></td>
+                    <td>$$ \int_a^b f(x) dx = F(b) - F(a) $$</td>
+                    <td>Connects indefinite and definite integrals</td>
+                    <td>Basis for practical computation—greatly simplifies area and probability calculations</td>
+                </tr>
+                <tr>
+                    <td><b>Probability via Integrals</b></td>
+                    <td>$$ P(a \leq X \leq b) = \int_a^b f(x) dx $$. CDF: $$F(x) = \int_{-\infty}^x f(t) dt$$. Expectation: $$E[X] = \int_{-\infty}^\infty x f(x) dx$$</td>
+                    <td>Probability is area under the PDF</td>
+                    <td>Core use in continuous probability, distributions, inference, and statistics</td>
+                </tr>
+                <tr>
+                    <td><b>Total Change from a Rate</b></td>
+                    <td>$$ \int_{t_1}^{t_2} R(t) dt $$</td>
+                    <td>Accumulated value from rate function</td>
+                    <td>Total sales, leads, or growth from a rate function in business/analytics</td>
+                </tr>
+                <tr>
+                    <td><b>Geometric Applications</b></td>
+                    <td>Integrals compute area, volume, surface, etc</td>
+                    <td>Shapes and 3D distributions</td>
+                    <td>Less common but used in capacity, resource estimation, or spatial data</td>
+                </tr>
+                <tr>
+                    <td><b>Machine Learning Applications</b></td>
+                    <td>Used in kernel density estimation, Fourier transforms, and some loss functions</td>
+                    <td>Transformations of functions (time ↔ frequency)</td>
+                    <td>Important in advanced analytics, signal processing, regularization, density models</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="partial-derivatives" label="Partial Derivatives">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Definition</th>
+                    <th>Key Properties</th>
+                    <th>Applications</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Partial Derivatives</b></td>
+                    <td>Rate of change of a multivariable function with respect to one variable while holding others constant</td>
+                    <td>Notation: $$ \frac{\partial f}{\partial x_i} $$. Chain rule: $$ \frac{\partial f}{\partial x} = \frac{\partial f}{\partial u} \frac{\partial u}{\partial x} $$</td>
+                    <td>Feature importance analysis, sensitivity analysis in models</td>
+                </tr>
+                <tr>
+                    <td><b>Gradient Vector</b></td>
+                    <td>Vector of all partial derivatives: $$ \nabla f = \begin{pmatrix} \frac{\partial f}{\partial x_1} \\ \vdots \\ \frac{\partial f}{\partial x_n} \end{pmatrix} $$</td>
+                    <td>Points in direction of steepest ascent. Magnitude gives rate of change</td>
+                    <td>Gradient descent optimization, backpropagation in neural networks</td>
+                </tr>
+                <tr>
+                    <td><b>Jacobian Matrix</b></td>
+                    <td>Matrix of all first-order partial derivatives of a vector-valued function</td>
+                    <td>For $$ \mathbf{f}: \mathbb{R}^m \to \mathbb{R}^n $$, $$ \mathbf{J} \in \mathbb{R}^{n \times m} $$. Determinant shows volume scaling</td>
+                    <td>Coordinate transformations, stability analysis, robotics</td>
+                </tr>
+                <tr>
+                    <td><b>Hessian Matrix</b></td>
+                    <td>Square matrix of second-order partial derivatives</td>
+                    <td>$$ \mathbf{H}_{ij} = \frac{\partial^2 f}{\partial x_i \partial x_j} $$. Eigenvalues determine local convexity</td>
+                    <td>Newton's optimization method, curvature analysis, saddle point detection</td>
+                </tr>
+                <tr>
+                    <td><b>Multiple Integrals</b></td>
+                    <td>Integration over regions in multiple dimensions</td>
+                    <td>Double integrals for area/volume, triple integrals for 3D volumes. Fubini's theorem for iteration</td>
+                    <td>Probability density functions, expected values in multiple dimensions</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="mathematical-analysis" label="Mathematical Analysis">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Definition</th>
+                    <th>Key Components</th>
+                    <th>Applications</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Real Analysis Fundamentals</b></td>
+                    <td>Rigorous study of real numbers, sequences, and functions</td>
+                    <td>Set theory, limits of sequences, continuity, differentiation, integration in abstract terms</td>
+                    <td>Theoretical foundation for advanced ML topics, measure theory, functional analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Vector Calculus</b></td>
+                    <td>Differentiation and integration of vector fields</td>
+                    <td>Vector fields, line integrals, surface integrals, volume integrals. Green's, Stokes', Divergence theorems</td>
+                    <td>Physics-based simulations, advanced geometric ML, fluid dynamics, electromagnetism</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+</Tabs>

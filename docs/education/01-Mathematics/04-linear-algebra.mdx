@@ -1,0 +1,517 @@
+---
+title: Linear Algebra
+description: Linear Algebra Fundamentals
+hide_table_of_contents: true
+---
+
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+
+<Tabs queryString="primary">
+    <TabItem value="key-concepts" label="Key Concepts">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Definition</th>
+                    <th>Key Operations</th>
+                    <th>Applications</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Vectors and Scalars</b></td>
+                    <td>Vectors are ordered arrays of numbers representing points in space; scalars are single numbers</td>
+                    <td>Addition, scalar multiplication, dot product, cross product</td>
+                    <td>Data points, feature vectors, gradients in optimization</td>
+                </tr>
+                <tr>
+                    <td><b>Matrices</b></td>
+                    <td>Rectangular arrays of numbers representing linear transformations</td>
+                    <td>Addition, multiplication, transpose, inverse, determinant</td>
+                    <td>Dataset representation, transformation matrices, covariance matrices</td>
+                </tr>
+                <tr>
+                    <td><b>Systems of Linear Equations</b></td>
+                    <td>Sets of equations with multiple variables and linear relationships</td>
+                    <td>Gaussian elimination, LU decomposition, matrix inversion</td>
+                    <td>Solving regression problems, network flow analysis, optimization</td>
+                </tr>
+                <tr>
+                    <td><b>Vector Spaces and Subspaces</b></td>
+                    <td>Collections of vectors closed under addition and scalar multiplication</td>
+                    <td>Basis, dimension, span, linear independence, null space</td>
+                    <td>Understanding data structure, dimensionality reduction, feature spaces</td>
+                </tr>
+                <tr>
+                    <td><b>Eigenvalues and Eigenvectors</b></td>
+                    <td>Eigenvectors are directions unchanged by linear transformations; eigenvalues are scaling factors</td>
+                    <td>Eigen-decomposition, spectral theorem, power iteration</td>
+                    <td>Principal Component Analysis (PCA), stability analysis, quantum mechanics</td>
+                </tr>
+                <tr>
+                    <td><b>Determinants</b></td>
+                    <td>Scalar value indicating matrix properties like invertibility and volume scaling</td>
+                    <td>Formula computation, properties, Cramer's rule</td>
+                    <td>Testing matrix invertibility, computing areas and volumes</td>
+                </tr>
+                <tr>
+                    <td><b>Norms</b></td>
+                    <td>Measures of vector/matrix magnitude or distance</td>
+                    <td>L1 norm (Manhattan), L2 norm (Euclidean), Frobenius norm</td>
+                    <td>Regularization in ML, distance metrics, error measurement</td>
+                </tr>
+                <tr>
+                    <td><b>Singular Value Decomposition (SVD)</b></td>
+                    <td>Matrix factorization into $$U\Sigma V^T$$ where $$U$$ and $$V$$ are orthogonal, $$\Sigma$$ is diagonal</td>
+                    <td>Full SVD, reduced SVD, applications in data analysis</td>
+                    <td>Dimensionality reduction, recommender systems, image compression</td>
+                </tr>
+                <tr>
+                    <td><b>Orthogonality</b></td>
+                    <td>Vectors/matrices with dot product zero, representing perpendicular directions</td>
+                    <td>Orthogonal vectors, orthogonal matrices, orthonormal bases</td>
+                    <td>Coordinate system transformation, Gram-Schmidt process, QR decomposition</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="language-of-data" label="Language of Data">
+        ## Scalars, Vectors, and Matrices
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Scalars</th>
+                    <th>Vectors</th>
+                    <th>Matrices</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>A single numerical value</td>
+                    <td>An ordered list of numbers (1D array)</td>
+                    <td>A rectangular array of numbers (2D array)</td>
+                </tr>
+                <tr>
+                    <td><b>Notation</b></td>
+                    <td>Lowercase italic letters: $$a, b, \lambda$$</td>
+                    <td>Lowercase bold letters: $$\mathbf{v}, \mathbf{x}$$ or with an arrow $$\vec{v}$$</td>
+                    <td>Uppercase bold letters: $$\mathbf{A}, \mathbf{X}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Dimension</b></td>
+                    <td>0D (just one value)</td>
+                    <td>1D with $$n$$ components (an $$n$$-dimensional vector)</td>
+                    <td>2D with $$m \times n$$ elements (rows and columns)</td>
+                </tr>
+                <tr>
+                    <td><b>Characteristics</b></td>
+                    <td>Magnitude only, no direction</td>
+                    <td>Magnitude and direction (length + orientation)</td>
+                    <td>Collection of numbers arranged in rows and columns</td>
+                </tr>
+                <tr>
+                    <td><b>Examples in Data Analysis</b></td>
+                    <td>
+                        <ul>
+                            <li>Average salary = 75000</li>
+                            <li>Learning rate = 0.01</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Customer features = $$(30, 50000, 12)$$</li>
+                            <li>Stock prices over a week = $$(100,102,101,...)$$</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>A dataset with rows = observations, columns = features</li>
+                            <li>Image pixel grid</li>
+                            <li>Correlation matrix</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Basic Operations</b></td>
+                    <td>Multiplication with vectors/matrices (scaling)</td>
+                    <td>
+                        <ul>
+                            <li>Addition, subtraction (element-wise)</li>
+                            <li>Scalar multiplication</li>
+                            <li>Dot product (→ scalar)</li>
+                            <li>Norms (L1/L2 distances)</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Addition, subtraction (element-wise)</li>
+                            <li>Scalar-matrix multiplication</li>
+                            <li>Matrix-matrix multiplication</li>
+                            <li>Transpose</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Key Uses in Data Analysis</b></td>
+                    <td>Represent individual values, model parameters, hyperparameters</td>
+                    <td>Represent data points (rows) or features (columns), weights in models, distance/similarity measures</td>
+                    <td>Represent datasets, transformations, statistical measures (covariance, correlations), ML computations</td>
+                </tr>
+                <tr>
+                    <td><b>Geometric Meaning</b></td>
+                    <td>A point on a number line</td>
+                    <td>A directed arrow (length + direction) in space</td>
+                    <td>A transformation of space, mapping vectors to new vectors</td>
+                </tr>
+                <tr>
+                    <td><b>Relevance</b></td>
+                    <td>Simple descriptive stats or model constants</td>
+                    <td>Data representation, projections, learning algorithms</td>
+                    <td>Dataset storage, transformations, machine learning models, PCA, regression, deep learning</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Matrices
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Matrix Type</th>
+                    <th>Definition / Characteristics</th>
+                    <th>Notation</th>
+                    <th>Key Properties</th>
+                    <th>Relevance in Data Analysis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Identity</b></td>
+                    <td>Square matrix with 1s on main diagonal, 0s elsewhere. Acts like scalar 1 in multiplication</td>
+                    <td>$$\mathbf{I}, \mathbf{I}_n$$</td>
+                    <td>$$\mathbf{I}_m \mathbf{A} = \mathbf{A}$$, $$\mathbf{A} \mathbf{I}_n = \mathbf{A}$$. Leaves vectors/matrices unchanged</td>
+                    <td>"Do nothing" transformation. Defines inverses. Used in regularization (e.g., Ridge Regression)</td>
+                </tr>
+                <tr>
+                    <td><b>Zero</b></td>
+                    <td>All entries are 0. Can be any dimension. Acts like scalar 0 in addition</td>
+                    <td>$$\mathbf{0}, \mathbf{0}_{m\times n}$$</td>
+                    <td>$$\mathbf{A} + \mathbf{0} = \mathbf{A}$$. Multiplying with zero matrix yields a zero matrix (if dimensions match)</td>
+                    <td>Represents baseline/no effect. Used for error analysis (perfect fit = zero error). Useful for padding matrices</td>
+                </tr>
+                <tr>
+                    <td><b>Diagonal</b></td>
+                    <td>Square matrix with nonzero values only on the main diagonal</td>
+                    <td>$$\mathbf{D}, \text{diag}(d_1,\dots,d_n)$$</td>
+                    <td>Multiplication simplifies to scaling rows/columns. Easily invertible if diagonal entries are nonzero. Eigenvalues are diagonal entries</td>
+                    <td>Used for scaling features. PCA eigenvalues appear in diagonal form. Indicates independence/uncorrelated features. Weighted regression methods</td>
+                </tr>
+                <tr>
+                    <td><b>Symmetric</b></td>
+                    <td>Square matrix equal to its transpose: $$\mathbf{A} = \mathbf{A}^T$$</td>
+                    <td>$$\mathbf{A} = \mathbf{A}^T$$</td>
+                    <td>All eigenvalues are real. Always diagonalizable. Eigenvectors for distinct eigenvalues are orthogonal</td>
+                    <td>Covariance and correlation matrices. Similarity and kernel matrices in machine learning (e.g., SVMs, clustering)</td>
+                </tr>
+                <tr>
+                    <td><b>Inverse</b></td>
+                    <td>For square matrix $$\mathbf{A}$$, inverse $$\mathbf{A}^{-1}$$ satisfies $$\mathbf{A}\mathbf{A}^{-1}=\mathbf{I}$$</td>
+                    <td>$$\mathbf{A}^{-1}$$</td>
+                    <td>Exists only if $$\det(\mathbf{A}) \neq 0$$. Provides unique solution to linear equations</td>
+                    <td>Critical for regression, solving systems ($$\mathbf{A}\mathbf{x}=\mathbf{b}$$), Kalman filters, and precision matrices</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="determinants" label="Determinants">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Key Points</th>
+                    <th>Examples</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>Determinant is a scalar value computed from a <b>square matrix</b></td>
+                    <td>Denoted as $$\det(\mathbf{A})$$ or $$|\mathbf{A}|$$. Only defined for square matrices</td>
+                </tr>
+                <tr>
+                    <td><b>Conceptual Meaning</b></td>
+                    <td>
+                        <ul>
+                            <li>Invertibility test: nonzero determinant → invertible</li>
+                            <li>Volume scaling factor in linear transformations</li>
+                            <li>Indicator of linear independence of vectors</li>
+                        </ul>
+                    </td>
+                    <td>If $$\det(\mathbf{A}) = 0$$, matrix is singular and columns are dependent</td>
+                </tr>
+                <tr>
+                    <td><b>Calculation (2×2)</b></td>
+                    <td>Formula: $$\det(\mathbf{A}) = ad - bc$$</td>
+                    <td>For $$\begin{pmatrix} 3 & 1 \\ 4 & 2 \end{pmatrix}$$, determinant $$= 2$$</td>
+                </tr>
+                <tr>
+                    <td><b>Calculation (3×3)</b></td>
+                    <td>Methods: <b>Sarrus' Rule</b> (only for 3×3) or <b>cofactor expansion</b></td>
+                    <td>Example: $$\begin{pmatrix} 1&2&3\\4&5&6\\7&8&9\end{pmatrix}$$, determinant $$=0$$</td>
+                </tr>
+                <tr>
+                    <td><b>Key Properties</b></td>
+                    <td>
+                        <ul>
+                            <li>$$\det(\mathbf{I})=1$$</li>
+                            <li>$$\det(\mathbf{0})=0$$</li>
+                            <li>For diagonal matrices: product of diagonal elements</li>
+                            <li>$$\det(\mathbf{A}) = \det(\mathbf{A}^T)$$</li>
+                            <li>$$\det(\mathbf{A}\mathbf{B})=\det(\mathbf{A})\det(\mathbf{B})$$</li>
+                            <li>Swapping rows/columns changes sign</li>
+                            <li>Scalar multiple: $$\det(c\mathbf{A}) = c^n \det(\mathbf{A})$$</li>
+                            <li>Row/column dependence → determinant = 0</li>
+                            <li>Some row ops leave determinant unchanged</li>
+                        </ul>
+                    </td>
+                    <td>Useful for simplifying computation and understanding structural properties</td>
+                </tr>
+                <tr>
+                    <td><b>Invertibility & Solving Systems</b></td>
+                    <td>$$\det(\mathbf{A})\neq 0$$ → inverse exists</td>
+                    <td>In regression, if $$\det(\mathbf{X}^T\mathbf{X})=0$$: indicates <b>multicollinearity</b>. Small determinants → numerical instability</td>
+                </tr>
+                <tr>
+                    <td><b>Linear Independence & Rank</b></td>
+                    <td>Zero determinant → linear dependence; matrix rank &lt; dimension</td>
+                    <td>Helps detect redundant features in datasets</td>
+                </tr>
+                <tr>
+                    <td><b>Geometric Meaning</b></td>
+                    <td>Absolute determinant = scaling factor of area/volume. Sign indicates orientation flip/reflection</td>
+                    <td>If $$\det(\mathbf{A})=0$$: space collapses to lower dimension (loss of information)</td>
+                </tr>
+                <tr>
+                    <td><b>PCA Relevance</b></td>
+                    <td>Covariance matrix determinant = product of eigenvalues. Zero determinant means some features perfectly correlated</td>
+                    <td>Links determinants to dimensionality reduction and variance in PCA</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="systems-of-linear-equations" label="Systems of Linear Equations">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>Set of linear equations with common variables; solutions satisfy all equations simultaneously</td>
+                    <td>$$a_{11}x_1 + a_{12}x_2 = b_1$$, $$a_{21}x_1 + a_{22}x_2 = b_2$$</td>
+                    <td>Models constraints, parameter estimation, optimization</td>
+                </tr>
+                <tr>
+                    <td><b>Possible Solutions</b></td>
+                    <td>
+                        <ul>
+                            <li>Unique solution: single intersection</li>
+                            <li>No solution: inconsistent, parallel lines</li>
+                            <li>Infinite solutions: dependent, overlapping</li>
+                        </ul>
+                    </td>
+                    <td>Two lines intersecting vs. parallel vs. coincident</td>
+                    <td>Identifies whether models are solvable or if redundancy exists</td>
+                </tr>
+                <tr>
+                    <td><b>Matrix Form $$Ax = b$$</b></td>
+                    <td>Compact representation using coefficient matrix $$A$$, variable vector $$x$$, and constant vector $$b$$</td>
+                    <td>$$\begin{pmatrix}2&3\\1&-1\end{pmatrix}\begin{pmatrix}x_1\\x_2\end{pmatrix}=\begin{pmatrix}12\\-1\end{pmatrix}$$</td>
+                    <td>Enables computation with software; foundation for regression, optimization, and network analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Gaussian Elimination</b></td>
+                    <td>Algorithmic row operations to reduce system to row echelon form</td>
+                    <td>Stepwise elimination of variables</td>
+                    <td>Basis for computational solvers; reveals rank, independence, consistency</td>
+                </tr>
+                <tr>
+                    <td><b>Matrix Inversion</b></td>
+                    <td>Direct solution if $$A$$ is square and invertible: $$x = A^{-1}b$$</td>
+                    <td>Least squares regression formula $$(X^TX)^{-1}X^Ty$$</td>
+                    <td>Theoretical insight, regression coefficients, but unstable for large/ill-conditioned systems</td>
+                </tr>
+                <tr>
+                    <td><b>Applications</b></td>
+                    <td>Used for regression, optimization, networks, constraint solving</td>
+                    <td>Linear programming, PCA foundation, traffic/circuit analysis</td>
+                    <td>Critical across data science, machine learning, and operations research</td>
+                </tr>
+                <tr>
+                    <td><b>Numerical Considerations</b></td>
+                    <td>Stability issues can arise for nearly singular systems</td>
+                    <td>Small change in $$A$$ produces large change in $$x$$</td>
+                    <td>Helps diagnose multicollinearity and instability in models</td>
+                </tr>
+                <tr>
+                    <td><b>Software Tools</b></td>
+                    <td>Computational libraries perform solving using efficient methods</td>
+                    <td>Python (`numpy.linalg.solve`), R (`solve()`)</td>
+                    <td>Automates arithmetic, but conceptual understanding required for interpretation</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="eigenvalues-and-eigenvectors" label="Eigenvalues and Eigenvectors">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Eigenvalues ($$\lambda$$)</th>
+                    <th>Eigenvectors ($$\mathbf{x}$$)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>Scalar factors that indicate how much a corresponding eigenvector is stretched or shrunk by a transformation</td>
+                    <td>Non-zero vectors that maintain their direction under a linear transformation, only scaled by their eigenvalue</td>
+                </tr>
+                <tr>
+                    <td><b>Eigen-equation</b></td>
+                    <td>Appears as $$\mathbf{A}\mathbf{x} = \lambda \mathbf{x}$$, solved from $$\det(\mathbf{A} - \lambda \mathbf{I}) = 0$$</td>
+                    <td>Obtained by solving $$(\mathbf{A} - \lambda \mathbf{I}) \mathbf{x} = 0$$ for each eigenvalue $$\lambda$$</td>
+                </tr>
+                <tr>
+                    <td><b>Conceptual Meaning</b></td>
+                    <td>Represents the magnitude of the scaling effect of the transformation in a given direction</td>
+                    <td>Represents the directions (axes) along which the transformation acts by pure stretching or shrinking without rotation</td>
+                </tr>
+                <tr>
+                    <td><b>Numerical Example</b></td>
+                    <td>For $$A = \begin{pmatrix}2 & 1 \\ 1 & 2\end{pmatrix}$$, eigenvalues are $$\lambda_1=1$$, $$\lambda_2=3$$</td>
+                    <td>For the same matrix: eigenvector for $$\lambda_1=1$$ is $$[1,-1]^T$$; for $$\lambda_2=3$$ is $$[1,1]^T$$</td>
+                </tr>
+                <tr>
+                    <td><b>Role in PCA</b></td>
+                    <td>Indicate how much variance each principal component explains (larger eigenvalues = higher variance captured)</td>
+                    <td>Define the principal components themselves, i.e., the new axes along which data varies most</td>
+                </tr>
+                <tr>
+                    <td><b>Data Analysis Impact</b></td>
+                    <td>Rank importance of directions by variance magnitude, guiding dimensionality reduction</td>
+                    <td>Provide new coordinate system for data that simplifies interpretation and visualization</td>
+                </tr>
+                <tr>
+                    <td><b>Other Applications</b></td>
+                    <td>Indicate stability in dynamic systems; spectral analysis (graph connectivity, community detection)</td>
+                    <td>Show invariant directions in system dynamics; essential in PCA and SVD for feature extraction & data representation</td>
+                </tr>
+                <tr>
+                    <td><b>Uniqueness</b></td>
+                    <td>Numerical values are unique (though multiplicity may occur)</td>
+                    <td>Not unique - any scalar multiple of an eigenvector is also an eigenvector (commonly normalized to unit length)</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="vector-spaces-and-subspaces" label="Vector Spaces and Subspaces">
+        ## Vector Spaces vs Subspaces
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Vector Space</th>
+                    <th>Subspace</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>A set of vectors closed under addition and scalar multiplication, following specific axioms</td>
+                    <td>A subset of a vector space that itself satisfies all the vector space axioms</td>
+                </tr>
+                <tr>
+                    <td><b>Required Properties</b></td>
+                    <td>Closure under addition and scalar multiplication, existence of zero vector, additive inverse, associativity, commutativity, distributivity</td>
+                    <td>Contains the zero vector, closed under addition, closed under scalar multiplication</td>
+                </tr>
+                <tr>
+                    <td><b>Examples</b></td>
+                    <td>$$\mathbb{R}^2$$, $$\mathbb{R}^3$$, $$\mathbb{R}^n$$</td>
+                    <td>Line through the origin in $$\mathbb{R}^2$$, plane through origin in $$\mathbb{R}^3$$, trivial subspace $$\{0\}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Geometric Meaning</b></td>
+                    <td>The full "space" where vectors (data points) live, can be high-dimensional</td>
+                    <td>A smaller "region" inside a larger vector space, such as a line or plane within that space</td>
+                </tr>
+                <tr>
+                    <td><b>Relevance to Data Analysis</b></td>
+                    <td>Represents entire data feature space, geometric context for similarity, projections, and transformations</td>
+                    <td>Supports dimensionality reduction (PCA), feature combinations, and efficient data representation</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Concepts
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Meaning</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Span</b></td>
+                    <td>All linear combinations of a set of vectors</td>
+                    <td>Defines the full feature space reachable from given features</td>
+                </tr>
+                <tr>
+                    <td><b>Linear Independence</b></td>
+                    <td>No vector is redundant; none can be expressed as a combination of others</td>
+                    <td>Identifies redundancy (multicollinearity) and supports dimensionality reduction</td>
+                </tr>
+                <tr>
+                    <td><b>Basis</b></td>
+                    <td>Minimal set of linearly independent vectors that span the whole space</td>
+                    <td>Provides an optimal coordinate system (e.g., PCA basis)</td>
+                </tr>
+                <tr>
+                    <td><b>Dimension</b></td>
+                    <td>Number of independent directions (size of a basis)</td>
+                    <td>Indicates data complexity and relates to curse of dimensionality</td>
+                </tr>
+                <tr>
+                    <td><b>Null Space</b></td>
+                    <td>Vectors mapped to zero under a transformation</td>
+                    <td>Reveals redundancy or loss of information; linked to invertibility and multicollinearity</td>
+                </tr>
+                <tr>
+                    <td><b>Column Space</b></td>
+                    <td>All linear combinations of matrix columns (reachable outputs)</td>
+                    <td>Defines prediction/output space in regression or linear models</td>
+                </tr>
+                <tr>
+                    <td><b>Row Space</b></td>
+                    <td>All linear combinations of matrix rows</td>
+                    <td>Provides insight into feature relationships; dimension equals matrix rank</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+
+</Tabs>

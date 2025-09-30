@@ -1,0 +1,485 @@
+---
+title: Descriptive Statistics
+description: Descriptive Statistics Fundamentals
+hide_table_of_contents: true
+---
+
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+
+<Tabs queryString="primary">
+    <TabItem value="data-types" label="Data Types" >
+    ## Quantitative vs. Qualitative Data
+
+    <table className="text_vertical">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Definition</th>
+                <th>Characteristics</th>
+                <th>Subtypes</th>
+                <th>Examples</th>
+                <th>Use Cases</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Quantitative (Numerical)</b></td>
+                <td>Data expressed as numbers representing counts or measurements</td>
+                <td>Measurable, ordered, meaningful differences, arithmetic operations possible</td>
+                <td>Discrete (countable) and Continuous (measurable)</td>
+                <td>Discrete: number of children, dice rolls. Continuous: height, weight, temperature, revenue</td>
+                <td>Statistical tests (e.g., regression), visualizations like histograms and scatter plots, predictive modeling</td>
+            </tr>
+            <tr>
+                <td><b>Qualitative (Categorical)</b></td>
+                <td>Data representing characteristics or categories</td>
+                <td>Descriptive, grouped into categories, non-numerical, limited math operations</td>
+                <td>Nominal and Ordinal (part of levels of measurement)</td>
+                <td>Gender, marital status, satisfaction levels, product type</td>
+                <td>Chi-squared tests, bar charts, pie charts, encoding for machine learning models</td>
+            </tr>
+        </tbody>
+    </table>
+
+    ## Levels of Measurement
+
+    <table className="text_vertical">
+        <thead>
+            <tr>
+                <th>Level</th>
+                <th>Categories</th>
+                <th>Order</th>
+                <th>Equal Intervals</th>
+                <th>True Zero</th>
+                <th>Examples</th>
+                <th>Permissible Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Nominal</b></td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>No</td>
+                <td>No</td>
+                <td>Gender, hair color, product type, country</td>
+                <td>Frequencies, mode, Chi-squared tests</td>
+            </tr>
+            <tr>
+                <td><b>Ordinal</b></td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>No</td>
+                <td>Satisfaction ratings, education level, Likert scale, income brackets</td>
+                <td>Frequencies, mode, median, rank correlations</td>
+            </tr>
+            <tr>
+                <td><b>Interval</b></td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>Temperature (°C/°F), IQ scores, years/dates</td>
+                <td>Addition, subtraction, mean, SD, correlations (Pearson)</td>
+            </tr>
+            <tr>
+                <td><b>Ratio</b></td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>Height, weight, income, age, time, Kelvin temperature</td>
+                <td>All statistical methods, multiplication, division, ratios</td>
+            </tr>
+        </tbody>
+    </table>
+    </TabItem>
+    <TabItem value="measures-of-central-tendency" label="Measures of Central Tendency">
+    ## Measures of Central Tendency: Finding the "Average"
+
+    <table className="text_vertical">
+        <thead>
+            <tr>
+                <th>Measure</th>
+                <th>Definition</th>
+                <th>Formula</th>
+                <th>Example</th>
+                <th>Best Use Cases</th>
+                <th>Sensitivity</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Arithmetic Mean</b></td>
+                <td>Sum of all values divided by the number of values</td>
+                <td>$$\bar{x} = \frac{\sum x_i}{n}$$</td>
+                <td>Sales: $$$$ → 110</td>
+                <td>Symmetric data without extreme outliers</td>
+                <td>Highly sensitive to outliers</td>
+            </tr>
+            <tr>
+                <td><b>Weighted Mean</b></td>
+                <td>Mean where each value has a weight representing importance/frequency</td>
+                <td>$$\bar{x}_w = \frac{\sum (x_i \cdot w_i)}{\sum w_i}$$</td>
+                <td>Grade = 89.5 (with homework, midterm, final weights)</td>
+                <td>When values contribute unequally (e.g., grades, weighted averages)</td>
+                <td>Sensitive if extreme values have high weights</td>
+            </tr>
+            <tr>
+                <td><b>Geometric Mean</b></td>
+                <td>n-th root of the product of values</td>
+                <td>$$GM = (\prod x_i)^{1/n}$$</td>
+                <td>Returns: $$[1.10,1.05,1.12]$$ → 9%</td>
+                <td>Growth rates, ratios, percentages</td>
+                <td>Sensitive to zeros/negative values; less affected by outliers</td>
+            </tr>
+            <tr>
+                <td><b>Harmonic Mean</b></td>
+                <td>Reciprocal of the arithmetic mean of reciprocals</td>
+                <td>$$HM = \frac{n}{\sum \frac{1}{x_i}}$$</td>
+                <td>Speeds: 60 & 40 mph → 48 mph</td>
+                <td>Rates, speeds, efficiency ratios</td>
+                <td>Sensitive to very small values</td>
+            </tr>
+            <tr>
+                <td><b>Median</b></td>
+                <td>Middle value after ordering data</td>
+                <td>If odd $$n$$: $$(n+1)/2$$; if even $$n$$: mean of two middle values</td>
+                <td>$$$$ → Median = 30</td>
+                <td>Skewed data, outlier-heavy data, ordinal data</td>
+                <td>Robust to outliers</td>
+            </tr>
+            <tr>
+                <td><b>Mode</b></td>
+                <td>Most frequent value(s) in dataset</td>
+                <td>Count frequencies</td>
+                <td>$$$$ → Mode = 4</td>
+                <td>Nominal/categorical data, identifying most common class/value</td>
+                <td>Not affected by extreme values</td>
+            </tr>
+        </tbody>
+    </table>
+
+    ## Distribution Insights
+
+    <table className="text_vertical">
+        <thead>
+            <tr>
+                <th>Measure</th>
+                <th>Formula</th>
+                <th>Sensitivity to Outliers</th>
+                <th>Example Result (Dataset: )</th>
+                <th>Interpretation</th>
+                <th>Use Cases</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Range</b></td>
+                <td>$$ \text{Range} = \max(x) - \min(x) $$</td>
+                <td>Highly sensitive</td>
+                <td>$$10 - 6 = 4$$</td>
+                <td>Quick measure of spread</td>
+                <td>Good for rough checks but distorted by extreme values</td>
+            </tr>
+            <tr>
+                <td><b>Interquartile Range</b></td>
+                <td>$$ \text{IQR} = Q3 - Q1 $$</td>
+                <td>Not sensitive</td>
+                <td>From example set → $$ Q1=7, Q3=9, IQR=2 $$</td>
+                <td>Describes spread of middle 50%</td>
+                <td>Robust for skewed data and outlier detection</td>
+            </tr>
+            <tr>
+                <td><b>Variance (Sample)</b></td>
+                <td>$$ s^2 = \frac{\sum (x_i - \bar{x})^2}{n-1} $$</td>
+                <td>Sensitive</td>
+                <td>$$ s^2 = 2.5 $$</td>
+                <td>Uses all data points; squared units limit interpretability</td>
+                <td>Key in advanced statistics</td>
+            </tr>
+            <tr>
+                <td><b>Variance (Population)</b></td>
+                <td>$$ \sigma^2 = \frac{\sum (x_i - \mu)^2}{N} $$</td>
+                <td>Sensitive</td>
+                <td>Depends on full population</td>
+                <td>Same as above but for entire population</td>
+                <td>Exact measure of spread in total dataset</td>
+            </tr>
+            <tr>
+                <td><b>Standard Deviation</b></td>
+                <td>$$ s = \sqrt{s^2} $$, $$ \sigma = \sqrt{\sigma^2} $$</td>
+                <td>Sensitive</td>
+                <td>$$ \sqrt{2.5} \approx 1.58 $$</td>
+                <td>Average deviation from mean in same units as data</td>
+                <td>Most widely used spread measure</td>
+            </tr>
+            <tr>
+                <td><b>Mean Absolute Deviation (MAD)</b></td>
+                <td>$$ MAD = \frac{\sum |x_i - \bar{x}|}{n} $$</td>
+                <td>Less sensitive</td>
+                <td>$$1.2$$</td>
+                <td>Average distance from mean without squaring</td>
+                <td>Easier to interpret, less used in theory</td>
+            </tr>
+        </tbody>
+    </table>
+
+    - **Symmetric (Normal):** `Mean ≈ Median ≈ Mode`: All 3 measures are approximately equal.
+    - **Positively Skewed (Right):** `Mode < Median < Mean`: Mean is pulled right by high outliers.
+    - **Negatively Skewed (Left):** `Mean < Median < Mode`: Mean is pulled left by low outliers.
+    </TabItem>
+    <TabItem value="measures-of-dispersion" label="Measures of Dispersion">
+    ## Measures of Dispersion (Variability): Quantifying Data Spread
+
+    <table className="text_vertical">
+        <thead>
+            <tr>
+                <th>Measure</th>
+                <th>Formula</th>
+                <th>Example</th>
+                <th>Sensitivity to Outliers</th>
+                <th>Advantages</th>
+                <th>Limitations</th>
+                <th>Use Cases</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Range</b></td>
+                <td>$$ \text{Range} = \text{Max} - \text{Min} $$</td>
+                <td>$$ 10 - 6 = 4 $$</td>
+                <td>Highly sensitive</td>
+                <td>Very simple, quick estimate of spread</td>
+                <td>Ignores distribution between extremes, distorted by outliers</td>
+                <td>Quick checks (e.g., quality control)</td>
+            </tr>
+            <tr>
+                <td><b>Interquartile Range (IQR)</b></td>
+                <td>$$ IQR = Q3 - Q1 $$</td>
+                <td>For [5,7,8,8,10,12,13,15,17,20], $$ Q1=8, Q3=15, IQR=7 $$</td>
+                <td>Low sensitivity (robust)</td>
+                <td>Focuses on middle 50%, robust against skew and outliers</td>
+                <td>Ignores data outside middle 50%</td>
+                <td>Outlier detection, box plots, skewed data</td>
+            </tr>
+            <tr>
+                <td><b>Sample Variance</b></td>
+                <td>Population: $$ \sigma^2 = \frac{\sum (x_i - \mu)^2}{N} $$ <br/> Sample: $$ s^2 = \frac{\sum (x_i - \bar{x})^2}{n-1} $$</td>
+                <td>For [6,7,8,9,10], $$ s^2 = 2.5 $$</td>
+                <td>Sensitive</td>
+                <td>Uses all data, key for advanced statistics</td>
+                <td>Units squared (harder to interpret)</td>
+                <td>ANOVA, regression, PCA, machine learning</td>
+            </tr>
+            <tr>
+                <td><b>Standard Deviation</b></td>
+                <td>$$ \sigma = \sqrt{\sigma^2} $$, $$ s = \sqrt{s^2} $$</td>
+                <td>For variance = 2.5, $$ s = 1.581 $$</td>
+                <td>Sensitive</td>
+                <td>Same units as data, widely interpretable, foundational in stats</td>
+                <td>Still sensitive to outliers</td>
+                <td>Z-scores, hypothesis testing, confidence intervals</td>
+            </tr>
+            <tr>
+                <td><b>Mean Absolute Deviation (MAD)</b></td>
+                <td>$$ MAD = \frac{\sum |x_i - \bar{x}|}{n} $$</td>
+                <td>For [6,7,8,9,10], $$ MAD = 1.2 $$</td>
+                <td>Less sensitive</td>
+                <td>Easy to understand, less influenced by extremes</td>
+                <td>Less mathematically flexible than variance/SD</td>
+                <td>Forecasting errors, robust spread measure</td>
+            </tr>
+        </tbody>
+    </table>
+    </TabItem>
+    <TabItem value="measures-of-position" label="Measures of Position">
+    ## Measures of Position: Relative Standing
+
+    <table className="text_vertical">
+        <thead>
+            <tr>
+            <th>Measure</th>
+            <th>Definition</th>
+            <th>Method</th>
+            <th>Example</th>
+            <th>Use Cases</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Percentiles</b></td>
+                <td>Value below which a certain percentage of observations fall</td>
+                <td>$$L = (P/100) \times N$$. If $$L$$ is whole, average of value at $$L$$ and $$L+1$$. If not, round up and take that value</td>
+                <td>70th percentile of ordered scores: $$L=(70/100)\times10=7$$. Avg of 7th (85) & 8th (88) = 86.5</td>
+                <td>Ranking, benchmarking, and segmenting datasets (e.g., identifying top 10% performers)</td>
+            </tr>
+            <tr>
+                <td><b>Quartiles</b></td>
+                <td>Divide data into four equal parts (Q1=25th, Q2=50th/median, Q3=75th)</td>
+                <td>Same as percentile method, with P=25, 50, 75</td>
+                <td>Scores: Q1=72, Q2=81, Q3=88</td>
+                <td>Used in box plots, detect skewness, compute IQR ($$Q3-Q1$$) for spread and outlier detection</td>
+            </tr>
+            <tr>
+                <td><b>Deciles</b></td>
+                <td>Divide data into ten equal parts</td>
+                <td>Same as percentile method, with P=10, 20, …, 90</td>
+                <td>D5 = 50th percentile = Median = 81</td>
+                <td>Provides more granular segmentation than quartiles, often used in income/wealth distribution analysis</td>
+            </tr>
+            <tr>
+                <td><b>Z-scores</b></td>
+                <td>Standardized score showing how many SDs a value is from mean</td>
+                <td>$$Z = \frac{x - \mu}{\sigma}$$ (population) or $$Z = \frac{x - \bar{x}}{s}$$ (sample)</td>
+                <td>Score = 85, Mean=70, SD=10 → $$Z = (85-70)/10 = 1.5$$</td>
+                <td>Standardizes across distributions, detects outliers ($$|Z|>2$$ or 3), enables probability-based comparisons</td>
+            </tr>
+        </tbody>
+    </table>
+
+    ## Outlier Detection via Measures of Position
+
+    <table className="text_vertical">
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Formula</th>
+                <th>Use Cases</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>IQR Method</b></td>
+                <td>Outliers if values lie outside $$[Q1 - 1.5 \times IQR, \, Q3 + 1.5 \times IQR]$$</td>
+                <td>Skewed datasets, box plot analysis</td>
+            </tr>
+            <tr>
+                <td><b>Z-score Method</b></td>
+                <td>Outliers if $$|Z|>2$$ (or 3)</td>
+                <td>Approximately normal distributions</td>
+            </tr>
+        </tbody>
+    </table>
+    </TabItem>
+    <TabItem value="data-distribution-and-shape" label="Data Distribution and Shape">
+    <table className="text_vertical">
+        <thead>
+            <tr>
+                <th>Concept</th>
+                <th>Definition</th>
+                <th>Key Features</th>
+                <th>What It Shows</th>
+                <th>Relevance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Frequency Distributions</b></td>
+                <td>A table or graph showing the frequency of outcomes in a sample</td>
+                <td>Constructed with bins or categories, tally, relative and cumulative frequencies</td>
+                <td>Pattern of data frequencies across values/intervals</td>
+                <td>Foundation for histograms, highlights anomalies, aids data exploration</td>
+            </tr>
+            <tr>
+                <td><b>Histogram</b></td>
+                <td>Graphical representation of numerical data distribution</td>
+                <td>Continuous bins on x-axis; frequencies/relative frequencies on y-axis; no gaps</td>
+                <td>Shape, central tendency, spread, modes, outliers</td>
+                <td>Tests normality assumption, assesses symmetry/skewness</td>
+            </tr>
+            <tr>
+                <td><b>Box Plot</b></td>
+                <td>Visual summary using five-number summary (min, Q1, median, Q3, max)</td>
+                <td>Box (Q1 - Q3), median line, whiskers, outliers marked separately</td>
+                <td>Median, spread (IQR), symmetry, skewness, outliers</td>
+                <td>Useful for group comparison; robust to outliers</td>
+            </tr>
+            <tr>
+                <td><b>Bar Chart</b></td>
+                <td>Chart for categorical data showing frequencies or proportions</td>
+                <td>Categories on x-axis; separated bars (gaps between categories)</td>
+                <td>Prevalence/popularity of categories</td>
+                <td>Ideal for qualitative data distributions</td>
+            </tr>
+            <tr>
+                <td><b>Pie Chart</b></td>
+                <td>Circular graphic with slices proportional to categories</td>
+                <td>Arc length/area represents share</td>
+                <td>Proportion of categories relative to whole</td>
+                <td>Good for simple proportions (e.g., market share); weaker for precise comparisons</td>
+            </tr>
+            <tr>
+                <td><b>Scatter Plot</b></td>
+                <td>Graph of two variables as points on Cartesian plane</td>
+                <td>Each point shows one observation</td>
+                <td>Correlation, relationships, clusters, outliers</td>
+                <td>Basis for regression, critical for bivariate analysis</td>
+            </tr>
+            <tr>
+                <td><b>Skewness</b></td>
+                <td>Measure of asymmetry in distribution</td>
+                <td>Positive: right tail longer; Negative: left tail longer; Zero: symmetric</td>
+                <td>Highlights direction and degree of skew</td>
+                <td>Informs model assumptions, guides use of mean/median, reveals data limits</td>
+            </tr>
+            <tr>
+                <td><b>Kurtosis</b></td>
+                <td>Measure of tail heaviness and peakedness</td>
+                <td>Mesokurtic: normal; Leptokurtic: sharp peak, heavy tails; Platykurtic: flat, light tails</td>
+                <td>Probability of extreme values in distribution</td>
+                <td>Critical in risk assessment, model assumptions, influence of outliers</td>
+            </tr>
+        </tbody>
+    </table>
+    </TabItem>
+    <TabItem value="correlation" label="Correlation">
+    ## Correlation: Measuring Relationships Between Variables
+
+    <table className="text_vertical">
+        <thead>
+            <tr>
+                <th>Measure</th>
+                <th>Definition</th>
+                <th>Formula</th>
+                <th>Range</th>
+                <th>Interpretation</th>
+                <th>Limitations</th>
+                <th>Use Cases</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Covariance</b></td>
+                <td>Measures how two variables change together (direction of relationship)</td>
+                <td>Population: $$\sigma_{xy} = \frac{\sum (x_i - \mu_x)(y_i - \mu_y)}{N}$$<br/>Sample: $$s_{xy} = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{n-1}$$</td>
+                <td>$$-\infty$$ to $$+\infty$$</td>
+                <td>Positive → variables increase/decrease together.<br/>Negative → one increases while other decreases.<br/>Zero → no linear relationship</td>
+                <td>Scale-dependent, magnitude not directly interpretable</td>
+                <td>Good first step to check direction of relationship</td>
+            </tr>
+            <tr>
+                <td><b>Pearson Correlation (r)</b></td>
+                <td>Normalized measure of strength & direction of <em>linear</em> relationship between quantitative variables</td>
+                <td>Population: $$\rho = \frac{\sigma_{xy}}{\sigma_x \sigma_y}$$<br/>Sample: $$r = \frac{s_{xy}}{s_x s_y}$$</td>
+                <td>$$[-1, +1]$$</td>
+                <td>+1 = perfect positive linear, -1 = perfect negative linear, 0 = no linear correlation. Strength guidelines: weak (±0.1-0.3), moderate (±0.3-0.7), strong (±0.7-1)</td>
+                <td>Sensitive to outliers, only captures linear relationships</td>
+                <td>Requires quantitative variables, linearity, no extreme outliers, homoscedasticity. Common in EDA, regression, feature selection</td>
+            </tr>
+            <tr>
+                <td><b>Spearman's Rank Correlation ($$\rho$$ or $$r_s$$)</b></td>
+                <td>Non-parametric measure of strength & direction of <em>monotonic</em> (possibly non-linear) relationship. Uses ranks instead of raw data</td>
+                <td>$$\rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}$$ where $$d_i$$ = rank differences</td>
+                <td>$$[-1, +1]$$</td>
+                <td>+1 = perfect positive monotonic, -1 = perfect negative monotonic, 0 = no monotonic relationship</td>
+                <td>Does not measure strength of linear relationship, only ranked/monotonic consistency</td>
+                <td>Works with ordinal data, monotonic but non-linear relationships, non-normal data; less sensitive to outliers</td>
+            </tr>
+        </tbody>
+    </table>
+    </TabItem>
+
+</Tabs>

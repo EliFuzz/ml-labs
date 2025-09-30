@@ -1,0 +1,12 @@
+{
+  "overrides": [
+    {
+      "files": "*.md",
+      "options": {
+        "printWidth": 1000,
+        "bracketSpacing": true,
+        "arrayExpand": true
+      }
+    }
+  ]
+}
