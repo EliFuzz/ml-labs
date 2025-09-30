@@ -1,0 +1,849 @@
+---
+title: Fundamentals
+description: Data Analysis Fundamentals
+hide_table_of_contents: true
+---
+
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+
+<Tabs queryString="primary">
+  <TabItem value="analytic-types" label="Analytic Types">
+    <table className="text_vertical">
+      <thead>
+        <tr>
+          <th>Aspect</th>
+          <th>Descriptive</th>
+          <th>Diagnostic</th>
+          <th>Predictive</th>
+          <th>Prescriptive</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Visualization</td>
+          <td colSpan="4">
+            ```mermaid
+            ---
+            config:
+                xyChart:
+                    height: 200
+                    showDataLabel: true
+                xAxis:
+                    showDataLabel: true
+                    showLabel: true
+                    showTitle: true
+                yAxis:
+                    showDataLabel: true
+                    showLabel: true
+                    showTitle: true
+            ---
+            xychart-beta
+                x-axis "Complexity" [Descriptive, Diagnostic, Predictive, Prescriptive]
+                y-axis "Value" 1 --> 5
+
+                bar [1, 2, 3, 4, 5]
+                line [2, 3, 4, 5, 6]
+            ```
+          </td>
+        </tr>
+        <tr>
+          <td><b>Definition</b></td>
+          <td>
+            Analyzes historical data to summarize and describe what happened
+          </td>
+          <td>Investigates and explains why something happened</td>
+          <td>Uses historical data and models to predict future outcomes</td>
+          <td>Recommends actions based on predictions to optimize results</td>
+        </tr>
+        <tr>
+          <td><b>Primary Question Answered</b></td>
+          <td>What happened?</td>
+          <td>Why did it happen?</td>
+          <td>What is likely to happen?</td>
+          <td>What should be done?</td>
+        </tr>
+        <tr>
+          <td><b>Purpose</b></td>
+          <td>
+            To provide insights into past and current states of data by
+            summarizing and visualizing
+          </td>
+          <td>
+            To find the root causes or reasons behind past events or trends
+          </td>
+          <td>To forecast future trends, behaviors, or events</td>
+          <td>
+            To suggest optimal decisions or actions to achieve desired outcomes
+          </td>
+        </tr>
+        <tr>
+          <td><b>Data Used</b></td>
+          <td>Historical and current data</td>
+          <td>Historical data, plus additional investigation data sources</td>
+          <td>Historical data combined with external variables</td>
+          <td>Data from descriptive, diagnostic, and predictive analytics</td>
+        </tr>
+        <tr>
+          <td><b>Techniques & Methods</b></td>
+          <td>
+            Statistical summaries, reporting, dashboards, data visualization
+          </td>
+          <td>
+            Data mining, drill-down, correlation analysis, root cause analysis
+          </td>
+          <td>
+            Statistical modeling, machine learning, forecasting algorithms
+          </td>
+          <td>Optimization algorithms, simulation, decision analysis</td>
+        </tr>
+        <tr>
+          <td><b>Outcome</b></td>
+          <td>Summarized reports, KPIs, dashboards, trends, patterns</td>
+          <td>Identified causes, explanations for anomalies or trends</td>
+          <td>Probability estimates, risk assessment, forecasts</td>
+          <td>
+            Actionable recommendations, decision rules, best practice guidelines
+          </td>
+        </tr>
+        <tr>
+          <td><b>Decision Support Level</b></td>
+          <td>Informational; offers context for decisions</td>
+          <td>Analytical; explains problems to support decision-making</td>
+          <td>Predictive; supports proactive strategies</td>
+          <td>Prescriptive; direct decision-making guidance</td>
+        </tr>
+        <tr>
+          <td><b>Complexity Level</b></td>
+          <td>Low to Moderate</td>
+          <td>Moderate</td>
+          <td>High</td>
+          <td>Very High</td>
+        </tr>
+        <tr>
+          <td><b>Tools & Technologies</b></td>
+          <td>BI tools, Excel, dashboards (Tableau, Power BI)</td>
+          <td>Statistical tools, SQL, data mining software</td>
+          <td>
+            Machine learning libraries (Scikit-learn, TensorFlow), advanced
+            statistical software
+          </td>
+          <td>Optimization software, AI decision engines</td>
+        </tr>
+        <tr>
+          <td><b>Time Orientation</b></td>
+          <td>Past and Present</td>
+          <td>Past</td>
+          <td>Future</td>
+          <td>Future</td>
+        </tr>
+        <tr>
+          <td><b>Role in Analytics Process</b></td>
+          <td>Foundational, initial step for understanding data</td>
+          <td>Diagnostic step to explore underlying causes</td>
+          <td>Predictive step to anticipate future outcomes</td>
+          <td>Prescriptive step to optimize future decisions</td>
+        </tr>
+        <tr>
+          <td><b>Limitations</b></td>
+          <td>Does not explain cause or predict future</td>
+          <td>Cannot predict future; focuses on past explanations</td>
+          <td>Predictions are probabilistic and uncertain</td>
+          <td>
+            Requires accurate predictions; complexity may limit implementation
+          </td>
+        </tr>
+        <tr>
+          <td><b>Benefit to Business</b></td>
+          <td>Provides clarity and understanding of historical trends</td>
+          <td>Enables identification and correction of problems</td>
+          <td>Enables proactive planning and risk management</td>
+          <td>Drives optimized and data-informed decision-making</td>
+        </tr>
+        <tr>
+          <td><b>Use Cases</b></td>
+          <td>Sales reports showing monthly revenue trends</td>
+          <td>Diagnosing a drop in sales after a marketing campaign</td>
+          <td>Forecasting future sales or customer churn</td>
+          <td>Recommending inventory levels or marketing strategies</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </TabItem>
+  <TabItem value="data-concepts" label="Data Concepts">
+    <Tabs queryString="secondary">
+      <TabItem value="data-collection" label="Data Collection" attributes={{className: 'tabs__vertical'}}>
+        <table className="text_vertical">
+          <thead>
+              <tr>
+                  <th>Aspect</th>
+                  <th>Primary</th>
+                  <th>Secondary</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td><b>Definition</b></td>
+                  <td>Data collected directly from the original source for a specific research purpose</td>
+                  <td>Data already collected and readily available from other sources</td>
+              </tr>
+              <tr>
+                  <td><b>Purpose</b></td>
+                  <td>To address specific research questions and gain unique insights</td>
+                  <td>To gain background information, validate primary data, or answer research questions that can be met with existing data</td>
+              </tr>
+              <tr>
+                  <td><b>Source</b></td>
+                  <td>First-hand sources (e.g., individuals, experiments)</td>
+                  <td>Second-hand sources (e.g., government publications, academic journals, company reports, websites)</td>
+              </tr>
+              <tr>
+                  <td><b>Control</b></td>
+                  <td>High control over data collection process, methodology, and quality</td>
+                  <td>No control over data collection process, methodology, or quality</td>
+              </tr>
+              <tr>
+                  <td><b>Cost</b></td>
+                  <td>Generally higher, due to resources needed for collection (e.g., surveys, interviews, experiments)</td>
+                  <td>Generally lower, as data is already available and often free or inexpensive to access</td>
+              </tr>
+              <tr>
+                  <td><b>Time</b></td>
+                  <td>More time-consuming, involving planning, execution, and analysis of new data</td>
+                  <td>Less time-consuming, as data can be accessed relatively quickly</td>
+              </tr>
+              <tr>
+                  <td><b>Specificity</b></td>
+                  <td>Highly specific to the research question; tailor-made data</td>
+                  <td>May not perfectly align with the specific research question; might require adaptation or filtering</td>
+              </tr>
+              <tr>
+                  <td><b>Accuracy & Reliability</b></td>
+                  <td>Can be highly accurate and reliable if collected properly; direct verification possible</td>
+                  <td>Varies depending on the source; reliability and accuracy need careful evaluation</td>
+              </tr>
+              <tr>
+                  <td><b>Availability</b></td>
+                  <td>Always available if resources permit new collection</td>
+                  <td>Readily available, but might be outdated or incomplete</td>
+              </tr>
+              <tr>
+                  <td><b>Advantages</b></td>
+                  <td>
+                      <ul>
+                          <li>High relevance and specificity</li>
+                          <li>Greater control over data quality</li>
+                          <li>Proprietary insights (competitive advantage)</li>
+                          <li>Up-to-date information</li>
+                      </ul>
+                  </td>
+                  <td>
+                      <ul>
+                          <li>Cost-effective and time-saving</li>
+                          <li>Easy access to large datasets</li>
+                          <li>Can provide broader context</li>
+                          <li>Useful for trend analysis and comparison</li>
+                      </ul>
+                  </td>
+              </tr>
+              <tr>
+                  <td><b>Disadvantages</b></td>
+                  <td>
+                      <ul>
+                          <li>High cost and time commitment</li>
+                          <li>Requires significant effort and resources</li>
+                          <li>Potential for bias in data collection</li>
+                          <li>Limited scope (due to resource constraints)</li>
+                      </ul>
+                  </td>
+                  <td>
+                      <ul>
+                          <li>Data may be outdated or irrelevant</li>
+                          <li>Quality and accuracy can vary</li>
+                          <li>Lack of control over collection methods</li>
+                          <li>Data might be generalized, not specific enough</li>
+                          <li>No unique insights (publicly available)</li>
+                      </ul>
+                  </td>
+              </tr>
+              <tr>
+                  <td><b>Examples</b></td>
+                  <td>Surveys, interviews, focus groups, experiments, observations, direct measurements, statistical methods, Delphi tecnique</td>
+                  <td>Government census data, academic research papers, industry reports, company sales records, public databases</td>
+              </tr>
+          </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="data-cleanup" label="Data Cleanup">
+        <table>
+          <thead>
+            <tr>
+              <th>Technique</th>
+              <th>Description</th>
+              <th>Purpose</th>
+              <th>Typical Methods/Approaches</th>
+              <th>Key Considerations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Removing Duplicates</b></td>
+              <td>Identifying and removing repeated rows that represent the same records</td>
+              <td>Reduce bias from repeated data; ensure uniqueness</td>
+              <td>Exact matching, fuzzy matching</td>
+              <td>Avoid removing true unique data; consider near-duplicates</td>
+            </tr>
+            <tr>
+              <td><b>Spell Checking</b></td>
+              <td>Detecting and correcting typos and misspelled words</td>
+              <td>Improve accuracy in categorical/text data</td>
+              <td>Dictionary lookup, spell-check libraries</td>
+              <td>Domain-specific dictionaries improve accuracy</td>
+            </tr>
+            <tr>
+              <td><b>Finding and Replacing Text</b></td>
+              <td>Searching for specific values or patterns and replacing them</td>
+              <td>Correct errors or standardize terms</td>
+              <td>Regex, exact match replacement</td>
+              <td>Check for unintended replacements</td>
+            </tr>
+            <tr>
+              <td><b>Changing the Case of Text</b></td>
+              <td>Standardizing capitalization to upper, lower, or title case</td>
+              <td>Ensure consistency in text values</td>
+              <td>Convert to upper/lower/title case</td>
+              <td>Confirm if case sensitivity matters in analysis</td>
+            </tr>
+            <tr>
+              <td><b>Removing Spaces and Nonprinting Characters</b></td>
+              <td>Trimming leading/trailing spaces and removing invisible characters</td>
+              <td>Prevent parsing errors and incorrect matching</td>
+              <td>Strip spaces, remove non-printables via regex</td>
+              <td>Can affect text matching; do not remove meaningful spaces</td>
+            </tr>
+            <tr>
+              <td><b>Fixing Numbers and Number Signs</b></td>
+              <td>Correcting numeric values and standardizing number formats</td>
+              <td>Ensure numeric data consistency for calculations</td>
+              <td>Remove thousands separators, convert strings to numbers</td>
+              <td>Monitor locale-specific formats like commas/dots</td>
+            </tr>
+            <tr>
+              <td><b>Fixing Dates and Times</b></td>
+              <td>Correcting and standardizing date/time formats</td>
+              <td>Enable chronological analysis and sorting</td>
+              <td>Parse dates, convert formats, separate date/time</td>
+              <td>Handle timezone and format variations carefully</td>
+            </tr>
+            <tr>
+              <td><b>Merging and Splitting Columns</b></td>
+              <td>Combining multiple columns or splitting columns into multiple fields</td>
+              <td>Normalize data structure and improve usability</td>
+              <td>Concatenate strings, split by delimiters</td>
+              <td>Maintain data integrity during merges/splits</td>
+            </tr>
+            <tr>
+              <td><b>Transforming and Rearranging Columns and Rows</b></td>
+              <td>Changing the shape or order of data</td>
+              <td>Prepare data for specific analysis needs</td>
+              <td>Pivoting, melting, sorting, reordering</td>
+              <td>Ensure no data loss during transformations</td>
+            </tr>
+            <tr>
+              <td><b>Reconciling Table Data by Joining or Matching</b></td>
+              <td>Combining related data from multiple tables or datasets</td>
+              <td>Create comprehensive dataset for analysis</td>
+              <td>SQL JOINs, merge operations, fuzzy matching</td>
+              <td>Verify join keys; beware of data duplication or loss</td>
+            </tr>
+            <tr>
+              <td><b>Handling Missing Data</b></td>
+              <td>Identifying and addressing incomplete or absent values</td>
+              <td>Ensure data integrity; prevent biased analysis</td>
+              <td>Imputation (mean, median, mode, regression), deletion (row-wise, column-wise)</td>
+              <td>Consider impact of imputation method; understand missing data mechanisms</td>
+            </tr>
+            <tr>
+              <td><b>Finding Outliers</b></td>
+              <td>Detecting data points that significantly deviate from the majority of the data</td>
+              <td>Prevent skewed analysis; identify errors or anomalies</td>
+              <td>Statistical methods (Z-score, IQR), visualization (box plots, scatter plots), machine learning (clustering)</td>
+              <td>Distinguish between true anomalies and data entry errors; consider domain knowledge</td>
+            </tr>
+            <tr>
+              <td><b>Data Transformation</b></td>
+              <td>Converting data from one format or structure to another</td>
+              <td>Normalize data; prepare for analysis; improve model performance</td>
+              <td>Scaling (min-max, standardization), log transformation, one-hot encoding, binning</td>
+              <td>Choose appropriate transformation based on data distribution and analysis goals; avoid information loss</td>
+            </tr>
+          </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="data-exploration" label="Data Exploration">
+        <table className="text_vertical">
+          <thead>
+            <tr>
+              <th>Technique</th>
+              <th>Description</th>
+              <th>Strengths</th>
+              <th>Limitations</th>
+              <th>Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Exploration Process Overview</b></td>
+              <td>Involves discerning patterns, identifying anomalies, examining underlying structures, and testing hypotheses. Achieved via descriptive statistics, visual methods, and algorithms</td>
+              <td>Provides foundation and roadmap for subsequent analysis, feature engineering, and modeling</td>
+              <td>Can be time-consuming; requires iterative refinement and expert interpretation</td>
+              <td>Develops comprehensive understanding of dataset quality, characteristics, and relationships before formal analysis or modeling</td>
+            </tr>
+            <tr>
+              <td><b>Descriptive Statistics</b></td>
+              <td>Summarizes dataset statistics including central tendency, dispersion, and shape</td>
+              <td>Simple to compute; foundational knowledge; quick anomaly detection</td>
+              <td>Limited to numerical summaries; no direct relational insights</td>
+              <td>Provides initial insights and data quality assessment; identifies trends and distribution</td>
+            </tr>
+            <tr>
+              <td><b>Data Visualization</b></td>
+              <td>Graphical representations such as histograms, box plots, scatter plots, heatmaps</td>
+              <td>Intuitive pattern recognition; effective for communicating insights</td>
+              <td>Can be subjective; depends on appropriate chart choice and scale</td>
+              <td>Visual detection of patterns, anomalies, clusters, and correlations</td>
+            </tr>
+            <tr>
+              <td><b>Correlation Analysis</b></td>
+              <td>Quantifies strength and direction of relationships between variables</td>
+              <td>Provides quantitative relationship measure; aids feature selection</td>
+              <td>Only detects linear or monotonic relationships; sensitive to outliers</td>
+              <td>Identifies key variable interactions for predictive modeling and hypothesis testing</td>
+            </tr>
+            <tr>
+              <td><b>Cluster Analysis</b></td>
+              <td>Groups similar data points using algorithms to identify natural groupings</td>
+              <td>Useful for pattern recognition in complex data without labels</td>
+              <td>Requires parameter tuning; sensitive to noise and outliers</td>
+              <td>Unsupervised discovery of segments or patterns for targeted analysis</td>
+            </tr>
+            <tr>
+              <td><b>Outlier Detection</b></td>
+              <td>Detects data points significantly deviating from the norm</td>
+              <td>Enhances data quality and model robustness by handling anomalies</td>
+              <td>Risk of discarding valid rare events; subjective definitions</td>
+              <td>Identifies anomalies, data errors, or rare but important events</td>
+            </tr>
+            <tr>
+              <td><b>Dimensionality Reduction</b></td>
+              <td>Reduces number of variables while preserving data variance (e.g., PCA)</td>
+              <td>Reveals hidden structure; improves computational efficiency</td>
+              <td>Potential loss of interpretability and information</td>
+              <td>Simplifies datasets for visualization and modeling; reduces collinearity</td>
+            </tr>
+            <tr>
+              <td><b>Exploratory Data Analysis (EDA)</b></td>
+              <td>Combines statistics and visuals to formulate hypotheses and validate assumptions</td>
+              <td>Holistic insight, early pattern detection, directs analysis flow</td>
+              <td>Requires expertise; can be time-intensive</td>
+              <td>Understands data structure, relationships, and prepares for modeling</td>
+            </tr>
+            <tr>
+              <td><b>Hypothesis Testing</b></td>
+              <td>Formal statistical tests to assess data assumptions and variable effects</td>
+              <td>Rigorous evidence for inference and decision-making</td>
+              <td>Dependent on data assumptions; sample size sensitive</td>
+              <td>Validates or rejects assumptions guiding further work</td>
+            </tr>
+            <tr>
+              <td><b>Feature Engineering</b></td>
+              <td>Creating/modifying dataset features based on exploration insights</td>
+              <td>Customizes models to domain/context-specific data traits</td>
+              <td>Requires domain knowledge and iterative experimentation</td>
+              <td>Improves predictive power of machine learning models</td>
+            </tr>
+            <tr>
+              <td><b>Interactive Data Exploration</b></td>
+              <td>Use of GUIs and interactive platforms to dynamically explore data</td>
+              <td>Engages stakeholders; speeds understanding through visuals</td>
+              <td>May be limited by dataset size or software capabilities</td>
+              <td>Facilitates collaborative, rapid, and user-friendly analysis</td>
+            </tr>
+          </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="data-visualization" label="Data Visualization">
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Visualization</th>
+              <th>Description</th>
+              <th>Purpose</th>
+              <th>Use Cases</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Bar Chart</td>
+              <td>![](./assets/basics/charts/bar.svg)</td>
+              <td>Rectangular bars representing categorical data</td>
+              <td>Compare values across categories</td>
+              <td>Ranking products, survey results, categories comparison</td>
+            </tr>
+            <tr>
+              <td>Line Chart</td>
+              <td>![](./assets/basics/charts/line.svg)</td>
+              <td>Points connected by lines showing trends</td>
+              <td>Show trends over time or continuous data</td>
+              <td>Stock prices, sales trends</td>
+            </tr>
+            <tr>
+              <td>Area Chart</td>
+              <td>![](./assets/basics/charts/area.svg)</td>
+              <td>Like line chart with area filled beneath</td>
+              <td>Emphasize magnitude over time</td>
+              <td>Cumulative sales, traffic volume</td>
+            </tr>
+            <tr>
+              <td>Pie/Donut Chart</td>
+              <td>![](./assets/basics/charts/pie.svg)</td>
+              <td>Circular chart divided into slices</td>
+              <td>Show parts of a whole as percentages</td>
+              <td>Market share, budget allocation</td>
+            </tr>
+            <tr>
+              <td>Scatter Plot</td>
+              <td>![](./assets/basics/charts/scatter-plot.svg)</td>
+              <td>Dots representing relationship between two variables</td>
+              <td>Identify correlation, clusters, or outliers</td>
+              <td>Scientific measurements, survey data analysis</td>
+            </tr>
+            <tr>
+              <td>Bubble Chart</td>
+              <td>![](./assets/basics/charts/bubble.svg)</td>
+              <td>Scatter plot with bubble size as third dimension</td>
+              <td>Visualize 3 numeric variables</td>
+              <td>Sales volume, market data</td>
+            </tr>
+            <tr>
+              <td>Histogram</td>
+              <td>![](./assets/basics/charts/histogram.svg)</td>
+              <td>Bar chart showing frequency distribution</td>
+              <td>Visualize distribution of numerical data</td>
+              <td>Test scores, ages, response times</td>
+            </tr>
+            <tr>
+              <td>Box-and-Whisker Plot</td>
+              <td>![](./assets/basics/charts/plot.svg)</td>
+              <td>Displays distribution through quartiles and outliers</td>
+              <td>Summarize statistical distribution</td>
+              <td>Exam scores, stock performance</td>
+            </tr>
+            <tr>
+              <td>Heatmap</td>
+              <td>![](./assets/basics/charts/heatmap.svg)</td>
+              <td>Color-coded matrix of data intensity or value</td>
+              <td>Show data density or magnitude</td>
+              <td>Website clicks, population density</td>
+            </tr>
+            <tr>
+              <td>Treemap</td>
+              <td>![](./assets/basics/charts/treemap.svg)</td>
+              <td>Nested rectangles representing hierarchical data</td>
+              <td>Visualize part-to-whole and hierarchy</td>
+              <td>Financial portfolios, file system sizes</td>
+            </tr>
+            <tr>
+              <td>Parallel Coordinates</td>
+              <td>![](./assets/basics/charts/parallel.svg)</td>
+              <td>Lines connect values across multiple axes</td>
+              <td>Explore multivariate data</td>
+              <td>Customer segmentation, risk analysis</td>
+            </tr>
+            <tr>
+              <td>Choropleth Map</td>
+              <td>![](./assets/basics/charts/choropleth-map.svg)</td>
+              <td>Geographic map with regions colored by data values</td>
+              <td>Show spatial distribution</td>
+              <td>Election results, demographics</td>
+            </tr>
+            <tr>
+              <td>Radar Chart (Spider Chart)</td>
+              <td>![](./assets/basics/charts/radar.svg)</td>
+              <td>Variables plotted on axes radiating from center</td>
+              <td>Compare multivariate data</td>
+              <td>Performance metrics, skill assessments</td>
+            </tr>
+            <tr>
+              <td>Funnel Chart</td>
+              <td>![](./assets/basics/charts/funnel.svg)</td>
+              <td>Funnel-shaped chart showing progressive reduction</td>
+              <td>Show stages in a process</td>
+              <td>Sales pipeline, conversion rates</td>
+            </tr>
+            <tr>
+              <td>Waterfall Chart</td>
+              <td>![](./assets/basics/charts/waterfall.svg)</td>
+              <td>Visualizes incremental additions and subtractions</td>
+              <td>Show how values build to a total</td>
+              <td>Financial statements, budget changes</td>
+            </tr>
+            <tr>
+              <td>Gantt Chart</td>
+              <td>![](./assets/basics/charts/gantt.svg)</td>
+              <td>Bar chart showing project schedule and tasks</td>
+              <td>Manage project timelines</td>
+              <td>Project planning, resource allocation</td>
+            </tr>
+            <tr>
+              <td>Bullet Graph</td>
+              <td>![](./assets/basics/charts/bullet.svg)</td>
+              <td>Bar with markers to compare performance against goal</td>
+              <td>Measure progress against a target</td>
+              <td>KPIs, performance dashboards</td>
+            </tr>
+            <tr>
+              <td>Dot Plot</td>
+              <td>![](./assets/basics/charts/dot-chart.svg)</td>
+              <td>Dots representing data points aligned along axis</td>
+              <td>Compare distribution or frequency</td>
+              <td>Population by region, survey results</td>
+            </tr>
+            <tr>
+              <td>Lollipop Chart</td>
+              <td>![](./assets/basics/charts/lollipop.svg)</td>
+              <td>Bar chart with a dot at the end of the bar</td>
+              <td>Highlight individual values with focus</td>
+              <td>Survey responses, rankings</td>
+            </tr>
+            <tr>
+              <td>Pictogram</td>
+              <td>![](./assets/basics/charts/pictogram.svg)</td>
+              <td>Uses icons or images to represent data counts</td>
+              <td>Visual and engaging counts</td>
+              <td>Population figures, votes</td>
+            </tr>
+          </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="descriptive-analysis" label="Descriptive Analysis">
+        <table>
+          <thead>
+            <tr>
+              <th>Technique Category</th>
+              <th>Technique</th>
+              <th>Description</th>
+              <th>Calculation/Formula</th>
+              <th>Sensitivity to Outliers</th>
+              <th>Suitable Data Types</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td rowSpan="4"><b>Dispersion</b></td>
+              <td><b>Range</b></td>
+              <td>Difference between the largest and smallest values in the data</td>
+              <td>$$ \text{Range} = \text{Max} - \text{Min} $$</td>
+              <td>Highly sensitive to outliers</td>
+              <td>Numerical, continuous</td>
+              <td>Provides overall spread but impacted by extremes; best with small samples</td>
+            </tr>
+            <tr>
+              <td><b>Variance</b></td>
+              <td>Average of squared deviations from the mean</td>
+              <td>$$ \text{Variance} = \frac{1}{n-1} \sum (x_i - \bar{x})^2 $$</td>
+              <td>Less sensitive, but influenced by outliers due to squaring</td>
+              <td>Numerical, continuous</td>
+              <td>Measures spread around mean in squared units; less intuitive than SD</td>
+            </tr>
+            <tr>
+              <td><b>Standard Deviation</b></td>
+              <td>Square root of variance; average distance from the mean</td>
+              <td>$$ \text{SD} = \sqrt{\text{Variance}} $$</td>
+              <td>Influenced by outliers but in same units as data</td>
+              <td>Numerical, continuous</td>
+              <td>Most common dispersion measure; interpretable; paired with mean for normal distributions</td>
+            </tr>
+            <tr>
+              <td><b>Interquartile Range (IQR)</b></td>
+              <td>Range of middle 50% of data, between 25th (Q1) and 75th percentile (Q3)</td>
+              <td>$$ \text{IQR} = Q3 - Q1 $$</td>
+              <td>Robust to outliers</td>
+              <td>Numerical, continuous</td>
+              <td>Useful for skewed data or data with outliers; summarizes spread of central data</td>
+            </tr>
+            <tr>
+              <td rowSpan="4"><b>Central Tendency</b></td>
+              <td><b>Mean</b></td>
+              <td>Arithmetic average of all data points</td>
+              <td>$$ \bar{x} = \frac{1}{n} \sum x_i $$</td>
+              <td>Highly sensitive to outliers</td>
+              <td>Numerical, continuous</td>
+              <td>Best for symmetric distributions; common measure of central location</td>
+            </tr>
+            <tr>
+              <td><b>Median</b></td>
+              <td>Middle value when data are ordered</td>
+              <td>Middle ranked value</td>
+              <td>Resistant to outliers</td>
+              <td>Numerical, ordinal</td>
+              <td>Good for skewed data; represents 50th percentile</td>
+            </tr>
+            <tr>
+              <td><b>Mode</b></td>
+              <td>Most frequently occurring value</td>
+              <td>Most common value</td>
+              <td>Not sensitive to outliers</td>
+              <td>Nominal, categorical</td>
+              <td>Useful for categorical data or multimodal distributions</td>
+            </tr>
+            <tr>
+              <td><b>Average (General)</b></td>
+              <td>Typically used synonymously with Mean, can refer to any measure of central tendency</td>
+              <td>Typically mean</td>
+              <td>Depends on measure used</td>
+              <td>Variable</td>
+              <td>General term; clarify exact measure in use</td>
+            </tr>
+            <tr>
+              <td rowSpan="2"><b>Distribution Shape</b></td>
+              <td><b>Skewness</b></td>
+              <td>Measure of asymmetry in data distribution</td>
+              <td>Depends on third standardized moment</td>
+              <td>Sensitive to outliers</td>
+              <td>Numerical, continuous</td>
+              <td>Positive skew = right tail longer; negative skew = left tail longer</td>
+            </tr>
+            <tr>
+              <td><b>Kurtosis</b></td>
+              <td>Measure of tail heaviness or peakedness of distribution</td>
+              <td>Depends on fourth standardized moment</td>
+              <td>Sensitive to extreme values</td>
+              <td>Numerical, continuous</td>
+              <td>High kurtosis = heavy tails/more outliers; low kurtosis = light tails</td>
+            </tr>
+          </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="statistical-analysis" label="Statistical Analysis">
+        <table className="text_vertical">
+          <thead>
+            <tr>
+              <th>Technique</th>
+              <th>Description</th>
+              <th>Main Purpose</th>
+              <th>Typical Applications</th>
+              <th>Data Type</th>
+              <th>Key Characteristics</th>
+              <th>Complexity Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Descriptive Statistics</b></td>
+              <td>Summarizes and organizes data to present main features</td>
+              <td>Data summarization and visualization</td>
+              <td>Reporting central tendency and variability; Initial data exploration</td>
+              <td>Quantitative</td>
+              <td>Mean, median, mode, variance, standard deviation, frequency distribution</td>
+              <td>Low</td>
+            </tr>
+            <tr>
+              <td><b>Inferential Statistics</b></td>
+              <td>Makes inferences about populations based on samples</td>
+              <td>Hypothesis testing and drawing conclusions about larger groups</td>
+              <td>Testing hypotheses, confidence intervals, determining significance</td>
+              <td>Quantitative</td>
+              <td>t-tests, chi-square tests, p-values, confidence intervals</td>
+              <td>Medium</td>
+            </tr>
+            <tr>
+              <td><b>Regression Analysis</b></td>
+              <td>Models relationships between dependent and independent variables</td>
+              <td>Predicting outcomes and estimating relationships</td>
+              <td>Sales forecasting, risk assessment, causal inference</td>
+              <td>Quantitative</td>
+              <td>Linear, multiple, logistic regression</td>
+              <td>Medium</td>
+            </tr>
+            <tr>
+              <td><b>Analysis of Variance (ANOVA)</b></td>
+              <td>Compares means across multiple groups</td>
+              <td>Determines if means differ significantly</td>
+              <td>Clinical trials, marketing experiments</td>
+              <td>Quantitative</td>
+              <td>F-test to analyze variances</td>
+              <td>Medium</td>
+            </tr>
+            <tr>
+              <td><b>Time Series Analysis</b></td>
+              <td>Analyzes data points collected or indexed in time order</td>
+              <td>Modeling trends, seasonality, and forecasting</td>
+              <td>Financial forecasting, demand planning, weather prediction</td>
+              <td>Quantitative (time-indexed)</td>
+              <td>ARIMA, smoothing methods, trend analysis</td>
+              <td>Medium to High</td>
+            </tr>
+            <tr>
+              <td><b>Factor Analysis</b></td>
+              <td>Reduces many variables into fewer factors</td>
+              <td>Identifying latent variables and simplifying data</td>
+              <td>Market research, psychology, social sciences</td>
+              <td>Quantitative</td>
+              <td>Principal component analysis (PCA), eigenvalues</td>
+              <td>High</td>
+            </tr>
+            <tr>
+              <td><b>Cluster Analysis</b></td>
+              <td>Groups similar data points into clusters</td>
+              <td>Data segmentation and pattern discovery</td>
+              <td>Customer segmentation, image processing, anomaly detection</td>
+              <td>Quantitative & Qualitative</td>
+              <td>k-means, hierarchical clustering</td>
+              <td>Medium to High</td>
+            </tr>
+            <tr>
+              <td><b>Cohort Analysis</b></td>
+              <td>Breaks data into groups sharing characteristics over time</td>
+              <td>Track behavior and changes over time in groups</td>
+              <td>Customer retention analysis, user activity patterns</td>
+              <td>Quantitative & Qualitative</td>
+              <td>Group-based tracking</td>
+              <td>Medium</td>
+            </tr>
+            <tr>
+              <td><b>Monte Carlo Simulation</b></td>
+              <td>Uses random sampling to estimate probable outcomes</td>
+              <td>Risk analysis and uncertainty modeling</td>
+              <td>Financial risk, supply chain uncertainty</td>
+              <td>Quantitative</td>
+              <td>Stochastic modeling</td>
+              <td>High</td>
+            </tr>
+            <tr>
+              <td><b>Hypothesis Testing</b></td>
+              <td>Tests assumptions about datasets using statistical tests</td>
+              <td>Decision making about population parameters</td>
+              <td>Scientific research, quality control</td>
+              <td>Quantitative</td>
+              <td>Null hypothesis, alternative hypothesis, test statistics</td>
+              <td>Medium</td>
+            </tr>
+            <tr>
+              <td><b>Sentiment Analysis</b></td>
+              <td>Analyzes text data for sentiment and opinion</td>
+              <td>Understanding qualitative feedback</td>
+              <td>Social media analysis, customer feedback</td>
+              <td>Qualitative/Text</td>
+              <td>Natural language processing (NLP)</td>
+              <td>Medium to High</td>
+            </tr>
+          </tbody>
+        </table>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+</Tabs>

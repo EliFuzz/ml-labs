@@ -1,0 +1,2733 @@
+---
+title: Mathematics
+description: Guide to the mathematical concepts and techniques used in data analysis.
+hide_table_of_contents: true
+---
+
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+
+<Tabs queryString="primary">
+  <TabItem value="descriptive-statistics" label="Descriptive Statistics">
+    <Tabs queryString="secondary">
+      <TabItem
+        value="data-types"
+        label="Data Types"
+        attributes={{ className: "tabs__vertical" }}
+      >
+        ## Quantitative vs. Qualitative Data
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Definition</th>
+                    <th>Characteristics</th>
+                    <th>Subtypes</th>
+                    <th>Examples</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Quantitative (Numerical)</b></td>
+                    <td>Data expressed as numbers representing counts or measurements</td>
+                    <td>Measurable, ordered, meaningful differences, arithmetic operations possible</td>
+                    <td>Discrete (countable) and Continuous (measurable)</td>
+                    <td>Discrete: number of children, dice rolls. Continuous: height, weight, temperature, revenue</td>
+                    <td>Statistical tests (e.g., regression), visualizations like histograms and scatter plots, predictive modeling</td>
+                </tr>
+                <tr>
+                    <td><b>Qualitative (Categorical)</b></td>
+                    <td>Data representing characteristics or categories</td>
+                    <td>Descriptive, grouped into categories, non-numerical, limited math operations</td>
+                    <td>Nominal and Ordinal (part of levels of measurement)</td>
+                    <td>Gender, marital status, satisfaction levels, product type</td>
+                    <td>Chi-squared tests, bar charts, pie charts, encoding for machine learning models</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Levels of Measurement
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Level</th>
+                    <th>Categories</th>
+                    <th>Order</th>
+                    <th>Equal Intervals</th>
+                    <th>True Zero</th>
+                    <th>Examples</th>
+                    <th>Permissible Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Nominal</b></td>
+                    <td>Yes</td>
+                    <td>No</td>
+                    <td>No</td>
+                    <td>No</td>
+                    <td>Gender, hair color, product type, country</td>
+                    <td>Frequencies, mode, Chi-squared tests</td>
+                </tr>
+                <tr>
+                    <td><b>Ordinal</b></td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                    <td>No</td>
+                    <td>No</td>
+                    <td>Satisfaction ratings, education level, Likert scale, income brackets</td>
+                    <td>Frequencies, mode, median, rank correlations</td>
+                </tr>
+                <tr>
+                    <td><b>Interval</b></td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                    <td>No</td>
+                    <td>Temperature (°C/°F), IQ scores, years/dates</td>
+                    <td>Addition, subtraction, mean, SD, correlations (Pearson)</td>
+                </tr>
+                <tr>
+                    <td><b>Ratio</b></td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                    <td>Height, weight, income, age, time, Kelvin temperature</td>
+                    <td>All statistical methods, multiplication, division, ratios</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="measures-of-central-tendency" label="Measures of Central Tendency">
+        ## Measures of Central Tendency: Finding the "Average"
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Measure</th>
+                    <th>Definition</th>
+                    <th>Formula</th>
+                    <th>Example</th>
+                    <th>Best Use Cases</th>
+                    <th>Sensitivity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Arithmetic Mean</b></td>
+                    <td>Sum of all values divided by the number of values</td>
+                    <td>$$\bar{x} = \frac{\sum x_i}{n}$$</td>
+                    <td>Sales: $$$$ → 110</td>
+                    <td>Symmetric data without extreme outliers</td>
+                    <td>Highly sensitive to outliers</td>
+                </tr>
+                <tr>
+                    <td><b>Weighted Mean</b></td>
+                    <td>Mean where each value has a weight representing importance/frequency</td>
+                    <td>$$\bar{x}_w = \frac{\sum (x_i \cdot w_i)}{\sum w_i}$$</td>
+                    <td>Grade = 89.5 (with homework, midterm, final weights)</td>
+                    <td>When values contribute unequally (e.g., grades, weighted averages)</td>
+                    <td>Sensitive if extreme values have high weights</td>
+                </tr>
+                <tr>
+                    <td><b>Geometric Mean</b></td>
+                    <td>n-th root of the product of values</td>
+                    <td>$$GM = (\prod x_i)^{1/n}$$</td>
+                    <td>Returns: $$[1.10,1.05,1.12]$$ → 9%</td>
+                    <td>Growth rates, ratios, percentages</td>
+                    <td>Sensitive to zeros/negative values; less affected by outliers</td>
+                </tr>
+                <tr>
+                    <td><b>Harmonic Mean</b></td>
+                    <td>Reciprocal of the arithmetic mean of reciprocals</td>
+                    <td>$$HM = \frac{n}{\sum \frac{1}{x_i}}$$</td>
+                    <td>Speeds: 60 & 40 mph → 48 mph</td>
+                    <td>Rates, speeds, efficiency ratios</td>
+                    <td>Sensitive to very small values</td>
+                </tr>
+                <tr>
+                    <td><b>Median</b></td>
+                    <td>Middle value after ordering data</td>
+                    <td>If odd $$n$$: $$(n+1)/2$$; if even $$n$$: mean of two middle values</td>
+                    <td>$$$$ → Median = 30</td>
+                    <td>Skewed data, outlier-heavy data, ordinal data</td>
+                    <td>Robust to outliers</td>
+                </tr>
+                <tr>
+                    <td><b>Mode</b></td>
+                    <td>Most frequent value(s) in dataset</td>
+                    <td>Count frequencies</td>
+                    <td>$$$$ → Mode = 4</td>
+                    <td>Nominal/categorical data, identifying most common class/value</td>
+                    <td>Not affected by extreme values</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Distribution Insights
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Measure</th>
+                    <th>Formula</th>
+                    <th>Sensitivity to Outliers</th>
+                    <th>Example Result (Dataset: )</th>
+                    <th>Interpretation</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Range</b></td>
+                    <td>$$ \text{Range} = \max(x) - \min(x) $$</td>
+                    <td>Highly sensitive</td>
+                    <td>$$10 - 6 = 4$$</td>
+                    <td>Quick measure of spread</td>
+                    <td>Good for rough checks but distorted by extreme values</td>
+                </tr>
+                <tr>
+                    <td><b>Interquartile Range</b></td>
+                    <td>$$ \text{IQR} = Q3 - Q1 $$</td>
+                    <td>Not sensitive</td>
+                    <td>From example set → $$ Q1=7, Q3=9, IQR=2 $$</td>
+                    <td>Describes spread of middle 50%</td>
+                    <td>Robust for skewed data and outlier detection</td>
+                </tr>
+                <tr>
+                    <td><b>Variance (Sample)</b></td>
+                    <td>$$ s^2 = \frac{\sum (x_i - \bar{x})^2}{n-1} $$</td>
+                    <td>Sensitive</td>
+                    <td>$$ s^2 = 2.5 $$</td>
+                    <td>Uses all data points; squared units limit interpretability</td>
+                    <td>Key in advanced statistics</td>
+                </tr>
+                <tr>
+                    <td><b>Variance (Population)</b></td>
+                    <td>$$ \sigma^2 = \frac{\sum (x_i - \mu)^2}{N} $$</td>
+                    <td>Sensitive</td>
+                    <td>Depends on full population</td>
+                    <td>Same as above but for entire population</td>
+                    <td>Exact measure of spread in total dataset</td>
+                </tr>
+                <tr>
+                    <td><b>Standard Deviation</b></td>
+                    <td>$$ s = \sqrt{s^2} $$, $$ \sigma = \sqrt{\sigma^2} $$</td>
+                    <td>Sensitive</td>
+                    <td>$$ \sqrt{2.5} \approx 1.58 $$</td>
+                    <td>Average deviation from mean in same units as data</td>
+                    <td>Most widely used spread measure</td>
+                </tr>
+                <tr>
+                    <td><b>Mean Absolute Deviation (MAD)</b></td>
+                    <td>$$ MAD = \frac{\sum |x_i - \bar{x}|}{n} $$</td>
+                    <td>Less sensitive</td>
+                    <td>$$1.2$$</td>
+                    <td>Average distance from mean without squaring</td>
+                    <td>Easier to interpret, less used in theory</td>
+                </tr>
+            </tbody>
+        </table>
+
+        - **Symmetric (Normal):** `Mean ≈ Median ≈ Mode`: All 3 measures are approximately equal.
+        - **Positively Skewed (Right):** `Mode < Median < Mean`: Mean is pulled right by high outliers.
+        - **Negatively Skewed (Left):** `Mean < Median < Mode`: Mean is pulled left by low outliers.
+      </TabItem>
+      <TabItem value="measures-of-dispersion" label="Measures of Dispersion">
+        ## Measures of Dispersion (Variability): Quantifying Data Spread
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Measure</th>
+                    <th>Formula</th>
+                    <th>Example</th>
+                    <th>Sensitivity to Outliers</th>
+                    <th>Advantages</th>
+                    <th>Limitations</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Range</b></td>
+                    <td>$$ \text{Range} = \text{Max} - \text{Min} $$</td>
+                    <td>$$ 10 - 6 = 4 $$</td>
+                    <td>Highly sensitive</td>
+                    <td>Very simple, quick estimate of spread</td>
+                    <td>Ignores distribution between extremes, distorted by outliers</td>
+                    <td>Quick checks (e.g., quality control)</td>
+                </tr>
+                <tr>
+                    <td><b>Interquartile Range (IQR)</b></td>
+                    <td>$$ IQR = Q3 - Q1 $$</td>
+                    <td>For [5,7,8,8,10,12,13,15,17,20], $$ Q1=8, Q3=15, IQR=7 $$</td>
+                    <td>Low sensitivity (robust)</td>
+                    <td>Focuses on middle 50%, robust against skew and outliers</td>
+                    <td>Ignores data outside middle 50%</td>
+                    <td>Outlier detection, box plots, skewed data</td>
+                </tr>
+                <tr>
+                    <td><b>Sample Variance</b></td>
+                    <td>Population: $$ \sigma^2 = \frac{\sum (x_i - \mu)^2}{N} $$ <br/> Sample: $$ s^2 = \frac{\sum (x_i - \bar{x})^2}{n-1} $$</td>
+                    <td>For [6,7,8,9,10], $$ s^2 = 2.5 $$</td>
+                    <td>Sensitive</td>
+                    <td>Uses all data, key for advanced statistics</td>
+                    <td>Units squared (harder to interpret)</td>
+                    <td>ANOVA, regression, PCA, machine learning</td>
+                </tr>
+                <tr>
+                    <td><b>Standard Deviation</b></td>
+                    <td>$$ \sigma = \sqrt{\sigma^2} $$, $$ s = \sqrt{s^2} $$</td>
+                    <td>For variance = 2.5, $$ s = 1.581 $$</td>
+                    <td>Sensitive</td>
+                    <td>Same units as data, widely interpretable, foundational in stats</td>
+                    <td>Still sensitive to outliers</td>
+                    <td>Z-scores, hypothesis testing, confidence intervals</td>
+                </tr>
+                <tr>
+                    <td><b>Mean Absolute Deviation (MAD)</b></td>
+                    <td>$$ MAD = \frac{\sum |x_i - \bar{x}|}{n} $$</td>
+                    <td>For [6,7,8,9,10], $$ MAD = 1.2 $$</td>
+                    <td>Less sensitive</td>
+                    <td>Easy to understand, less influenced by extremes</td>
+                    <td>Less mathematically flexible than variance/SD</td>
+                    <td>Forecasting errors, robust spread measure</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="measures-of-position" label="Measures of Position">
+        ## Measures of Position: Relative Standing
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                <th>Measure</th>
+                <th>Definition</th>
+                <th>Method</th>
+                <th>Example</th>
+                <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Percentiles</b></td>
+                    <td>Value below which a certain percentage of observations fall</td>
+                    <td>$$L = (P/100) \times N$$. If $$L$$ is whole, average of value at $$L$$ and $$L+1$$. If not, round up and take that value</td>
+                    <td>70th percentile of ordered scores: $$L=(70/100)\times10=7$$. Avg of 7th (85) & 8th (88) = 86.5</td>
+                    <td>Ranking, benchmarking, and segmenting datasets (e.g., identifying top 10% performers)</td>
+                </tr>
+                <tr>
+                    <td><b>Quartiles</b></td>
+                    <td>Divide data into four equal parts (Q1=25th, Q2=50th/median, Q3=75th)</td>
+                    <td>Same as percentile method, with P=25, 50, 75</td>
+                    <td>Scores: Q1=72, Q2=81, Q3=88</td>
+                    <td>Used in box plots, detect skewness, compute IQR ($$Q3-Q1$$) for spread and outlier detection</td>
+                </tr>
+                <tr>
+                    <td><b>Deciles</b></td>
+                    <td>Divide data into ten equal parts</td>
+                    <td>Same as percentile method, with P=10, 20, …, 90</td>
+                    <td>D5 = 50th percentile = Median = 81</td>
+                    <td>Provides more granular segmentation than quartiles, often used in income/wealth distribution analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Z-scores</b></td>
+                    <td>Standardized score showing how many SDs a value is from mean</td>
+                    <td>$$Z = \frac{x - \mu}{\sigma}$$ (population) or $$Z = \frac{x - \bar{x}}{s}$$ (sample)</td>
+                    <td>Score = 85, Mean=70, SD=10 → $$Z = (85-70)/10 = 1.5$$</td>
+                    <td>Standardizes across distributions, detects outliers ($$|Z|>2$$ or 3), enables probability-based comparisons</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Outlier Detection via Measures of Position
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Formula</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>IQR Method</b></td>
+                    <td>Outliers if values lie outside $$[Q1 - 1.5 \times IQR, \, Q3 + 1.5 \times IQR]$$</td>
+                    <td>Skewed datasets, box plot analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Z-score Method</b></td>
+                    <td>Outliers if $$|Z|>2$$ (or 3)</td>
+                    <td>Approximately normal distributions</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="data-distribution-and-shape" label="Data Distribution and Shape">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Definition</th>
+                    <th>Key Features</th>
+                    <th>What It Shows</th>
+                    <th>Relevance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Frequency Distributions</b></td>
+                    <td>A table or graph showing the frequency of outcomes in a sample</td>
+                    <td>Constructed with bins or categories, tally, relative and cumulative frequencies</td>
+                    <td>Pattern of data frequencies across values/intervals</td>
+                    <td>Foundation for histograms, highlights anomalies, aids data exploration</td>
+                </tr>
+                <tr>
+                    <td><b>Histogram</b></td>
+                    <td>Graphical representation of numerical data distribution</td>
+                    <td>Continuous bins on x-axis; frequencies/relative frequencies on y-axis; no gaps</td>
+                    <td>Shape, central tendency, spread, modes, outliers</td>
+                    <td>Tests normality assumption, assesses symmetry/skewness</td>
+                </tr>
+                <tr>
+                    <td><b>Box Plot</b></td>
+                    <td>Visual summary using five-number summary (min, Q1, median, Q3, max)</td>
+                    <td>Box (Q1 - Q3), median line, whiskers, outliers marked separately</td>
+                    <td>Median, spread (IQR), symmetry, skewness, outliers</td>
+                    <td>Useful for group comparison; robust to outliers</td>
+                </tr>
+                <tr>
+                    <td><b>Bar Chart</b></td>
+                    <td>Chart for categorical data showing frequencies or proportions</td>
+                    <td>Categories on x-axis; separated bars (gaps between categories)</td>
+                    <td>Prevalence/popularity of categories</td>
+                    <td>Ideal for qualitative data distributions</td>
+                </tr>
+                <tr>
+                    <td><b>Pie Chart</b></td>
+                    <td>Circular graphic with slices proportional to categories</td>
+                    <td>Arc length/area represents share</td>
+                    <td>Proportion of categories relative to whole</td>
+                    <td>Good for simple proportions (e.g., market share); weaker for precise comparisons</td>
+                </tr>
+                <tr>
+                    <td><b>Scatter Plot</b></td>
+                    <td>Graph of two variables as points on Cartesian plane</td>
+                    <td>Each point shows one observation</td>
+                    <td>Correlation, relationships, clusters, outliers</td>
+                    <td>Basis for regression, critical for bivariate analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Skewness</b></td>
+                    <td>Measure of asymmetry in distribution</td>
+                    <td>Positive: right tail longer; Negative: left tail longer; Zero: symmetric</td>
+                    <td>Highlights direction and degree of skew</td>
+                    <td>Informs model assumptions, guides use of mean/median, reveals data limits</td>
+                </tr>
+                <tr>
+                    <td><b>Kurtosis</b></td>
+                    <td>Measure of tail heaviness and peakedness</td>
+                    <td>Mesokurtic: normal; Leptokurtic: sharp peak, heavy tails; Platykurtic: flat, light tails</td>
+                    <td>Probability of extreme values in distribution</td>
+                    <td>Critical in risk assessment, model assumptions, influence of outliers</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="correlation" label="Correlation">
+        ## Correlation: Measuring Relationships Between Variables
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Measure</th>
+                    <th>Definition</th>
+                    <th>Formula</th>
+                    <th>Range</th>
+                    <th>Interpretation</th>
+                    <th>Limitations</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Covariance</b></td>
+                    <td>Measures how two variables change together (direction of relationship)</td>
+                    <td>Population: $$\sigma_{xy} = \frac{\sum (x_i - \mu_x)(y_i - \mu_y)}{N}$$<br/>Sample: $$s_{xy} = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{n-1}$$</td>
+                    <td>$$-\infty$$ to $$+\infty$$</td>
+                    <td>Positive → variables increase/decrease together.<br/>Negative → one increases while other decreases.<br/>Zero → no linear relationship</td>
+                    <td>Scale-dependent, magnitude not directly interpretable</td>
+                    <td>Good first step to check direction of relationship</td>
+                </tr>
+                <tr>
+                    <td><b>Pearson Correlation (r)</b></td>
+                    <td>Normalized measure of strength & direction of <em>linear</em> relationship between quantitative variables</td>
+                    <td>Population: $$\rho = \frac{\sigma_{xy}}{\sigma_x \sigma_y}$$<br/>Sample: $$r = \frac{s_{xy}}{s_x s_y}$$</td>
+                    <td>$$[-1, +1]$$</td>
+                    <td>+1 = perfect positive linear, -1 = perfect negative linear, 0 = no linear correlation. Strength guidelines: weak (±0.1-0.3), moderate (±0.3-0.7), strong (±0.7-1)</td>
+                    <td>Sensitive to outliers, only captures linear relationships</td>
+                    <td>Requires quantitative variables, linearity, no extreme outliers, homoscedasticity. Common in EDA, regression, feature selection</td>
+                </tr>
+                <tr>
+                    <td><b>Spearman's Rank Correlation ($$\rho$$ or $$r_s$$)</b></td>
+                    <td>Non-parametric measure of strength & direction of <em>monotonic</em> (possibly non-linear) relationship. Uses ranks instead of raw data</td>
+                    <td>$$\rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}$$ where $$d_i$$ = rank differences</td>
+                    <td>$$[-1, +1]$$</td>
+                    <td>+1 = perfect positive monotonic, -1 = perfect negative monotonic, 0 = no monotonic relationship</td>
+                    <td>Does not measure strength of linear relationship, only ranked/monotonic consistency</td>
+                    <td>Works with ordinal data, monotonic but non-linear relationships, non-normal data; less sensitive to outliers</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+    </Tabs>
+
+  </TabItem>
+  <TabItem value="probability" label="Probability">
+    <Tabs queryString="secondary">
+      <TabItem value="basic-concepts" label="Basic Concepts" attributes={{ className: "tabs__vertical" }}>
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Definition</th>
+                    <th>Characteristics/Rules</th>
+                    <th>Examples</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Experiment</b></td>
+                    <td>A process producing uncertain but well-defined outcomes</td>
+                    <td>Outcomes known in advance, actual outcome uncertain, repeatable</td>
+                    <td>Flipping a coin, rolling a die, drawing a card, clicking an ad</td>
+                    <td>Defines the starting point of probability analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Outcome</b></td>
+                    <td>A single possible result of an experiment</td>
+                    <td>Represents one element from the sample space</td>
+                    <td>Heads, Tails, rolling a "3", Ace of Spades</td>
+                    <td>Used to build sample spaces</td>
+                </tr>
+                <tr>
+                    <td><b>Sample Space (S)</b></td>
+                    <td>The set of all possible outcomes of an experiment</td>
+                    <td>Finite (discrete) or infinite/continuous</td>
+                    <td>$$ S=\{H,T\} $$ for a coin</td>
+                    <td>Framework for defining events</td>
+                </tr>
+                <tr>
+                    <td><b>Event (E)</b></td>
+                    <td>A subset of the sample space</td>
+                    <td>Can contain one or multiple outcomes</td>
+                    <td>"Even die roll" = \{2,4,6\}; "at least one Head" = \{HH,HT,TH\}</td>
+                    <td>Basis for probability calculations</td>
+                </tr>
+                <tr>
+                    <td><b>Probability of an Event</b></td>
+                    <td>Numerical measure of likelihood (0 to 1)</td>
+                    <td>$$ P(E)=0 $$ impossible, $$ P(E)=1 $$ certain</td>
+                    <td>Probability of rolling 3 on die = 1/6</td>
+                    <td>Quantifies uncertainty</td>
+                </tr>
+                <tr>
+                    <td><b>Classical Probability</b></td>
+                    <td>A priori assumption of equal likelihood</td>
+                    <td>$$ P(E) = \frac{\text{favorable outcomes}}{\text{total outcomes}} $$</td>
+                    <td>Rolling a 3 on a fair die = 1/6</td>
+                    <td>Used in games of chance, theoretical problems</td>
+                </tr>
+                <tr>
+                    <td><b>Empirical Probability</b></td>
+                    <td>Based on observed data/frequency</td>
+                    <td>$$ P(E) = \frac{\text{observed occurrences of E}}{\text{total trials}} $$</td>
+                    <td>Ad clicks: 150/1000 = 0.15</td>
+                    <td>Foundation of data-driven analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Subjective Probability</b></td>
+                    <td>Based on judgment or intuition</td>
+                    <td>Not derived from calculation</td>
+                    <td>Analyst predicts 70% chance of product success</td>
+                    <td>Used in business decisions with scarce data</td>
+                </tr>
+                <tr>
+                    <td><b>Complementary Events</b></td>
+                    <td>Opposite of an event ($$E'$$)</td>
+                    <td>Rule: $$ P(E') = 1 - P(E) $$</td>
+                    <td>Click rate 0.15 → No Click 0.85</td>
+                    <td>Helps compute probabilities indirectly</td>
+                </tr>
+                <tr>
+                    <td><b>Mutually Exclusive Events</b></td>
+                    <td>Events that cannot occur together</td>
+                    <td>Rule: $$ P(A \cup B) = P(A) + P(B) $$</td>
+                    <td>Even vs odd die roll outcomes</td>
+                    <td>Useful in disjoint scenarios</td>
+                </tr>
+                <tr>
+                    <td><b>Non-Mutually Exclusive Events</b></td>
+                    <td>Events that can overlap</td>
+                    <td>Rule: $$ P(A \cup B) = P(A) + P(B) - P(A \cap B) $$</td>
+                    <td>Rolling even OR >4 → 2/3</td>
+                    <td>Key in overlapping categories or risks</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="conditional-probability" label="Conditional Probability">
+        <table class="probability-concepts">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Formula</th>
+                    <th>Example</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Conditional Probability</b></td>
+                    <td>Probability of event A given event B: $$P(A|B) = \frac{P(A \cap B)}{P(B)}$$</td>
+                    <td>From a 52-card deck: Given the card is a Face Card, probability it's a King = 1/3</td>
+                    <td>Used in click-through rates, churn prediction, and medical diagnosis</td>
+                </tr>
+                <tr>
+                    <td><b>Independent Events</b></td>
+                    <td>One event does not affect the other. $$P(A|B) = P(A),\; P(A \cap B) = P(A) \cdot P(B)$$</td>
+                    <td>Two coin flips: probability of heads on first and second flip = $$0.5 \cdot 0.5 = 0.25$$</td>
+                    <td>Simplifies modeling; many tests assume independence</td>
+                </tr>
+                <tr>
+                    <td><b>Dependent Events</b></td>
+                    <td>One event affects the probability of the other. $$P(A \cap B) = P(A) \cdot P(B|A)$$</td>
+                    <td>Drawing two Kings in a row without replacement: $$\frac{4}{52} \cdot \frac{3}{51} ≈ 0.0045$$</td>
+                    <td>Critical for sequential data, customer behavior, anomaly chains</td>
+                </tr>
+                <tr>
+                    <td><b>Bayes' Theorem</b></td>
+                    <td>Updates probability of A given evidence B: $$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$</td>
+                    <td>Medical test: 1% prevalence, 95% true positive, 10% false positive. $$P(D|T) ≈ 8.75\%$$</td>
+                    <td>Core for A/B testing, spam filtering, fraud detection, Naive Bayes models</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="random-variables" label="Random Variables">
+        <table className="text_vertical">
+            <thead>
+            <tr>
+                <th>Concept</th>
+                <th>Definition</th>
+                <th>Properties</th>
+                <th>Examples</th>
+                <th>Use Cases</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><b>Random Variable</b></td>
+                <td>A function mapping outcomes of a random experiment to real numbers</td>
+                <td>Represents the numerical result of an unpredictable event</td>
+                <td>Number of heads in flips, height of a person, number of customers in a store</td>
+                <td>Forms foundation of modeling uncertainty and statistical inference</td>
+            </tr>
+            <tr>
+                <td><b>Discrete Random Variable</b></td>
+                <td>Takes on finite or countably infinite distinct values (often integers)</td>
+                <td>Possible outcomes are countable</td>
+                <td>Coin flips, number of defective items, die roll, customer arrivals</td>
+                <td>Modeled with <b>discrete distributions</b> (e.g., Binomial, Poisson)</td>
+            </tr>
+            <tr>
+                <td><b>Continuous Random Variable</b></td>
+                <td>Takes on values from any interval within the real line</td>
+                <td>Outcomes come from measurement, uncountably infinite</td>
+                <td>Height, weight, time to complete a task, daily sales revenue</td>
+                <td>Modeled with <b>continuous distributions</b> (e.g., Normal, Exponential)</td>
+            </tr>
+            <tr>
+                <td><b>Probability Distribution</b></td>
+                <td>Describes how probabilities are assigned over possible values</td>
+                <td>Defines likelihood structure of a random variable</td>
+                <td>PMF for discrete, PDF for continuous, CDF for both</td>
+                <td>Core tool to compute likelihood, support inference, and fit models</td>
+            </tr>
+            <tr>
+                <td><b>PMF (Probability Mass Function)</b></td>
+                <td>Assigns a probability to each possible value of a discrete random variable</td>
+                <td>
+                    <ul>
+                        <li>$$0 \leq P(X=x) \leq 1$$</li>
+                        <li>$$\sum P(X=x)=1$$</li>
+                    </ul>
+                </td>
+                <td>Number of heads in two coin flips: PMF = $$\{P(0)=1/4, P(1)=1/2, P(2)=1/4\}$$</td>
+                <td>Essential for modeling counts and categorical outcomes</td>
+            </tr>
+            <tr>
+                <td><b>PDF (Probability Density Function)</b></td>
+                <td>Describes density for continuous random variables; probability is area under curve</td>
+                <td>
+                    <ul>
+                        <li>$$f(x) \geq 0$$</li>
+                        <li>$$\int_{-\infty}^{\infty} f(x) dx = 1$$</li>
+                    </ul>
+                </td>
+                <td>Heights modeled by Normal distribution</td>
+                <td>Basis for calculating probabilities of ranges in continuous data</td>
+            </tr>
+            <tr>
+                <td><b>CDF (Cumulative Distribution Function)</b></td>
+                <td>Gives probability that $$X \leq x$$. Works for both discrete and continuous variables</td>
+                <td>
+                    <ul>
+                        <li>$$F(x) = P(X \leq x)$$</li>
+                        <li>Non-decreasing</li>
+                        <li>Limits: $$F(-\infty)=0, F(\infty)=1$$</li>
+                    </ul>
+                </td>
+                <td>Coin flip example: $$F(0)=1/4, F(1)=3/4, F(2)=1$$</td>
+                <td>Used for quantiles, percentiles, range probabilities, and model fitting</td>
+            </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="probability-distributions" label="Probability Distributions">
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Distribution</th>
+                    <th>Parameters</th>
+                    <th>PMF/PDF</th>
+                    <th>Mean</th>
+                    <th>Variance</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowSpan="4"><b>Discrete</b></td>
+                    <td><b>Bernoulli</b></td>
+                    <td>$$p$$</td>
+                    <td>$$P(X=k) = p^k (1-p)^{1-k}, \, k \in \{0,1\}$$</td>
+                    <td>$$p$$</td>
+                    <td>$$p(1-p)$$</td>
+                    <td>Binary outcomes, click/no-click, churn models</td>
+                </tr>
+                <tr>
+                    <td><b>Binomial</b></td>
+                    <td>$$n, p$$</td>
+                    <td>$$P(X=k)=\binom{n}{k}p^k(1-p)^{n-k}$$</td>
+                    <td>$$np$$</td>
+                    <td>$$np(1-p)$$</td>
+                    <td>A/B testing, quality control, survey responses</td>
+                </tr>
+                <tr>
+                    <td><b>Poisson</b></td>
+                    <td>$$\lambda$$</td>
+                    <td>$$P(X=k)=\frac{e^{-\lambda}\lambda^k}{k!}$$</td>
+                    <td>$$\lambda$$</td>
+                    <td>$$\lambda$$</td>
+                    <td>Rare events, call arrivals, web traffic, defects count</td>
+                </tr>
+                <tr>
+                    <td><b>Geometric</b></td>
+                    <td>$$p$$</td>
+                    <td>$$P(X=k)=(1-p)^{k-1}p, \, k \geq 1$$</td>
+                    <td>$$1/p$$</td>
+                    <td>$$(1-p)/p^2$$</td>
+                    <td>Reliability, marketing conversion attempts, first defect detection</td>
+                </tr>
+                <tr>
+                    <td rowSpan="7"><b>Continuous</b></td>
+                    <td><b>Uniform</b></td>
+                    <td>$$a, b$$</td>
+                    <td>$$f(x)=\frac{1}{b-a}, \, a \leq x \leq b$$</td>
+                    <td>$$(a+b)/2$$</td>
+                    <td>$$(b-a)^2/12$$</td>
+                    <td>Random number generation, baseline models</td>
+                </tr>
+                <tr>
+                    <td><b>Normal</b></td>
+                    <td>$$\mu, \sigma$$</td>
+                    <td>$$f(x)=\frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}$$</td>
+                    <td>$$\mu$$</td>
+                    <td>$$\sigma^2$$</td>
+                    <td>Natural phenomena, CLT, parametric statistical tests, ML</td>
+                </tr>
+                <tr>
+                    <td><b>Standard Normal</b></td>
+                    <td>$$\mu=0,\sigma=1$$</td>
+                    <td>$$f(z)=\frac{1}{\sqrt{2\pi}} e^{-z^2/2}$$</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>Z-scores, standardization, hypothesis testing</td>
+                </tr>
+                <tr>
+                    <td><b>Exponential</b></td>
+                    <td>$$\lambda$$</td>
+                    <td>$$f(x)=\lambda e^{-\lambda x}, \, x \geq 0$$</td>
+                    <td>$$1/\lambda$$</td>
+                    <td>$$1/\lambda^2$$</td>
+                    <td>Reliability engineering, waiting times, customer lifetime</td>
+                </tr>
+                <tr>
+                    <td><b>Chi-squared</b></td>
+                    <td>$$k$$ (df)</td>
+                    <td>Sum of squares of $$k$$ standard normals</td>
+                    <td>$$k$$</td>
+                    <td>$$2k$$</td>
+                    <td>Goodness-of-fit, independence tests, variance CI</td>
+                </tr>
+                <tr>
+                    <td><b>t-distribution</b></td>
+                    <td>$$\nu$$ (df)</td>
+                    <td>Symmetric, bell-shaped, heavier tails</td>
+                    <td>0</td>
+                    <td>$$\nu/(\nu-2), \, \nu > 2$$</td>
+                    <td>t-tests, CI for mean, small samples</td>
+                </tr>
+                <tr>
+                    <td><b>F-distribution</b></td>
+                    <td>$$d_1, d_2$$</td>
+                    <td>Ratio of scaled chi-squared variates</td>
+                    <td>$$\frac{d_2}{d_2-2}, d_2>2$$</td>
+                    <td>Varies</td>
+                    <td>ANOVA, regression model significance, variance comparison</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="variance-of-random-variables" label="Variance of Random Variables">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Expected Value ($$E[X]$$)</th>
+                    <th>Variance ($$Var[X]$$)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>The theoretical average (mean) of a random variable; a measure of central tendency</td>
+                    <td>The average squared deviation from the mean; a measure of spread or variability</td>
+                </tr>
+                <tr>
+                    <td><b>Notation</b></td>
+                    <td>$$E[X]$$ or $$\mu$$</td>
+                    <td>$$Var[X]$$ or $$\sigma^2$$</td>
+                </tr>
+                <tr>
+                    <td><b>Discrete Formula</b></td>
+                    <td>$$E[X] = \sum_{i=1}^{k} x_i P(X=x_i)$$</td>
+                    <td>$$Var[X] = \sum_{i=1}^{k} (x_i - \mu)^2 P(X=x_i)$$ or $$Var[X] = E[X^2] - (E[X])^2$$</td>
+                </tr>
+                <tr>
+                    <td><b>Continuous Formula</b></td>
+                    <td>$$E[X] = \int_{-\infty}^{\infty} x f(x) dx$$</td>
+                    <td>$$Var[X] = \int_{-\infty}^{\infty} (x - \mu)^2 f(x) dx$$ or $$Var[X] = E[X^2] - (E[X])^2$$</td>
+                </tr>
+                <tr>
+                    <td><b>Units</b></td>
+                    <td>Same as the random variable $$X$$</td>
+                    <td>Squared units of $$X$$. Standard deviation ($$\sigma = \sqrt{Var[X]}$$) restores original units</td>
+                </tr>
+                <tr>
+                    <td><b>Properties</b></td>
+                    <td>
+                        <ul>
+                            <li>Linearity: $$E[aX+bY+c] = aE[X] + bE[Y] + c$$</li>
+                            <li>Expected value of constant: $$E[c] = c$$</li>
+                            <li>Not necessarily a possible outcome</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Always non-negative</li>
+                            <li>Scaling: $$Var[cX] = c^2 Var[X]$$</li>
+                            <li>Translation: $$Var[X+c] = Var[X]$$</li>
+                            <li>For independent RVs: $$Var[X+Y] = Var[X] + Var[Y]$$</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Interpretation</b></td>
+                    <td>Long-run average or "center" of the distribution</td>
+                    <td>Degree of dispersion around the mean; how "spread out" values are</td>
+                </tr>
+                <tr>
+                    <td><b>Examples</b></td>
+                    <td>
+                        <ul>
+                            <li>Discrete: Average number of customer complaints = 0.95</li>
+                            <li>Continuous: Exponential RV with rate $$\lambda = 0.5$$ has $$E[X] = 2$$</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Discrete: Variance of complaints = 0.7475</li>
+                            <li>Continuous: Exponential RV with rate $$\lambda = 0.5$$ has $$Var[X] = 4$$</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Use Cases</b></td>
+                    <td>Decision making, expected returns, risk assessment, fairness in probability games, model evaluation</td>
+                    <td>Risk measurement, quality control, hypothesis testing, error analysis (MSE), variability comparison between processes</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="central-limit-theorem" label="Central Limit Theorem">
+        <table>
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Summary</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>States that the sampling distribution of the sample mean (or sum) of a large number of independent, identically distributed random variables approaches a normal distribution, regardless of the original population distribution</td>
+                </tr>
+                <tr>
+                    <td><b>Conditions</b></td>
+                    <td>
+                        <ul>
+                            <li>Sufficiently large sample size (rule of thumb: $$n \geq 30$$)</li>
+                            <li>Independent observations</li>
+                            <li>Identically distributed data</li>
+                            <li>Population with finite variance</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Key Properties</b></td>
+                    <td>
+                        <ul>
+                            <li>Sampling distribution of mean is approximately normal</li>
+                            <li>Mean of sample means equals population mean ($$\mu_{\bar{X}} = \mu$$)</li>
+                            <li>Standard error of mean: $$\sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}}$$</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Importance</b></td>
+                    <td>
+                        <ul>
+                            <li>Justifies use of normality-based statistical methods (t-tests, ANOVA, regression)</li>
+                            <li>Allows estimation of population means</li>
+                            <li>Foundation for confidence intervals and hypothesis testing</li>
+                            <li>Explains naturally occurring normal distributions in phenomena</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Applications</b></td>
+                    <td>
+                        <ul>
+                            <li>Constructing confidence intervals: $$\bar{X} \pm Z^* \left(\frac{\sigma}{\sqrt{n}}\right)$$</li>
+                            <li>Hypothesis testing with Z/t statistics</li>
+                            <li>Quality control and process monitoring</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Examples</b></td>
+                    <td>
+                        <ul>
+                            <li>Estimating average transaction value from a sample of 100 transactions</li>
+                            <li>Testing if new product ratings differ from historical average of 4.0</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Limitations</b></td>
+                    <td>
+                        <ul>
+                            <li>Requires sufficiently large sample sizes, especially for skewed populations</li>
+                            <li>Does not apply if data are dependent or from distributions with infinite variance (e.g., Cauchy)</li>
+                            <li>Applies mainly to means/sums, not all statistics</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Conceptual Visualization</b></td>
+                    <td>
+                        <ul>
+                            <li>Rolling dice: distribution of averages becomes increasingly normal as $$n$$ increases</li>
+                            <li>$$n=1$$: uniform distribution</li>
+                            <li>$$n=2$$: beginning of bell-shape</li>
+                            <li>$$n=30$$: strong normal curve around population mean (3.5)</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+    </Tabs>
+
+  </TabItem>
+  <TabItem value="inferential_statistics" label="Inferential Statistics">
+    <Tabs queryString="secondary">
+      <TabItem value="sampling-and-estimation" label="Sampling and Estimation" attributes={{ className: "tabs__vertical" }}>
+        ## Population vs Sample
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Description</th>
+                    <th>Pros</th>
+                    <th>Cons</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Population</b></td>
+                    <td>Entire group of interest (all individuals/objects)</td>
+                    <td>Complete source of truth</td>
+                    <td>Usually too large/infinite to study fully</td>
+                    <td>All voters in a country</td>
+                </tr>
+                <tr>
+                    <td><b>Sample</b></td>
+                    <td>Subset of population chosen for study</td>
+                    <td>Practical, manageable, enables inference</td>
+                    <td>May mislead if non-representative</td>
+                    <td>1,000 voters surveyed</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Probability Sampling
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                    <th>Pros</th>
+                    <th>Cons</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Simple Random Sampling (SRS)</b></td>
+                    <td>Every individual has equal chance of selection</td>
+                    <td>Easy, unbiased</td>
+                    <td>Impractical for large groups; may miss subgroups</td>
+                    <td>Randomly choosing 100 IDs</td>
+                </tr>
+                <tr>
+                    <td><b>Stratified Sampling</b></td>
+                    <td>Population divided into homogeneous subgroups (strata); random sampling within each</td>
+                    <td>Ensures subgroup representation; more precise</td>
+                    <td>Requires population info; complex</td>
+                    <td>Sampling students by grade level</td>
+                </tr>
+                <tr>
+                    <td><b>Systematic Sampling</b></td>
+                    <td>Select every k-th element after random start</td>
+                    <td>Simple, efficient</td>
+                    <td>Bias risk if population has patterns</td>
+                    <td>Every 10th store customer</td>
+                </tr>
+                <tr>
+                    <td><b>Cluster Sampling</b></td>
+                    <td>Divide into clusters, randomly select clusters, then sample all in them</td>
+                    <td>Cost-effective; useful for dispersed groups</td>
+                    <td>Higher error if clusters heterogeneous</td>
+                    <td>Survey all students in 10 selected schools</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Non-Probability Sampling
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                    <th>Pros</th>
+                    <th>Cons</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Convenience Sampling</td>
+                    <td>Use easily accessible participants</td>
+                    <td>Fast, cheap</td>
+                    <td>Strong bias risk, not representative</td>
+                    <td>Surveying people in one street</td>
+                </tr>
+                <tr>
+                    <td>Purposive Sampling</td>
+                    <td>Researcher selects based on judgment/criteria</td>
+                    <td>Good for niche cases or experts</td>
+                    <td>Bias-prone, not generalizable</td>
+                    <td>Interviewing only industry experts</td>
+                </tr>
+                <tr>
+                    <td>Quota Sampling</td>
+                    <td>Fill quotas for subgroups without randomization</td>
+                    <td>Ensures subgroup presence</td>
+                    <td>Still biased; no random selection</td>
+                    <td>50 men, 50 women chosen by interviewer</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Sampling Distribution & Estimation
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Description</th>
+                    <th>Key Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Sampling Distribution</td>
+                    <td>Distribution of a statistic across all possible samples</td>
+                    <td>Central Limit Theorem ensures approximate normality for large n. Standard Error measures precision</td>
+                </tr>
+                <tr>
+                    <td>Point Estimate</td>
+                    <td>Single sample statistic used to estimate population parameter</td>
+                    <td>Simple, quick, but no reliability measure</td>
+                </tr>
+                <tr>
+                    <td>Interval Estimate (Confidence Intervals)</td>
+                    <td>Range around point estimate with confidence level</td>
+                    <td>Captures uncertainty, widely used in decision-making. Not probability for one sample - reflects long-run accuracy</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="hypothesis-testing" label="Hypothesis Testing">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Definition</th>
+                    <th>Key Characteristics</th>
+                    <th>Examples</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Null Hypothesis ($$H_0$$)</b></td>
+                    <td>Statement of no effect, no difference, or existing status quo. Always involves equality ($$=, \le, \ge$$)</td>
+                    <td>Assumed true until evidence suggests otherwise; refers to population parameter; target of skepticism</td>
+                    <td>$$H_0: \mu = 50$$; $$H_0: p \le 0.20$$; $$H_0: \mu_1 = \mu_2$$</td>
+                </tr>
+                <tr>
+                    <td><b>Alternative Hypothesis ($$H_1$$ or $$H_a$$)</b></td>
+                    <td>Statement conflicting with $$H_0$$; represents effect/researcher's claim. Uses $$\neq, <, >$$</td>
+                    <td>What we conclude if evidence is sufficient; also refers to population parameter; usually the hypothesis we want to support</td>
+                    <td>$$H_1: \mu \neq 50$$ (two-tailed); $$H_1: p > 0.20$$ (right-tailed); $$H_1: \mu_1 < \mu_2$$ (left-tailed)</td>
+                </tr>
+                <tr>
+                    <td><b>Type I Error ($$\alpha$$)</b></td>
+                    <td>Rejecting $$H_0$$ when $$H_0$$ is true (false positive)</td>
+                    <td>Probability = $$\alpha$$; controlled via significance level</td>
+                    <td>Convicting an innocent person; concluding a campaign increased conversions when it did not</td>
+                </tr>
+                <tr>
+                    <td><b>Type II Error ($$\beta$$)</b></td>
+                    <td>Failing to reject $$H_0$$ when $$H_0$$ is false (false negative)</td>
+                    <td>Probability = $$\beta$$; occurs when test lacks sensitivity</td>
+                    <td>Letting a guilty person go free; missing that a campaign actually increased conversions</td>
+                </tr>
+                <tr>
+                    <td><b>Significance Level ($$\alpha$$)</b></td>
+                    <td>Maximum acceptable probability of Type I error set before test</td>
+                    <td>Common levels: 0.05, 0.01, 0.10; smaller $$\alpha$$ reduces false positives but increases false negatives</td>
+                    <td>If $$P \le \alpha$$, reject $$H_0$$</td>
+                </tr>
+                <tr>
+                    <td><b>P-value</b></td>
+                    <td>Probability of observing data as extreme or more extreme given $$H_0$$ is true</td>
+                    <td>Small $$P \le \alpha$$: reject $$H_0$$; Large $$P > \alpha$$: fail to reject $$H_0$$. Not the probability that $$H_0$$ is true</td>
+                    <td>Example: $$P = 0.03 \le 0.05$$ → reject $$H_0$$</td>
+                </tr>
+                <tr>
+                    <td><b>Power ($$1 - \beta$$)</b></td>
+                    <td>Probability of correctly rejecting a false $$H_0$$</td>
+                    <td>Desired ≥ 80%; increases with sample size, higher $$\alpha$$, larger effect size, lower variability</td>
+                    <td>Ensures study design is sensitive enough to detect meaningful effects; linked to resource planning</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="common-tests" label="Common Tests">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                <th>Test</th>
+                <th>Purpose</th>
+                <th>When to Use</th>
+                <th>Assumptions</th>
+                <th>Use Case</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Z-test</b></td>
+                    <td>Compares a sample mean to a population mean, or two sample means, when σ is known</td>
+                    <td>Population standard deviation known; large n ≥ 30</td>
+                    <td>Data is interval level; normal distribution (or CLT applies)</td>
+                    <td>Test if average delivery time differs from 30 minutes when σ is known</td>
+                </tr>
+                <tr>
+                    <td><b>t-test (One-sample)</b></td>
+                    <td>Compares sample mean to a hypothesized population mean when σ is unknown</td>
+                    <td>σ unknown; small to moderate sample size</td>
+                    <td>Approx. normal distribution; independent observations</td>
+                    <td>Check if average product weight differs from 100g</td>
+                </tr>
+                <tr>
+                    <td><b>t-test (Independent samples)</b></td>
+                    <td>Compares means of two independent groups</td>
+                    <td>σ unknown; two independent groups</td>
+                    <td>Normality; independence; equal variances (if using pooled)</td>
+                    <td>Compare sales from two ad campaigns</td>
+                </tr>
+                <tr>
+                    <td><b>t-test (Paired samples)</b></td>
+                    <td>Compares means of two related groups (before - after, matched)</td>
+                    <td>σ unknown; paired observations</td>
+                    <td>Differences approx. normally distributed</td>
+                    <td>Compare satisfaction before and after service improvement</td>
+                </tr>
+                <tr>
+                    <td><b>ANOVA (One-way)</b></td>
+                    <td>Tests if 3+ group means differ significantly (one factor)</td>
+                    <td>Comparing ≥3 group means</td>
+                    <td>Independence; normality; equal variances</td>
+                    <td>Test if spending differs across customer segments</td>
+                </tr>
+                <tr>
+                    <td><b>ANOVA (Two-way)</b></td>
+                    <td>Tests effect of two categorical factors on a quantitative outcome (plus interaction)</td>
+                    <td>Two factors, multiple groups</td>
+                    <td>Same as above</td>
+                    <td>Compare sales across marketing channels and regions</td>
+                </tr>
+                <tr>
+                    <td><b>Chi-squared Goodness-of-Fit</b></td>
+                    <td>Tests if observed categorical distribution matches expected</td>
+                    <td>Categorical count data; expected distribution known</td>
+                    <td>Expected counts ≥5 per cell (approx.); independence</td>
+                    <td>Test if website traffic matches equal distribution across pages</td>
+                </tr>
+                <tr>
+                    <td><b>Chi-squared Test of Independence</b></td>
+                    <td>Tests association between two categorical variables</td>
+                    <td>Contingency tables for two categorical variables</td>
+                    <td>Large enough expected counts; independence</td>
+                    <td>Test if gender and product preference are associated</td>
+                </tr>
+                <tr>
+                    <td><b>Mann-Whitney U (Non-parametric)</b></td>
+                    <td>Alternative to independent t-test (ranks)</td>
+                    <td>Two independent samples; non-normal or ordinal data</td>
+                    <td>Independence; ordinal/continuous ranked</td>
+                    <td>Compare two groups with skewed data</td>
+                </tr>
+                <tr>
+                    <td><b>Wilcoxon Signed-Rank (Non-parametric)</b></td>
+                    <td>Alternative to paired t-test (ranks differences)</td>
+                    <td>Paired sample, non-normal</td>
+                    <td>Symmetry of differences (less strict than normality)</td>
+                    <td>Before - after ratings with skewed scores</td>
+                </tr>
+                <tr>
+                    <td><b>Kruskal-Wallis (Non-parametric)</b></td>
+                    <td>Alternative to one-way ANOVA (ranks)</td>
+                    <td>3+ independent groups; non-normal</td>
+                    <td>Independence; ordinal/continuous ranked</td>
+                    <td>Compare ranks of satisfaction across multiple regions</td>
+                </tr>
+                <tr>
+                    <td><b>Spearman's Rank Correlation</b></td>
+                    <td>Measures monotonic relationship between variables (non-parametric)</td>
+                    <td>Ranked or ordinal data; non-linear monotonic</td>
+                    <td>Independence; ordinal/continuous</td>
+                    <td>Correlation between income rank and lifestyle scores</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="confidence-intervals" label="Confidence Intervals">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Description</th>
+                    <th>Formula</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>A range of values likely to contain the true population parameter, providing a measure of estimate reliability</td>
+                    <td>"We are 95% confident that the true mean is between L and U."</td>
+                </tr>
+                <tr>
+                    <td><b>Purpose</b></td>
+                    <td>Quantify the uncertainty around point estimates and provide plausible ranges for population parameters</td>
+                    <td>A point estimate: $$\bar{x}$$. CI: $$\bar{x} \pm \text{Margin of Error}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Point Estimate</b></td>
+                    <td>Best guess from sample statistic (mean $$\bar{x}$$ or proportion $$\hat{p}$$). Forms the center of interval</td>
+                    <td>If $$\bar{x} = 150$$, CI centers around 150</td>
+                </tr>
+                <tr>
+                    <td><b>Margin of Error</b></td>
+                    <td>Accounts for sampling variability</td>
+                    <td>Formula: $$ \text{MOE} = \text{Critical Value} \times \text{Standard Error} $$</td>
+                </tr>
+                <tr>
+                    <td><b>Critical Value</b></td>
+                    <td>From a distribution (Z or t) based on confidence level. Determines width of interval</td>
+                    <td>95% confidence → $$Z^* = 1.96$$</td>
+                </tr>
+                <tr>
+                    <td><b>Standard Error</b></td>
+                    <td>Measures variability of sample statistic</td>
+                    <td>Mean: $$SE_{\bar{x}} = \sigma/\sqrt{n}$$. Proportion: $$SE_{\hat{p}} = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Confidence Level</b></td>
+                    <td>Probability that CI method captures the true parameter (e.g., 90%, 95%, 99%)</td>
+                    <td>95% CI does <b>not</b> mean 95% chance the parameter is inside this specific interval</td>
+                </tr>
+                <tr>
+                    <td><b>Formula (General)</b></td>
+                    <td>$$ \text{Point Estimate} \pm (\text{Critical Value} \times \text{Standard Error}) $$</td>
+                    <td>Applies to means and proportions</td>
+                </tr>
+                <tr>
+                    <td><b>Mean (σ known)</b></td>
+                    <td>Large $$n$$ or known σ → Z distribution</td>
+                    <td>$$\bar{x} \pm Z^* \frac{\sigma}{\sqrt{n}}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Mean (σ unknown)</b></td>
+                    <td>Small $$n$$, unknown σ → t distribution with $$df=n-1$$</td>
+                    <td>$$\bar{x} \pm t^* \frac{s}{\sqrt{n}}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Proportion (p)</b></td>
+                    <td>Uses Z distribution</td>
+                    <td>$$\hat{p} \pm Z^* \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Relationship to Hypothesis Testing</b></td>
+                    <td>If null value not in CI → reject null; if it is → fail to reject</td>
+                    <td>Null $$H_0: \mu=9$$. CI (10,15) → reject</td>
+                </tr>
+                <tr>
+                    <td><b>Factors Affecting Width</b></td>
+                    <td>
+                        <ul>
+                        <li>Confidence Level ↑ → wider CI</li>
+                        <li>Sample Size ↑ → narrower CI</li>
+                        <li>Variability ↑ → wider CI</li>
+                        </ul>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><b>Advantages</b></td>
+                    <td>More informative than a point estimate or single p-value</td>
+                    <td>Provides range of plausible values instead of binary decision</td>
+                </tr>
+                <tr>
+                    <td><b>Applications</b></td>
+                    <td>Quantify uncertainty, inform business or research decisions, present results clearly to stakeholders</td>
+                    <td>e.g., "Conversion rate likely increased by 2 - 5%."</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="regression-analysis" label="Regression Analysis">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Simple Linear Regression</th>
+                    <th>Multiple Linear Regression</th>
+                    <th>Logistic Regression</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Purpose</b></td>
+                    <td>Models the relationship between one dependent variable (Y) and one independent variable (X)</td>
+                    <td>Models the relationship between one dependent variable (Y) and multiple independent variables (X₁, X₂, …, Xₖ)</td>
+                    <td>Models the probability of a binary outcome (e.g., yes/no, success/failure)</td>
+                </tr>
+                <tr>
+                    <td><b>Equation</b></td>
+                    <td>$$ Y = \beta_0 + \beta_1 X + \epsilon $$</td>
+                    <td>$$ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \ldots + \beta_k X_k + \epsilon $$</td>
+                    <td>$$ P(Y=1|X) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 X_1 + \ldots + \beta_k X_k)}} $$</td>
+                </tr>
+                <tr>
+                    <td><b>Interpretation of Coefficients</b></td>
+                    <td>$$ \beta_1 $$: Expected change in Y for a one-unit increase in X</td>
+                    <td>$$ \beta_j $$: Expected change in Y for a one-unit increase in $$ X_j $$, <em>holding all others constant</em></td>
+                    <td>Coefficients affect the log-odds of Y=1; positive values increase probability, negative values decrease it</td>
+                </tr>
+                <tr>
+                    <td><b>Estimation Method</b></td>
+                    <td>Ordinary Least Squares (minimizing SSR)</td>
+                    <td>Ordinary Least Squares (extended to multiple predictors)</td>
+                    <td>Maximum Likelihood Estimation (MLE)</td>
+                </tr>
+                <tr>
+                    <td><b>Assumptions</b></td>
+                    <td>Linearity, independence of errors, homoscedasticity, normality of errors, no measurement error in X</td>
+                    <td>All simple assumptions, plus no multicollinearity and no endogeneity</td>
+                    <td>Assumes linear relationship between predictors and log-odds, independence of observations</td>
+                </tr>
+                <tr>
+                    <td><b>Goodness of Fit</b></td>
+                    <td>$$ R^2 $$ (proportion of variance explained)</td>
+                    <td>Adjusted $$ R^2 $$ (accounts for multiple predictors), $$ R^2 $$</td>
+                    <td>Pseudo-$$ R^2 $$, accuracy, AUC (Area Under Curve)</td>
+                </tr>
+                <tr>
+                    <td><b>Hypothesis Tests</b></td>
+                    <td>Slope test: $$ H_0: \beta_1 = 0 $$</td>
+                    <td>Slope tests for each predictor: $$ H_0: \beta_j = 0 $$</td>
+                    <td>Tests for significance of predictors on log-odds ($$ H_0: \beta_j = 0 $$)</td>
+                </tr>
+                <tr>
+                    <td><b>Challenges</b></td>
+                    <td>Nonlinear relationships, violation of assumptions</td>
+                    <td>Multicollinearity, overfitting, omitted variable bias</td>
+                    <td>Probability calibration, handling class imbalance</td>
+                </tr>
+                <tr>
+                    <td><b>Applications</b></td>
+                    <td>Predicting sales from advertising spend, predicting height from age</td>
+                    <td>Predicting house price from square footage, bedrooms, and location</td>
+                    <td>Fraud detection, medical diagnosis, churn prediction, spam email detection</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+    </Tabs>
+
+  </TabItem>
+  <TabItem value="linear_algebra" label="Linear Algebra">
+    <Tabs queryString="secondary">
+      <TabItem value="language-of-data" label="Language of Data" attributes={{ className: "tabs__vertical" }}>
+        ## Scalars, Vectors, and Matrices
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Scalars</th>
+                    <th>Vectors</th>
+                    <th>Matrices</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>A single numerical value</td>
+                    <td>An ordered list of numbers (1D array)</td>
+                    <td>A rectangular array of numbers (2D array)</td>
+                </tr>
+                <tr>
+                    <td><b>Notation</b></td>
+                    <td>Lowercase italic letters: $$a, b, \lambda$$</td>
+                    <td>Lowercase bold letters: $$\mathbf{v}, \mathbf{x}$$ or with an arrow $$\vec{v}$$</td>
+                    <td>Uppercase bold letters: $$\mathbf{A}, \mathbf{X}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Dimension</b></td>
+                    <td>0D (just one value)</td>
+                    <td>1D with $$n$$ components (an $$n$$-dimensional vector)</td>
+                    <td>2D with $$m \times n$$ elements (rows and columns)</td>
+                </tr>
+                <tr>
+                    <td><b>Characteristics</b></td>
+                    <td>Magnitude only, no direction</td>
+                    <td>Magnitude and direction (length + orientation)</td>
+                    <td>Collection of numbers arranged in rows and columns</td>
+                </tr>
+                <tr>
+                    <td><b>Examples in Data Analysis</b></td>
+                    <td>
+                        <ul>
+                            <li>Average salary = 75000</li>
+                            <li>Learning rate = 0.01</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Customer features = $$(30, 50000, 12)$$</li>
+                            <li>Stock prices over a week = $$(100,102,101,...)$$</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>A dataset with rows = observations, columns = features</li>
+                            <li>Image pixel grid</li>
+                            <li>Correlation matrix</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Basic Operations</b></td>
+                    <td>Multiplication with vectors/matrices (scaling)</td>
+                    <td>
+                        <ul>
+                            <li>Addition, subtraction (element-wise)</li>
+                            <li>Scalar multiplication</li>
+                            <li>Dot product (→ scalar)</li>
+                            <li>Norms (L1/L2 distances)</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Addition, subtraction (element-wise)</li>
+                            <li>Scalar-matrix multiplication</li>
+                            <li>Matrix-matrix multiplication</li>
+                            <li>Transpose</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Key Uses in Data Analysis</b></td>
+                    <td>Represent individual values, model parameters, hyperparameters</td>
+                    <td>Represent data points (rows) or features (columns), weights in models, distance/similarity measures</td>
+                    <td>Represent datasets, transformations, statistical measures (covariance, correlations), ML computations</td>
+                </tr>
+                <tr>
+                    <td><b>Geometric Meaning</b></td>
+                    <td>A point on a number line</td>
+                    <td>A directed arrow (length + direction) in space</td>
+                    <td>A transformation of space, mapping vectors to new vectors</td>
+                </tr>
+                <tr>
+                    <td><b>Relevance</b></td>
+                    <td>Simple descriptive stats or model constants</td>
+                    <td>Data representation, projections, learning algorithms</td>
+                    <td>Dataset storage, transformations, machine learning models, PCA, regression, deep learning</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Matrices
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Matrix Type</th>
+                    <th>Definition / Characteristics</th>
+                    <th>Notation</th>
+                    <th>Key Properties</th>
+                    <th>Relevance in Data Analysis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Identity</b></td>
+                    <td>Square matrix with 1s on main diagonal, 0s elsewhere. Acts like scalar 1 in multiplication</td>
+                    <td>$$\mathbf{I}, \mathbf{I}_n$$</td>
+                    <td>$$\mathbf{I}_m \mathbf{A} = \mathbf{A}$$, $$\mathbf{A} \mathbf{I}_n = \mathbf{A}$$. Leaves vectors/matrices unchanged</td>
+                    <td>"Do nothing" transformation. Defines inverses. Used in regularization (e.g., Ridge Regression)</td>
+                </tr>
+                <tr>
+                    <td><b>Zero</b></td>
+                    <td>All entries are 0. Can be any dimension. Acts like scalar 0 in addition</td>
+                    <td>$$\mathbf{0}, \mathbf{0}_{m\times n}$$</td>
+                    <td>$$\mathbf{A} + \mathbf{0} = \mathbf{A}$$. Multiplying with zero matrix yields a zero matrix (if dimensions match)</td>
+                    <td>Represents baseline/no effect. Used for error analysis (perfect fit = zero error). Useful for padding matrices</td>
+                </tr>
+                <tr>
+                    <td><b>Diagonal</b></td>
+                    <td>Square matrix with nonzero values only on the main diagonal</td>
+                    <td>$$\mathbf{D}, \text{diag}(d_1,\dots,d_n)$$</td>
+                    <td>Multiplication simplifies to scaling rows/columns. Easily invertible if diagonal entries are nonzero. Eigenvalues are diagonal entries</td>
+                    <td>Used for scaling features. PCA eigenvalues appear in diagonal form. Indicates independence/uncorrelated features. Weighted regression methods</td>
+                </tr>
+                <tr>
+                    <td><b>Symmetric</b></td>
+                    <td>Square matrix equal to its transpose: $$\mathbf{A} = \mathbf{A}^T$$</td>
+                    <td>$$\mathbf{A} = \mathbf{A}^T$$</td>
+                    <td>All eigenvalues are real. Always diagonalizable. Eigenvectors for distinct eigenvalues are orthogonal</td>
+                    <td>Covariance and correlation matrices. Similarity and kernel matrices in machine learning (e.g., SVMs, clustering)</td>
+                </tr>
+                <tr>
+                    <td><b>Inverse</b></td>
+                    <td>For square matrix $$\mathbf{A}$$, inverse $$\mathbf{A}^{-1}$$ satisfies $$\mathbf{A}\mathbf{A}^{-1}=\mathbf{I}$$</td>
+                    <td>$$\mathbf{A}^{-1}$$</td>
+                    <td>Exists only if $$\det(\mathbf{A}) \neq 0$$. Provides unique solution to linear equations</td>
+                    <td>Critical for regression, solving systems ($$\mathbf{A}\mathbf{x}=\mathbf{b}$$), Kalman filters, and precision matrices</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="determinants" label="Determinants">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Key Points</th>
+                    <th>Examples</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>Determinant is a scalar value computed from a <b>square matrix</b></td>
+                    <td>Denoted as $$\det(\mathbf{A})$$ or $$|\mathbf{A}|$$. Only defined for square matrices</td>
+                </tr>
+                <tr>
+                    <td><b>Conceptual Meaning</b></td>
+                    <td>
+                        <ul>
+                            <li>Invertibility test: nonzero determinant → invertible</li>
+                            <li>Volume scaling factor in linear transformations</li>
+                            <li>Indicator of linear independence of vectors</li>
+                        </ul>
+                    </td>
+                    <td>If $$\det(\mathbf{A}) = 0$$, matrix is singular and columns are dependent</td>
+                </tr>
+                <tr>
+                    <td><b>Calculation (2×2)</b></td>
+                    <td>Formula: $$\det(\mathbf{A}) = ad - bc$$</td>
+                    <td>For $$\begin{pmatrix} 3 & 1 \\ 4 & 2 \end{pmatrix}$$, determinant $$= 2$$</td>
+                </tr>
+                <tr>
+                    <td><b>Calculation (3×3)</b></td>
+                    <td>Methods: <b>Sarrus' Rule</b> (only for 3×3) or <b>cofactor expansion</b></td>
+                    <td>Example: $$\begin{pmatrix} 1&2&3\\4&5&6\\7&8&9\end{pmatrix}$$, determinant $$=0$$</td>
+                </tr>
+                <tr>
+                    <td><b>Key Properties</b></td>
+                    <td>
+                        <ul>
+                            <li>$$\det(\mathbf{I})=1$$</li>
+                            <li>$$\det(\mathbf{0})=0$$</li>
+                            <li>For diagonal matrices: product of diagonal elements</li>
+                            <li>$$\det(\mathbf{A}) = \det(\mathbf{A}^T)$$</li>
+                            <li>$$\det(\mathbf{A}\mathbf{B})=\det(\mathbf{A})\det(\mathbf{B})$$</li>
+                            <li>Swapping rows/columns changes sign</li>
+                            <li>Scalar multiple: $$\det(c\mathbf{A}) = c^n \det(\mathbf{A})$$</li>
+                            <li>Row/column dependence → determinant = 0</li>
+                            <li>Some row ops leave determinant unchanged</li>
+                        </ul>
+                    </td>
+                    <td>Useful for simplifying computation and understanding structural properties</td>
+                </tr>
+                <tr>
+                    <td><b>Invertibility & Solving Systems</b></td>
+                    <td>$$\det(\mathbf{A})\neq 0$$ → inverse exists</td>
+                    <td>In regression, if $$\det(\mathbf{X}^T\mathbf{X})=0$$: indicates <b>multicollinearity</b>. Small determinants → numerical instability</td>
+                </tr>
+                <tr>
+                    <td><b>Linear Independence & Rank</b></td>
+                    <td>Zero determinant → linear dependence; matrix rank &lt; dimension</td>
+                    <td>Helps detect redundant features in datasets</td>
+                </tr>
+                <tr>
+                    <td><b>Geometric Meaning</b></td>
+                    <td>Absolute determinant = scaling factor of area/volume. Sign indicates orientation flip/reflection</td>
+                    <td>If $$\det(\mathbf{A})=0$$: space collapses to lower dimension (loss of information)</td>
+                </tr>
+                <tr>
+                    <td><b>PCA Relevance</b></td>
+                    <td>Covariance matrix determinant = product of eigenvalues. Zero determinant means some features perfectly correlated</td>
+                    <td>Links determinants to dimensionality reduction and variance in PCA</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="systems-of-linear-equations" label="Systems of Linear Equations">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>Set of linear equations with common variables; solutions satisfy all equations simultaneously</td>
+                    <td>$$a_{11}x_1 + a_{12}x_2 = b_1$$, $$a_{21}x_1 + a_{22}x_2 = b_2$$</td>
+                    <td>Models constraints, parameter estimation, optimization</td>
+                </tr>
+                <tr>
+                    <td><b>Possible Solutions</b></td>
+                    <td>
+                        <ul>
+                            <li>Unique solution: single intersection</li>
+                            <li>No solution: inconsistent, parallel lines</li>
+                            <li>Infinite solutions: dependent, overlapping</li>
+                        </ul>
+                    </td>
+                    <td>Two lines intersecting vs. parallel vs. coincident</td>
+                    <td>Identifies whether models are solvable or if redundancy exists</td>
+                </tr>
+                <tr>
+                    <td><b>Matrix Form $$Ax = b$$</b></td>
+                    <td>Compact representation using coefficient matrix $$A$$, variable vector $$x$$, and constant vector $$b$$</td>
+                    <td>$$\begin{pmatrix}2&3\\1&-1\end{pmatrix}\begin{pmatrix}x_1\\x_2\end{pmatrix}=\begin{pmatrix}12\\-1\end{pmatrix}$$</td>
+                    <td>Enables computation with software; foundation for regression, optimization, and network analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Gaussian Elimination</b></td>
+                    <td>Algorithmic row operations to reduce system to row echelon form</td>
+                    <td>Stepwise elimination of variables</td>
+                    <td>Basis for computational solvers; reveals rank, independence, consistency</td>
+                </tr>
+                <tr>
+                    <td><b>Matrix Inversion</b></td>
+                    <td>Direct solution if $$A$$ is square and invertible: $$x = A^{-1}b$$</td>
+                    <td>Least squares regression formula $$(X^TX)^{-1}X^Ty$$</td>
+                    <td>Theoretical insight, regression coefficients, but unstable for large/ill-conditioned systems</td>
+                </tr>
+                <tr>
+                    <td><b>Applications</b></td>
+                    <td>Used for regression, optimization, networks, constraint solving</td>
+                    <td>Linear programming, PCA foundation, traffic/circuit analysis</td>
+                    <td>Critical across data science, machine learning, and operations research</td>
+                </tr>
+                <tr>
+                    <td><b>Numerical Considerations</b></td>
+                    <td>Stability issues can arise for nearly singular systems</td>
+                    <td>Small change in $$A$$ produces large change in $$x$$</td>
+                    <td>Helps diagnose multicollinearity and instability in models</td>
+                </tr>
+                <tr>
+                    <td><b>Software Tools</b></td>
+                    <td>Computational libraries perform solving using efficient methods</td>
+                    <td>Python (`numpy.linalg.solve`), R (`solve()`)</td>
+                    <td>Automates arithmetic, but conceptual understanding required for interpretation</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="eigenvalues-and-eigenvectors" label="Eigenvalues and Eigenvectors">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Eigenvalues ($$\lambda$$)</th>
+                    <th>Eigenvectors ($$\mathbf{x}$$)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>Scalar factors that indicate how much a corresponding eigenvector is stretched or shrunk by a transformation</td>
+                    <td>Non-zero vectors that maintain their direction under a linear transformation, only scaled by their eigenvalue</td>
+                </tr>
+                <tr>
+                    <td><b>Eigen-equation</b></td>
+                    <td>Appears as $$\mathbf{A}\mathbf{x} = \lambda \mathbf{x}$$, solved from $$\det(\mathbf{A} - \lambda \mathbf{I}) = 0$$</td>
+                    <td>Obtained by solving $$(\mathbf{A} - \lambda \mathbf{I}) \mathbf{x} = 0$$ for each eigenvalue $$\lambda$$</td>
+                </tr>
+                <tr>
+                    <td><b>Conceptual Meaning</b></td>
+                    <td>Represents the magnitude of the scaling effect of the transformation in a given direction</td>
+                    <td>Represents the directions (axes) along which the transformation acts by pure stretching or shrinking without rotation</td>
+                </tr>
+                <tr>
+                    <td><b>Numerical Example</b></td>
+                    <td>For $$A = \begin{pmatrix}2 & 1 \\ 1 & 2\end{pmatrix}$$, eigenvalues are $$\lambda_1=1$$, $$\lambda_2=3$$</td>
+                    <td>For the same matrix: eigenvector for $$\lambda_1=1$$ is $$[1,-1]^T$$; for $$\lambda_2=3$$ is $$[1,1]^T$$</td>
+                </tr>
+                <tr>
+                    <td><b>Role in PCA</b></td>
+                    <td>Indicate how much variance each principal component explains (larger eigenvalues = higher variance captured)</td>
+                    <td>Define the principal components themselves, i.e., the new axes along which data varies most</td>
+                </tr>
+                <tr>
+                    <td><b>Data Analysis Impact</b></td>
+                    <td>Rank importance of directions by variance magnitude, guiding dimensionality reduction</td>
+                    <td>Provide new coordinate system for data that simplifies interpretation and visualization</td>
+                </tr>
+                <tr>
+                    <td><b>Other Applications</b></td>
+                    <td>Indicate stability in dynamic systems; spectral analysis (graph connectivity, community detection)</td>
+                    <td>Show invariant directions in system dynamics; essential in PCA and SVD for feature extraction & data representation</td>
+                </tr>
+                <tr>
+                    <td><b>Uniqueness</b></td>
+                    <td>Numerical values are unique (though multiplicity may occur)</td>
+                    <td>Not unique - any scalar multiple of an eigenvector is also an eigenvector (commonly normalized to unit length)</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="vector-spaces-and-subspaces" label="Vector Spaces and Subspaces">
+        ## Vector Spaces vs Subspaces
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Vector Space</th>
+                    <th>Subspace</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>A set of vectors closed under addition and scalar multiplication, following specific axioms</td>
+                    <td>A subset of a vector space that itself satisfies all the vector space axioms</td>
+                </tr>
+                <tr>
+                    <td><b>Required Properties</b></td>
+                    <td>Closure under addition and scalar multiplication, existence of zero vector, additive inverse, associativity, commutativity, distributivity</td>
+                    <td>Contains the zero vector, closed under addition, closed under scalar multiplication</td>
+                </tr>
+                <tr>
+                    <td><b>Examples</b></td>
+                    <td>$$\mathbb{R}^2$$, $$\mathbb{R}^3$$, $$\mathbb{R}^n$$</td>
+                    <td>Line through the origin in $$\mathbb{R}^2$$, plane through origin in $$\mathbb{R}^3$$, trivial subspace $$\{0\}$$</td>
+                </tr>
+                <tr>
+                    <td><b>Geometric Meaning</b></td>
+                    <td>The full "space" where vectors (data points) live, can be high-dimensional</td>
+                    <td>A smaller "region" inside a larger vector space, such as a line or plane within that space</td>
+                </tr>
+                <tr>
+                    <td><b>Relevance to Data Analysis</b></td>
+                    <td>Represents entire data feature space, geometric context for similarity, projections, and transformations</td>
+                    <td>Supports dimensionality reduction (PCA), feature combinations, and efficient data representation</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Concepts
+
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Meaning</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Span</b></td>
+                    <td>All linear combinations of a set of vectors</td>
+                    <td>Defines the full feature space reachable from given features</td>
+                </tr>
+                <tr>
+                    <td><b>Linear Independence</b></td>
+                    <td>No vector is redundant; none can be expressed as a combination of others</td>
+                    <td>Identifies redundancy (multicollinearity) and supports dimensionality reduction</td>
+                </tr>
+                <tr>
+                    <td><b>Basis</b></td>
+                    <td>Minimal set of linearly independent vectors that span the whole space</td>
+                    <td>Provides an optimal coordinate system (e.g., PCA basis)</td>
+                </tr>
+                <tr>
+                    <td><b>Dimension</b></td>
+                    <td>Number of independent directions (size of a basis)</td>
+                    <td>Indicates data complexity and relates to curse of dimensionality</td>
+                </tr>
+                <tr>
+                    <td><b>Null Space</b></td>
+                    <td>Vectors mapped to zero under a transformation</td>
+                    <td>Reveals redundancy or loss of information; linked to invertibility and multicollinearity</td>
+                </tr>
+                <tr>
+                    <td><b>Column Space</b></td>
+                    <td>All linear combinations of matrix columns (reachable outputs)</td>
+                    <td>Defines prediction/output space in regression or linear models</td>
+                </tr>
+                <tr>
+                    <td><b>Row Space</b></td>
+                    <td>All linear combinations of matrix rows</td>
+                    <td>Provides insight into feature relationships; dimension equals matrix rank</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+    </Tabs>
+
+  </TabItem>
+  <TabItem value="calculus" label="Calculus">
+    <Tabs queryString="secondary">
+      <TabItem value="limits" label="Limits" attributes={{ className: "tabs__vertical" }}>
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Limits</th>
+                    <th>Continuity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Definition</b></td>
+                    <td>Describes the value a function approaches as input nears a point or infinity</td>
+                    <td>A function is continuous at a point if it has no breaks, jumps, or holes there</td>
+                </tr>
+                <tr>
+                    <td><b>Formal Expression</b></td>
+                    <td>$$\lim_{x \to c} f(x) = L$$, meaning as $$x$$ approaches $$c$$, $$f(x)$$ approaches $$L$$</td>
+                    <td>$$f(x)$$ is continuous at $$c$$ if: $$f(c)$$ is defined, $$\lim_{x \to c} f(x)$$ exists, and both are equal</td>
+                </tr>
+                <tr>
+                    <td><b>Purpose</b></td>
+                    <td>Helps analyze function behavior at undefined points or extremes</td>
+                    <td>Ensures smoothness of function behavior across its domain</td>
+                </tr>
+                <tr>
+                    <td><b>Examples</b></td>
+                    <td>
+                        <ul>
+                        <li>Linear: $$\lim_{x \to 3} (2x+1)=7$$</li>
+                        <li>Hole: $$\lim_{x \to 1} \frac{x^2-1}{x-1} = 2$$</li>
+                        <li>Asymptote: $$\lim_{x \to \infty} \frac{1}{x} = 0$$</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                        <li><b>Removable</b>: hole in function though limit exists</li>
+                        <li><b>Jump</b>: left- and right-hand limits differ</li>
+                        <li><b>Infinite</b>: vertical asymptote, e.g., $$f(x)=1/x$$ at $$x=0$$</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Key Role in Calculus</b></td>
+                    <td>Foundation for defining derivatives and integrals</td>
+                    <td>Precondition for differentiability and smooth curve behavior</td>
+                </tr>
+                <tr>
+                    <td><b>Relevance to Data Analysis</b></td>
+                    <td>
+                        <ul>
+                        <li>Models at undefined/extreme input values</li>
+                        <li>Asymptotic properties of estimators (e.g., CLT)</li>
+                        <li>Anticipating numerical instabilities</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                        <li>Smoothness needed for optimization (e.g., gradient descent)</li>
+                        <li>Assumption in regression, neural nets, interpolation</li>
+                        <li>Understanding thresholds in piecewise models like decision trees</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="derivatives" label="Derivatives">
+        <table>
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Definition / Formula</th>
+                    <th>Key Example</th>
+                    <th>Relevance to Data Analysis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Derivative (Rate of Change)</b></td>
+                    <td>$$ f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h} $$</td>
+                    <td>For $$ f(x) = x^3 $$, $$ f'(x) = 3x^2 $$</td>
+                    <td>Measures sensitivity of outputs to inputs, marginal effects, rates of change</td>
+                </tr>
+                <tr>
+                    <td><b>Average vs Instantaneous Rate</b></td>
+                    <td>Avg: $$ \frac{f(x_2)-f(x_1)}{x_2-x_1} $$; Inst: limit form above</td>
+                    <td>Slope of secant vs slope of tangent</td>
+                    <td>Distinguishes between overall vs. pointwise change</td>
+                </tr>
+                <tr>
+                    <td><b>Notation</b></td>
+                    <td>$$ f'(x) $$, $$ \frac{dy}{dx} $$, $$ \frac{d}{dx} f(x) $$</td>
+                    <td>$$ y' $$</td>
+                    <td>Different notations useful in various contexts (Leibniz, Lagrange)</td>
+                </tr>
+                <tr>
+                    <td><b>Power Rule</b></td>
+                    <td>$$ \frac{d}{dx}(x^n) = nx^{n-1} $$</td>
+                    <td>$$ (x^3)' = 3x^2 $$, $$ (\sqrt{x})' = \frac{1}{2\sqrt{x}} $$</td>
+                    <td>Core tool for polynomial/exponential changes</td>
+                </tr>
+                <tr>
+                    <td><b>Constant Multiple Rule</b></td>
+                    <td>$$ (cf(x))' = c f'(x) $$</td>
+                    <td>$$ (5x^3)' = 15x^2 $$</td>
+                    <td>Simplifies scaling derivatives in models</td>
+                </tr>
+                <tr>
+                    <td><b>Sum/Difference Rule</b></td>
+                    <td>$$ (f(x)\pm g(x))' = f'(x)\pm g'(x) $$</td>
+                    <td>$$ (4x^2+7x-2)'= 8x+7 $$</td>
+                    <td>Enables decomposition of model functions</td>
+                </tr>
+                <tr>
+                    <td><b>Product Rule</b></td>
+                    <td>$$ (fg)' = f'g + fg' $$</td>
+                    <td>$$ (x^2 e^x)' = e^x(2x+x^2) $$</td>
+                    <td>Needed for features interacting multiplicatively</td>
+                </tr>
+                <tr>
+                    <td><b>Quotient Rule</b></td>
+                    <td>$$ \Big(\frac{f}{g}\Big)' = \frac{f'g - fg'}{g^2} $$</td>
+                    <td>$$ \Big(\frac{x^2}{x+1}\Big)' = \frac{x^2+2x}{(x+1)^2} $$</td>
+                    <td>Used when variables appear in ratios</td>
+                </tr>
+                <tr>
+                    <td><b>Chain Rule</b></td>
+                    <td>$$ (f(g(x)))' = f'(g(x))g'(x) $$</td>
+                    <td>$$ ((x^2+3x)^5)' = 5(x^2+3x)^4(2x+3) $$</td>
+                    <td>Central to backpropagation in neural networks</td>
+                </tr>
+                <tr>
+                    <td><b>Common Functions</b></td>
+                    <td>$$ (e^x)'=e^x $$, $$ (\ln x)'=\frac{1}{x} $$, $$ (\sin x)'=\cos x $$, $$ (\cos x)'=-\sin x $$</td>
+                    <td>Trigonometric and exponential forms</td>
+                    <td>Key in interpreting exponential growth/periodicity</td>
+                </tr>
+                <tr>
+                    <td><b>Partial Derivatives</b></td>
+                    <td>$$ \frac{\partial f}{\partial x} $$, hold others constant</td>
+                    <td>For $$ f(x,y)=x^2y+3xy^3 $$, $$ \frac{\partial f}{\partial x}=2xy+3y^3 $$</td>
+                    <td>Measures effect of single feature</td>
+                </tr>
+                <tr>
+                    <td><b>Gradient</b></td>
+                    <td>$$ \nabla f = \big(\frac{\partial f}{\partial x_1}, \ldots, \frac{\partial f}{\partial x_n}\big)^T $$</td>
+                    <td>For earlier $$ f(x,y) $$: $$ (2xy+3y^3,\; x^2+9xy^2) $$</td>
+                    <td>Fundamental to gradient descent optimization</td>
+                </tr>
+                <tr>
+                    <td><b>Second-order Derivatives</b></td>
+                    <td>Pure: $$ \frac{\partial^2 f}{\partial x^2} $$; Mixed: $$ \frac{\partial^2 f}{\partial x \partial y} $$</td>
+                    <td>Concavity/curvature along axes</td>
+                    <td>Determines shape and inflection, used in convexity analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Hessian Matrix</b></td>
+                    <td>Matrix of all 2nd-order partials</td>
+                    <td>For multivariable $$ f(x_1,\ldots,x_n) $$ → Hessian $$ H $$</td>
+                    <td>Used in Newton's method, uncertainty estimation</td>
+                </tr>
+                <tr>
+                    <td><b>Applications</b></td>
+                    <td>Optimization, sensitivity, feature importance, backpropagation, marginal analysis</td>
+                    <td>Loss minimization, elasticity, customer growth rates</td>
+                    <td>Core to machine learning training and interpretability</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="integrals" label="Integrals">
+        <table>
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Formula</th>
+                    <th>Geometric Interpretation</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Integral (general)</b></td>
+                    <td>Summation of infinitesimal changes; inverse of derivative. Notation: $$ \int f(x)dx $$</td>
+                    <td>Area under a curve of $$f(x)$$</td>
+                    <td>Fundamental for accumulation, total quantities, probability, and advanced methods</td>
+                </tr>
+                <tr>
+                    <td><b>Indefinite Integral</b></td>
+                    <td>$$ \int f(x) dx = F(x) + C $$ where $$F'(x) = f(x)$$</td>
+                    <td>Family of anti-derivatives, no fixed interval</td>
+                    <td>Useful for theoretical derivations, recovering functions from their rates</td>
+                </tr>
+                <tr>
+                    <td><b>Basic Rules (examples)</b></td>
+                    <td>Power Rule: $$ \int x^n dx = \frac{x^{n+1}}{n+1} + C$$, $$ \int e^x dx = e^x + C$$, etc</td>
+                    <td>Reverse of differentiation rules</td>
+                    <td>Needed for solving analytical integration problems in modeling</td>
+                </tr>
+                <tr>
+                    <td><b>Definite Integral</b></td>
+                    <td>$$ \int_a^b f(x) dx $$. Results in a number</td>
+                    <td>Net area under curve between $$a$$ and $$b$$; negative if below x-axis</td>
+                    <td>Widely used (e.g., probability, computing totals from rates)</td>
+                </tr>
+                <tr>
+                    <td><b>Fundamental Theorem of Calculus</b></td>
+                    <td>$$ \int_a^b f(x) dx = F(b) - F(a) $$</td>
+                    <td>Connects indefinite and definite integrals</td>
+                    <td>Basis for practical computation—greatly simplifies area and probability calculations</td>
+                </tr>
+                <tr>
+                    <td><b>Probability via Integrals</b></td>
+                    <td>$$ P(a \leq X \leq b) = \int_a^b f(x) dx $$. CDF: $$F(x) = \int_{-\infty}^x f(t) dt$$. Expectation: $$E[X] = \int_{-\infty}^\infty x f(x) dx$$</td>
+                    <td>Probability is area under the PDF</td>
+                    <td>Core use in continuous probability, distributions, inference, and statistics</td>
+                </tr>
+                <tr>
+                    <td><b>Total Change from a Rate</b></td>
+                    <td>$$ \int_{t_1}^{t_2} R(t) dt $$</td>
+                    <td>Accumulated value from rate function</td>
+                    <td>Total sales, leads, or growth from a rate function in business/analytics</td>
+                </tr>
+                <tr>
+                    <td><b>Geometric Applications</b></td>
+                    <td>Integrals compute area, volume, surface, etc</td>
+                    <td>Shapes and 3D distributions</td>
+                    <td>Less common but used in capacity, resource estimation, or spatial data</td>
+                </tr>
+                <tr>
+                    <td><b>Machine Learning Applications</b></td>
+                    <td>Used in kernel density estimation, Fourier transforms, and some loss functions</td>
+                    <td>Transformations of functions (time ↔ frequency)</td>
+                    <td>Important in advanced analytics, signal processing, regularization, density models</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+    </Tabs>
+  </TabItem>
+  <TabItem value="optimization" label="Optimization">
+    <Tabs queryString="secondary">
+      <TabItem value="cost-loss" label="Cost Loss" attributes={{ className: "tabs__vertical" }}>
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Function</th>
+                    <th>Purpose</th>
+                    <th>Formula</th>
+                    <th>Key Characteristics</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Mean Squared Error (MSE) / L2 Loss</b></td>
+                    <td>Regression: minimize squared differences between predicted and actual values</td>
+                    <td>$$ MSE = \frac{1}{n} \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2 $$</td>
+                    <td>Differentiable, convex (for linear regression), sensitive to outliers</td>
+                    <td>Linear regression, continuous value prediction</td>
+                </tr>
+                <tr>
+                    <td><b>Mean Absolute Error (MAE) / L1 Loss</b></td>
+                    <td>Regression: minimize absolute differences between predicted and actual values</td>
+                    <td>$$ MAE = \frac{1}{n} \sum_{i=1}^{n} |Y_i - \hat{Y}_i| $$</td>
+                    <td>Robust to outliers, not differentiable at zero</td>
+                    <td>Regression tasks with outliers, robust error measurement</td>
+                </tr>
+                <tr>
+                    <td><b>Binary Cross-Entropy / Log Loss</b></td>
+                    <td>Binary classification: measure prediction accuracy when output is probability between 0 and 1</td>
+                    <td>$$ C = - \frac{1}{n} \sum_{i=1}^{n} [Y_i \log(\hat{Y}_i) + (1-Y_i) \log(1-\hat{Y}_i)] $$</td>
+                    <td>Penalizes wrong confident predictions, differentiable, pairs with sigmoid activation</td>
+                    <td>Logistic regression, spam detection, medical diagnosis</td>
+                </tr>
+                <tr>
+                    <td><b>Categorical Cross-Entropy (Softmax Loss)</b></td>
+                    <td>Multi-class classification: evaluate predictions across multiple classes</td>
+                    <td>$$ C = - \frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^{C} Y_{ij} \log(\hat{Y}_{ij}) $$</td>
+                    <td>Extension of binary version, works with softmax, differentiable</td>
+                    <td>Image recognition, NLP tasks, multi-class classification</td>
+                </tr>
+                <tr>
+                    <td><b>Hinge Loss</b></td>
+                    <td>Classification (esp. SVM): maximize margin between classes</td>
+                    <td>$$ L(y, \hat{y}) = \max(0, 1 - y \cdot \hat{y}) $$</td>
+                    <td>Zero loss region for confident predictions, not differentiable at all points</td>
+                    <td>Support Vector Machines, margin-based classifiers</td>
+                </tr>
+            </tbody>
+        </table>
+
+      </TabItem>
+      <TabItem value="gradient-descent" label="Gradient Descent">
+        <table>
+            <thead>
+                <tr>
+                    <th>Variant</th>
+                    <th>Concept</th>
+                    <th>Pros</th>
+                    <th>Cons</th>
+                    <th>Update Rule</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Batch Gradient Descent (BGD)</b></td>
+                    <td>Uses the <em>entire dataset</em> to compute the gradient before each update</td>
+                    <td>
+                        <ul>
+                            <li>Stable convergence</li>
+                            <li>Reliable (global minimum for convex, local for non-convex)</li>
+                            <li>Deterministic updates</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Very slow for large datasets</li>
+                            <li>High memory/computation cost</li>
+                            <li>Not suitable for online learning</li>
+                        </ul>
+                    </td>
+                    <td>$$\theta = \theta - \alpha \nabla J(\theta)$$ with all data</td>
+                </tr>
+                <tr>
+                    <td><b>Stochastic Gradient Descent (SGD)</b></td>
+                    <td>Updates parameters after computing gradient for <em>each data point</em></td>
+                    <td>
+                        <ul>
+                            <li>Fast updates</li>
+                            <li>Enables online learning</li>
+                            <li>Noise can help escape local minima/saddle points</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Noisy updates cause fluctuations</li>
+                            <li>May oscillate around minimum</li>
+                            <li>Can fail to converge precisely</li>
+                        </ul>
+                    </td>
+                    <td>$$\theta = \theta - \alpha \nabla J(\theta; x^{(i)}, y^{(i)})$$ with one example</td>
+                </tr>
+                <tr>
+                    <td><b>Mini-Batch Gradient Descent (MBGD)</b></td>
+                    <td>Updates based on <em>small batches</em> of examples</td>
+                    <td>
+                        <ul>
+                            <li>Balances stability (BGD) and speed (SGD)</li>
+                            <li>Efficient with vectorized ops</li>
+                            <li>More stable convergence vs. SGD</li>
+                            <li>Some noise helps avoid local minima</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                        <li>Requires selecting/tuning batch size</li>
+                        </ul>
+                    </td>
+                    <td>$$\theta = \theta - \alpha \nabla J(\theta; X^{(j)}, Y^{(j)})$$ with batch</td>
+                </tr>
+                <tr>
+                    <td><b>Momentum</b></td>
+                    <td>Adds a fraction of the <em>previous update</em> to the current update (like rolling a ball downhill)</td>
+                    <td>
+                        <ul>
+                            <li>Accelerates convergence in relevant direction</li>
+                            <li>Reduces oscillations</li>
+                            <li>Helps escape shallow minima</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Adds extra hyperparameter (momentum term)</li>
+                            <li>Can overshoot if poorly tuned</li>
+                        </ul>
+                    </td>
+                    <td>Similar to GD but with momentum term accumulated</td>
+                </tr>
+                <tr>
+                    <td><b>RMSprop</b></td>
+                    <td>Divides learning rate by root mean square of historical gradients</td>
+                    <td>
+                        <ul>
+                            <li>Handles differing gradient scales</li>
+                            <li>Effective in non-stationary problems</li>
+                            <li>Faster convergence than vanilla GD</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Learning rate must still be tuned</li>
+                            <li>Sensitive to hyperparameters</li>
+                        </ul>
+                    </td>
+                    <td>Adaptive per-parameter learning rate</td>
+                </tr>
+                <tr>
+                    <td><b>Adam</b></td>
+                    <td>Combines Momentum + RMSprop, using first (mean) and second (variance) moments of gradients</td>
+                    <td>
+                        <ul>
+                        <li>Widely used "default" optimizer</li>
+                        <li>Fast convergence</li>
+                        <li>Works well out-of-box</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Sometimes generalizes worse than SGD</li>
+                            <li>More hyperparameters (though defaults often okay)</li>
+                        </ul>
+                    </td>
+                    <td>Adaptive moment estimates for update</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="convexity" label="Convexity">
+        <table>
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Convex Functions</th>
+                    <th>Non-Convex Functions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Shape</b></td>
+                    <td>Bowl-shaped; "cups upwards"</td>
+                    <td>Complex landscapes with hills, valleys, and plateaus</td>
+                </tr>
+                <tr>
+                    <td><b>Mathematical Condition</b></td>
+                    <td>$$ f(tx_1 + (1-t)x_2) \le t f(x_1) + (1-t) f(x_2) $$</td>
+                    <td>Does not satisfy convex inequality for all points</td>
+                </tr>
+                <tr>
+                    <td><b>Local vs Global Minima</b></td>
+                    <td>Any local minimum is also a global minimum</td>
+                    <td>Multiple local minima, saddle points, and flat regions</td>
+                </tr>
+                <tr>
+                    <td><b>Optimization Guarantee</b></td>
+                    <td>Gradient descent (with proper learning rate) always converges to the global minimum</td>
+                    <td>Gradient descent may get stuck in local minima or saddle points</td>
+                </tr>
+                <tr>
+                    <td><b>Sensitivity to Initialization</b></td>
+                    <td>Low; starting point less critical as all paths lead to same minimum</td>
+                    <td>High; results depend heavily on initial parameter values</td>
+                </tr>
+                <tr>
+                    <td><b>Convergence</b></td>
+                    <td>Deterministic and reliable</td>
+                    <td>Can be slow, with risk of poor solutions</td>
+                </tr>
+                <tr>
+                    <td><b>Optimization Methods</b></td>
+                    <td>Simple methods like gradient descent or closed-form solutions often sufficient</td>
+                    <td>Require advanced optimizers (Adam, RMSprop, SGD with momentum), multiple restarts, or careful initialization</td>
+                </tr>
+                <tr>
+                    <td><b>Theoretical Guarantees</b></td>
+                    <td>Strong; ensures uniqueness and optimality of solution</td>
+                    <td>Weak; solutions may be suboptimal and vary between runs</td>
+                </tr>
+                <tr>
+                    <td><b>Examples</b></td>
+                    <td>Mean Squared Error (linear regression), Cross-Entropy (logistic regression), L2-regularized loss</td>
+                    <td>Deep neural networks, complex non-linear models</td>
+                </tr>
+                <tr>
+                    <td><b>Use in Data Analysis</b></td>
+                    <td>Enables reliable model interpretation and parameter estimates (e.g., regression coefficients)</td>
+                    <td>Powerful for complex models, but less interpretable and harder to optimize</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="time-series" label="Time Series">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>Definition</th>
+                    <th>Purpose</th>
+                    <th>Indicators & Techniques</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Stationarity</b></td>
+                    <td>Statistical properties (mean, variance, autocorrelation) remain constant over time</td>
+                    <td>Ensures model validity, reliable inference, stable forecasting</td>
+                    <td>
+                        <ul>
+                            <li>Strict vs. Weak Stationarity</li>
+                            <li>Achieved via differencing, log transforms, seasonal differencing</li>
+                        </ul>
+                    </td>
+                    <td>Core assumption for AR, MA, ARIMA; non-stationarity (trends, seasonality, heteroscedasticity) must be corrected</td>
+                </tr>
+                <tr>
+                    <td><b>ACF (Autocorrelation Function)</b></td>
+                    <td>Correlation of a series with its lagged versions</td>
+                    <td>Reveals lag dependencies; detects seasonality or trends</td>
+                    <td>
+                        <ul>
+                            <li>Slow decay → trend or non-stationarity</li>
+                            <li>Sharp drop-off → MA component</li>
+                            <li>Spikes at certain lags → seasonality</li>
+                        </ul>
+                    </td>
+                    <td>Crucial for identifying `q` (MA order) in ARIMA and capturing dependencies</td>
+                </tr>
+                <tr>
+                    <td><b>PACF (Partial Autocorrelation Function)</b></td>
+                    <td>Correlation between series and lagged values with intermediate lags removed</td>
+                    <td>Measures direct lag effects</td>
+                    <td>
+                        <ul>
+                            <li>Sharp drop-off → AR component</li>
+                            <li>Helps differentiate AR vs. MA structure</li>
+                        </ul>
+                    </td>
+                    <td>Identifies `p` (AR order) in ARIMA; builds feature lags for models</td>
+                </tr>
+                <tr>
+                    <td><b>ARIMA Models</b></td>
+                    <td>Combines AR (past values), I (differencing), and MA (errors)</td>
+                    <td>Forecasting sequential data</td>
+                    <td>
+                        <ul>
+                            <li>AR: past value relationships (PACF guides `p`)</li>
+                            <li>I: differencing for stationarity (`d`)</li>
+                            <li>MA: past error terms (ACF guides `q`)</li>
+                        </ul>
+                    </td>
+                    <td>Widely used for short/medium-term forecasts, benchmark models, trend/seasonality decomposition</td>
+                </tr>
+                <tr>
+                    <td><b>Spectral Analysis</b></td>
+                    <td>Represents data in frequency domain via sinusoidal components</td>
+                    <td>Detects hidden cycles, dominant frequencies</td>
+                    <td>
+                        <ul>
+                            <li>Uses periodogram/Power Spectral Density (PSD)</li>
+                            <li>Peaks → dominant periodicities</li>
+                        </ul>
+                    </td>
+                    <td>Identifies seasonality, key for signal processing, feature extraction</td>
+                </tr>
+                <tr>
+                    <td><b>Fourier Transform</b></td>
+                    <td>Converts time-domain signal into frequency-domain representation</td>
+                    <td>Reveals underlying frequencies; enables reconstruction and filtering</td>
+                    <td>
+                        <ul>
+                            <li>Continuous FT, Discrete FT, FFT for computation</li>
+                            <li>Inverse FT reconstructs original signal</li>
+                        </ul>
+                    </td>
+                    <td>Used in decomposition, noise filtering, audio/image processing, and advanced time series models</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="bayesian-statistics" label="Bayesian Statistics">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Bayesian Statistics</th>
+                    <th>Frequentist Statistics</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Core Idea</b></td>
+                    <td>Updates beliefs with data; probabilities represent <em>degrees of belief</em></td>
+                    <td>Focuses on probability of data given a fixed hypothesis; probabilities represent long-run frequencies</td>
+                </tr>
+                <tr>
+                    <td><b>Foundation</b></td>
+                    <td>Bayes' Theorem: $$ P(H|E) \propto P(E|H) \cdot P(H) $$</td>
+                    <td>Hypothesis testing and confidence intervals</td>
+                </tr>
+                <tr>
+                    <td><b>Parameters</b></td>
+                    <td>Treated as random variables with probability distributions</td>
+                    <td>Treated as fixed, unknown quantities</td>
+                </tr>
+                <tr>
+                    <td><b>Priors</b></td>
+                    <td>Incorporates <b>prior knowledge</b> (informative, non-informative, conjugate)</td>
+                    <td>No role for prior probabilities</td>
+                </tr>
+                <tr>
+                    <td><b>Inference Result</b></td>
+                    <td>Full <b>posterior distribution</b> summarizing uncertainty</td>
+                    <td>Point estimates and p-values; intervals are confidence intervals</td>
+                </tr>
+                <tr>
+                    <td><b>Hypothesis Testing</b></td>
+                    <td>Uses <b>posterior probabilities</b> and <b>Bayes factors</b> for model comparison</td>
+                    <td>Uses significance tests and p-values</td>
+                </tr>
+                <tr>
+                    <td><b>Uncertainty Quantification</b></td>
+                    <td><b>Credible intervals</b>: direct probability statements about parameters</td>
+                    <td><b>Confidence intervals</b>: indirect interpretation across repeated samples</td>
+                </tr>
+                <tr>
+                    <td><b>Computation</b></td>
+                    <td>Often requires advanced techniques like <b>MCMC</b> (Metropolis-Hastings, Gibbs, HMC)</td>
+                    <td>Closed-form or asymptotic approximations more common</td>
+                </tr>
+                <tr>
+                    <td><b>Flexibility</b></td>
+                    <td>Naturally handles small datasets, expert knowledge, hierarchical models, complex structures</td>
+                    <td>Stronger with large datasets; less flexible for complex prior information</td>
+                </tr>
+                <tr>
+                    <td><b>Use Cases</b></td>
+                    <td>A/B testing, diagnostics, machine learning (Bayesian optimization, networks), risk assessment</td>
+                    <td>Classical hypothesis testing, large-scale statistical inference</td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="information-theory" label="Information Theory">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                <th>Concept</th>
+                <th>Formula</th>
+                <th>What it Measures</th>
+                <th>Key Interpretations</th>
+                <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Entropy</b></td>
+                    <td>$$ H(X) = - \sum_{i=1}^{n} P(x_i) \log_b(P(x_i)) $$</td>
+                    <td>Uncertainty/randomness in a probability distribution</td>
+                    <td>
+                        <ul>
+                            <li>High entropy = high uncertainty</li>
+                            <li>Zero entropy = completely certain outcome</li>
+                            <li>Maximum entropy when outcomes are equally likely</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Feature selection (information gain in decision trees)</li>
+                            <li>Data compression (lower bound on encoding)</li>
+                            <li>Model evaluation for uncertainty</li>
+                            <li>Anomaly detection via abnormal entropy levels</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Cross-Entropy</b></td>
+                    <td>$$ H(P, Q) = - \sum_{i=1}^{n} P(x_i) \log_b(Q(x_i)) $$</td>
+                    <td>Difference between true distribution $$P$$ and predicted distribution $$Q$$</td>
+                    <td>
+                        <ul>
+                            <li>Lower values = predicted distribution closer to true</li>
+                            <li>Higher values = greater disagreement</li>
+                            <li>Commonly used as a loss function</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Binary cross-entropy/log loss for binary classification</li>
+                            <li>Categorical cross-entropy for multi-class classification</li>
+                            <li>Core loss function in logistic regression, neural networks</li>
+                            <li>Optimizing probabilistic outputs during model training</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>KL Divergence</b></td>
+                    <td>$$ D_{KL}(P || Q) = \sum_{i=1}^{n} P(x_i) \log_b \left(\frac{P(x_i)}{Q(x_i)}\right) $$</td>
+                    <td>Information loss when approximating distribution $$P$$ with $$Q$$</td>
+                    <td>
+                        <ul>
+                            <li>Always ≥ 0, equals 0 if $$P=Q$$</li>
+                            <li>Asymmetric: $$D_{KL}(P||Q) \neq D_{KL}(Q||P)$$</li>
+                            <li>Measures extra bits needed using wrong distribution</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Training generative models (VAEs, GANs)</li>
+                            <li>Dimensionality reduction (t-SNE)</li>
+                            <li>Reinforcement learning (policy optimization)</li>
+                            <li>Bayesian inference (info gain from prior → posterior)</li>
+                            <li>Comparing model probability outputs</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+      <TabItem value="numerical-methods" label="Numerical Methods">
+        <table className="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Key Concepts</th>
+                    <th>Challenges</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Floating-Point Arithmetic</b></td>
+                    <td>
+                        <ul>
+                            <li>Finite precision (`float32`, `float64`)</li>
+                            <li>Rounding errors (e.g., `0.1 + 0.2 ≠ 0.3`)</li>
+                            <li>Limited numerical range (`inf`, `NaN`)</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Accumulation of errors over many operations</li>
+                            <li>Catastrophic cancellation (subtracting nearly equal numbers)</li>
+                            <li>Loss of significance when adding very small to very large numbers</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Impacts stability of optimization</li>
+                            <li>Affects statistical metrics (variance, correlation, etc.)</li>
+                            <li>Equality checks unreliable (use tolerance)</li>
+                            <li>Guides design of numerically stable algorithms</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Numerical Stability</b></td>
+                    <td>
+                        <ul>
+                            <li>Stability means small input errors → small output errors</li>
+                            <li>Stability depends on algorithm formulation and problem conditioning</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Ill-conditioned problems (e.g., near-singular matrices)</li>
+                            <li>Unstable algorithms magnify small errors</li>
+                            <li>Floating-point limitations worsen instability</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Robust model training</li>
+                            <li>Matrix operations (e.g., regression with multicollinearity)</li>
+                            <li>Reproducibility across systems</li>
+                            <li>Algorithm selection (e.g., `np.linalg.solve` vs `inv(A)`)</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Newton's Method</b></td>
+                    <td>
+                        <ul>
+                            <li>Uses gradient + Hessian to jump directly toward minima</li>
+                            <li>Quadratic convergence near optimum</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>High computational cost (Hessian inversion)</li>
+                            <li>Requires second derivatives</li>
+                            <li>Sensitive to initialization</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Used in logistic regression, GLMs, statistical modeling</li>
+                            <li>Benchmark for fast convergence when parameter size is manageable</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Quasi-Newton Methods (BFGS, L-BFGS)</b></td>
+                    <td>
+                        <ul>
+                            <li>Approximate Hessian using gradient history</li>
+                            <li>Faster than gradient descent with curvature info</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>More costly than simple first-order methods</li>
+                            <li>Still heavy for ultra high-dimension problems</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Widely used in optimization libraries</li>
+                            <li>Commonly applied in fitting smooth loss models</li>
+                            <li>L-BFGS practical for large-scale ML</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Conjugate Gradient Method</b></td>
+                    <td>
+                        <ul>
+                            <li>Solves large systems iteratively without explicit Hessian</li>
+                            <li>Works along conjugate directions</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Limited to quadratic/linear functions</li>
+                            <li>Sensitive to poorly conditioned matrices</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Linear regression with very large datasets</li>
+                            <li>Efficient for sparse systems</li>
+                            <li>Applications in scientific computing and PDEs</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </TabItem>
+    </Tabs>
+
+  </TabItem>
+</Tabs>
