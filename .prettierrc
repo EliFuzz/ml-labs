@@ -1,7 +1,7 @@
 {
   "overrides": [
     {
-      "files": "*.md",
+      "files": "*.mdx",
       "options": {
         "printWidth": 1000,
         "bracketSpacing": true,
