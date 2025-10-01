@@ -3,3 +3,378 @@ title: Fundamentals
 description: Data Science Fundamentals
 hide_table_of_contents: true
 ---
+
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+
+<Tabs queryString="primary">
+    <TabItem value="glossary" label="Glossary">
+        - **Data**: refers to raw facts, figures, and statistics that are collected for analysis. It can be in various forms, such as numbers, text, images, or videos.
+        - **Data Science**: is an interdisciplinary field that uses scientific methods, processes, algorithms, and systems to extract knowledge and insights from structured and unstructured data. It combines aspects of statistics, computer science, and domain expertise to analyze and interpret complex data sets. The goal of data science is to turn data into actionable insights that can inform decision-making and drive business value. Key components of data science include data collection, data cleaning, data analysis, machine learning, and data visualization.
+    </TabItem>
+    <TabItem value="ds-lifecycle" label="DS Lifecycle">
+        ## Data Science Lifecycle
+
+        ```mermaid
+        graph LR
+            A(Problem Definition) e1@--> B(Data Mining)
+            B e2@--> C(Data Preparation)
+            C e3@--> D(Data Exploration)
+            D e4@--> E(Feature Engineering)
+            E e5@--> F(Predictive Modeling)
+            F e6@--> G(Data Visualization)
+
+            e1@{ animate: true }
+            e2@{ animate: true }
+            e3@{ animate: true }
+            e4@{ animate: true }
+            e5@{ animate: true }
+            e6@{ animate: true }
+        ```
+
+        1. **Problem Definition**: Understand the business problem and define objectives
+        2. **Data Mining**: Collect and explore data to identify patterns and insights
+        3. **Data Preparation**: Clean and preprocess data for analysis
+        4. **Data Exploration**: Analyze data to uncover trends and relationships
+        5. **Feature Engineering**: Create and select relevant features for modeling
+        6. **Predictive Modeling**: Train machine learning models, evaluate their performance, and use them to make predictions
+        7. **Data Visualization**: Communicate the findings with key stakeholders using plots and interactive visualizations
+
+        ## Data Preparation
+
+        ```mermaid
+        graph LR
+            A(Collection) e1@--> B(Cleaning)
+            B e2@--> C(Transformation)
+            C e3@--> D(Reduction)
+            D e4@--> E(Consolidation)
+            E e5@--> F(Storage)
+
+            e1@{ animate: true }
+            e2@{ animate: true }
+            e3@{ animate: true }
+            e4@{ animate: true }
+            e5@{ animate: true }
+        ```
+
+        1. **Collection**: Gathering data sources and measuring the accuracy of each file
+            - Has this problem been approached before? What was discovered?
+            - Is the purpose and goal understood by all involved?
+            - Is there ambiguity and how to reduce it?
+            - What are the constraints?
+            - What will the end result potentially look like?
+            - How much resources (time, people, computational) are available?
+            - What data is already available to me?
+            - Who owns this data?
+            - What are the privacy concerns?
+            - Do I have enough to solve this problem?
+            - Is the data of acceptable quality for this problem?
+            - If I discover additional information through this data, should we consider changing or redefining the goals?
+        2. **Cleaning**: Detecting and removing incomplete and inaccurate data records
+            - Classification: Organizing data into categories for more efficient use
+            - Clustering: Grouping data into similar groups
+            - Regression: Determine the relationships between variables to predict or forecast values
+        3. **Transformation**: Reformatting data into proper formats and structures
+        4. **Reduction**: Condensing redundant data down to its meaningful parts
+        5. **Consolidation**: Combining and storing varied data into a single place
+        6. **Storage**: Storing the data in a storage medium for future use
+    </TabItem>
+    <TabItem value="ethics" label="Ethics">
+        ## Ethics Principles
+
+        <table class="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Definition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Accountability</b></td>
+                    <td>Makes practitioners responsible for their data & AI operations, ensuring compliance with ethical principles</td>
+                </tr>
+                <tr>
+                    <td><b>Transparency</b></td>
+                    <td>Ensures data and AI decisions are understandable and interpretable, explaining the "what" and "why"</td>
+                </tr>
+                <tr>
+                    <td><b>Fairness</b></td>
+                    <td>Aims to treat all people fairly by addressing systemic or implicit socio-technical biases in data and systems</td>
+                </tr>
+                <tr>
+                    <td><b>Reliability & Safety</b></td>
+                    <td>Ensures AI behaves consistently with defined values while minimizing harms or unintended consequences</td>
+                </tr>
+                <tr>
+                    <td><b>Privacy & Security</b></td>
+                    <td>Protects user privacy and identities by understanding data lineage and providing security safeguards</td>
+                </tr>
+                <tr>
+                    <td><b>Inclusiveness</b></td>
+                    <td>Designs AI solutions to meet a broad range of human needs and capabilities, ensuring accessibility</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Ethics Challenges
+
+        <table class="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Definition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Data Ownership</b></td>
+                    <td>Who owns the data? What rights do subjects and organizations have regarding control, access, and erasure?</td>
+                </tr>
+                <tr>
+                    <td><b>Informed Consent</b></td>
+                    <td>Did users give explicit permission for data capture and understand its purpose, risks, and alternatives?</td>
+                </tr>
+                <tr>
+                    <td><b>Intellectual Property</b></td>
+                    <td>Does collected data have economic value? Do users or organizations hold IP rights, and how are they protected?</td>
+                </tr>
+                <tr>
+                    <td><b>Data Privacy</b></td>
+                    <td>Is personal data secured, anonymized, and accessible only to authorized contexts without risk of leaks?</td>
+                </tr>
+                <tr>
+                    <td><b>Right to Be Forgotten</b></td>
+                    <td>Do systems allow users to request erasure of personal data, complying with privacy regulations?</td>
+                </tr>
+                <tr>
+                    <td><b>Dataset Bias</b></td>
+                    <td>Was data representative? Were biases tested, mitigated, or removed to prevent unfair outcomes?</td>
+                </tr>
+                <tr>
+                    <td><b>Data Quality</b></td>
+                    <td>Is data valid, accurate, consistent, and complete enough to support reliable AI model development?</td>
+                </tr>
+                <tr>
+                    <td><b>Algorithm Fairness</b></td>
+                    <td>Does the algorithm discriminate against groups? Were model accuracy and potential harms evaluated?</td>
+                </tr>
+                <tr>
+                    <td><b>Misrepresentation</b></td>
+                    <td>Are insights derived from honest data, or are methods/statistics being selectively used to mislead?</td>
+                </tr>
+                <tr>
+                    <td><b>Free Choice</b></td>
+                    <td>Does system design nudge users with hidden biases? Can users truly understand, choose, and reverse decisions?</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="stats-probability" label="Stats & Probability">
+        ## Probability and Random Variables
+
+        <table class="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Definition</th>
+                    <th>Concept</th>
+                    <th>Examples</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Probability</b></td>
+                    <td>Likelihood of an event, between 0 and 1</td>
+                    <td>$$P(E) = \frac{\text{favorable outcomes}}{\text{total outcomes}}$$</td>
+                    <td>Even number on a die: $$3/6 = 0.5$$</td>
+                </tr>
+                <tr>
+                    <td><b>Random Variables</b></td>
+                    <td>Functions assigning values to outcomes</td>
+                    <td>Discrete (countable), Continuous (real range)</td>
+                    <td>Dice roll (1-6), bus arrival time</td>
+                </tr>
+                <tr>
+                    <td><b>Sample Space</b></td>
+                    <td>Set of all possible outcomes</td>
+                    <td>Set notation</td>
+                    <td>$$\left\{1,2,3,4,5,6\right\}$$ for a die</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Distributions
+
+        <table class="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Type</th>
+                    <th>Definition</th>
+                    <th>Key Points</th>
+                    <th>Examples</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Discrete Distribution</b></td>
+                    <td>Discrete random variable</td>
+                    <td>$$P(X=s)$$ defines probability for each outcome, sums to 1</td>
+                    <td>Uniform distribution: equal probabilities</td>
+                    <td>Die roll uniform with $$1/6$$</td>
+                </tr>
+                <tr>
+                    <td><b>Continuous Distribution</b></td>
+                    <td>Continuous random variable</td>
+                    <td>Probability density function (PDF), probabilities over intervals</td>
+                    <td>Exact value probability = 0</td>
+                    <td>Normal distribution, uniform continuous</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Statistic Measures
+
+        <table class="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Definition</th>
+                    <th>Formula</th>
+                    <th>Examples</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Mean (Expectation)</b></td>
+                    <td>Average value</td>
+                    <td>$$E(X) = \sum x_i p_i$$</td>
+                    <td>Average height, weight etc.</td>
+                </tr>
+                <tr>
+                    <td><b>Variance</b></td>
+                    <td>Spread of data around mean</td>
+                    <td>$$\sigma^2 = \frac{1}{n} \sum (x_i - \mu)^2$$</td>
+                    <td>Variability in test scores</td>
+                </tr>
+                <tr>
+                    <td><b>Standard Deviation</b></td>
+                    <td>Square root of variance</td>
+                    <td>$$\sigma = \sqrt{\sigma^2}$$</td>
+                    <td>Spread measurement</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Central Tendency Measures
+
+        <table class="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Description</th>
+                    <th>Notes</th>
+                    <th>Use Case</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Median</b></td>
+                    <td>Middle value, robust to outliers</td>
+                    <td>Splits data in half</td>
+                    <td>Income data with outliers</td>
+                </tr>
+                <tr>
+                    <td><b>Mode</b></td>
+                    <td>Most frequent value</td>
+                    <td>Useful for categorical data</td>
+                    <td>Most common shoe size</td>
+                </tr>
+                <tr>
+                    <td><b>Quartiles & IQR</b></td>
+                    <td>Q1 = 25%, Q3 = 75%, IQR = Q3-Q1</td>
+                    <td>Detect outliers with box plot</td>
+                    <td>Box plot for exam scores</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ## Key Theorems
+
+        <table class="text_vertical">
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Description</th>
+                    <th>Notes</th>
+                    <th>Examples</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Law of Large Numbers</b></td>
+                    <td>Sample mean converges to population mean as sample size increases</td>
+                    <td>Basis for reliability in statistics</td>
+                    <td>Average height from large sample</td>
+                </tr>
+                <tr>
+                    <td><b>Central Limit Theorem</b></td>
+                    <td>Distribution of sample means approaches normal regardless of original distribution</td>
+                    <td>Justifies normal approximation in many cases</td>
+                    <td>Average test scores of students</td>
+                </tr>
+                <tr>
+                    <td><b>Confidence Intervals</b></td>
+                    <td>Estimating population parameter range from sample</td>
+                    <td>Width increases with confidence level</td>
+                    <td>Mean height with 95% confidence</td>
+                </tr>
+                <tr>
+                    <td><b>Hypothesis Testing</b></td>
+                    <td>Tests claims about populations, comparing means or distributions</td>
+                    <td>Uses t-test, p-value indicates evidence strength</td>
+                    <td>Comparing heights of groups</td>
+                </tr>
+                <tr>
+                    <td><b>Covariance & Correlation</b></td>
+                    <td>Measures relationship between two variables</td>
+                    <td>Correlation normalized between -1 and 1</td>
+                    <td>Weight vs height correlation</td>
+                </tr>
+            </tbody>
+        </table>
+    </TabItem>
+    <TabItem value="project-structure" label="Project Structure">
+        ```markdown
+        ├── LICENSE                     ← Open-source license if one is chosen
+        ├── Makefile                    ← Makefile with convenience commands like `make data` or `make train`
+        ├── README.md                   ← The top-level README for developers using this project.
+        ├── data
+        │   ├── external                ← Data from third party sources
+        │   ├── interim                 ← Intermediate data that has been transformed
+        │   ├── processed               ← The final, canonical data sets for modeling
+        │   └── raw                     ← The original, immutable data dump
+        ├── docs                        ← Static documentation files (e.g. mkdocs, Sphinx)
+        ├── models                      ← Trained and serialized models, model predictions, or model summaries
+        ├── notebooks                   ← Jupyter notebooks. Naming convention is a number (for ordering), the creator's initials, and a short `-` delimited description, e.g. `1.0-jqp-initial-data-exploration`
+        ├── pyproject.toml              ← Project configuration file with package metadata for {{module_name}} and configuration for tools like ruff
+        ├── references                  ← Data dictionaries, manuals, and all other explanatory materials
+        ├── reports                     ← Generated analysis as HTML, PDF, LaTeX, etc.
+        │   └── figures                 ← Generated graphics and figures to be used in reporting
+        ├── requirements.txt            ← The requirements file for reproducing the analysis environment, e.g. generated with `pip freeze > requirements.txt`
+        ├── setup.cfg                   ← Configuration file for flake8
+    └── {{module_name}}             ← Source code for use in this project
+            ├── __init__.py             ← Makes {{module_name}} a Python module
+            ├── config.py               ← Store useful variables and configuration
+            ├── dataset.py              ← Scripts to download or generate data
+            ├── features.py             ← Code to create features for modeling
+            ├── modeling
+            │   ├── __init__.py
+            │   ├── predict.py          ← Code to run model inference with trained models
+            │   └── train.py            ← Code to train models
+            └── plots.py                ← Code to create visualizations
+        ```
+    </TabItem>
+
+</Tabs>
