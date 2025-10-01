@@ -229,60 +229,66 @@ import Tabs from "@theme/Tabs";
             </tbody>
         </table>
       </TabItem>
-      <TabItem value="data-structured-vs-unstructured" label="Structured vs. Unstructured">
-        <table>
+      <TabItem value="data-types" label="Data Types">
+        <table class="text_vertical">
             <thead>
                 <tr>
-                    <th>Aspect</th>
-                    <th>Structured Data</th>
-                    <th>Unstructured Data</th>
+                    <th>Data Type</th>
+                    <th>Definition</th>
+                    <th>Characteristics</th>
+                    <th>Examples</th>
+                    <th>Use Cases</th>
+                    <th>Notes</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Definition</td>
-                    <td>Data that adheres to a predefined schema or model, organized in rows and columns</td>
-                    <td>Data that does not have a predefined structure or schema, often text-heavy or multimedia</td>
+                    <td><b>Raw Data</b></td>
+                    <td>Unprocessed, unfiltered data collected directly from sources without any manipulation or analysis</td>
+                    <td>Original, uncleaned, may contain errors or noise; very granular; inflexible until processed</td>
+                    <td>Sensor readings, transaction logs, survey responses in original form, unedited images or video files</td>
+                    <td>Foundation for all analysis; requires cleaning, transformation, and validation</td>
+                    <td>Also called primary data or source data; critical for unbiased analysis</td>
                 </tr>
                 <tr>
-                    <td>Storage</td>
-                    <td>Stored in relational databases (SQL)</td>
-                    <td>Stored in NoSQL databases, data lakes, file systems</td>
+                    <td><b>Quantitative Data</b></td>
+                    <td>Numerical data representing measurable quantities that can be counted or measured and subjected to math operations</td>
+                    <td>Numeric, measurable, often continuous or discrete; suitable for statistical and mathematical modeling</td>
+                    <td>Heights, weights, sales numbers, temperatures, survey ratings (on scale)</td>
+                    <td>Statistical analysis, predictive modeling, machine learning, numerical summarization</td>
+                    <td>Often stored as structured data but can appear semi-structured or raw</td>
                 </tr>
                 <tr>
-                    <td>Data Model</td>
-                    <td>Predefined schema with fixed fields and data types</td>
-                    <td>No fixed schema; flexible and dynamic formats</td>
+                    <td><b>Qualitative Data</b></td>
+                    <td>Non-numerical, descriptive data representing categories, concepts, or subjective qualities</td>
+                    <td>Categorical or textual data; may be structured (coded categories) or unstructured (open text)</td>
+                    <td>Interview transcripts, social media posts, survey open responses, observations</td>
+                    <td>Content analysis, thematic coding, sentiment analysis, NLP applications</td>
+                    <td>Includes both structured categorical data and unstructured textual/media data</td>
                 </tr>
                 <tr>
-                    <td>Querying</td>
-                    <td>Easily queried using SQL with structured queries</td>
-                    <td>Requires specialized tools (e.g., text mining, image recognition) for analysis</td>
+                    <td><b>Structured Data</b></td>
+                    <td>Data organized into predefined models or schemas, typically tabular with rows and columns</td>
+                    <td>Highly organized; easy to store, search, and analyze; conforms to relational databases or spreadsheets</td>
+                    <td>Databases with customer info, spreadsheets with sales data, financial records</td>
+                    <td>Used in relational databases, data warehouses, and analytical reporting</td>
+                    <td>Often quantitative and categorical (qualitative) data; easiest to handle computationally</td>
                 </tr>
                 <tr>
-                    <td>Analysis Complexity</td>
-                    <td>Straightforward analysis using traditional BI tools</td>
-                    <td>Complex analysis often requiring machine learning or advanced analytics techniques</td>
+                    <td><b>Unstructured Data</b></td>
+                    <td>Data without a predefined schema or organization, often qualitative and complex</td>
+                    <td>No fixed format; text-heavy or multimedia; requires advanced techniques for parsing and analysis</td>
+                    <td>Emails, videos, audio recordings, social media feeds, documents, images</td>
+                    <td>Text mining, image/video analysis, sentiment analysis, AI-driven extraction</td>
+                    <td>Increasingly important with big data, but challenging to manage and analyze</td>
                 </tr>
                 <tr>
-                    <td>Volume</td>
-                    <td>Typically smaller in volume due to structured nature</td>
-                    <td>Larger in volume due to diverse formats and types</td>
-                </tr>
-                <tr>
-                    <td>Processing Speed</td>
-                    <td>Faster processing due to defined structure and indexing</td>
-                    <td>Slower processing due to need for parsing and interpretation</td>
-                </tr>
-                <tr>
-                    <td>Use Cases</td>
-                    <td>Financial transactions, customer records, inventory management</td>
-                    <td>Customer feedback analysis, media content management, sentiment analysis</td>
-                </tr>
-                <tr>
-                    <td>Examples</td>
-                    <td>Relational databases, spreadsheets, CSV files</td>
-                    <td>Emails, social media posts, images, videos, audio files, documents (PDFs, Word)</td>
+                    <td><b>Semi-structured Data</b></td>
+                    <td>Data that does not fit rigid schemas but contains tags or markers to separate elements for easier processing</td>
+                    <td>Hybrid of structured and unstructured; contains metadata or tags alongside free-form content</td>
+                    <td>JSON, XML, CSV files, HTML documents, tagged multimedia files</td>
+                    <td>Easier to process than unstructured; used for web data, APIs, and metadata extraction</td>
+                    <td>Provides flexibility of unstructured with some model-driven processing advantages</td>
                 </tr>
             </tbody>
         </table>
