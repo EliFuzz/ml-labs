@@ -380,6 +380,304 @@ import Tabs from "@theme/Tabs";
             </tr>
           </tbody>
         </table>
+
+        - **Data Quality Assessment**:
+            - **Missing values detection**: Identifying records or fields with null, empty, or undefined values
+            - **Duplicate identification**: Finding records that appear multiple times in the dataset
+            - **Outlier detection**: Identifying data points that deviate significantly from other observations
+            - **Data type validation**: Verifying that data matches expected types (string, numeric, date, etc.)
+            - **Range checking**: Ensuring data values fall within acceptable boundaries
+            - **Format consistency verification**: Checking that data follows consistent formatting patterns
+            - **Completeness assessment**: Evaluating the proportion of missing vs available data
+        - **Missing Data Handling**:
+            - **Listwise deletion**: Removing entire records that contain any missing values
+            - **Pairwise deletion**: Using available data for each specific analysis while ignoring missing values
+            - **Mean imputation**: Replacing missing values with the arithmetic mean of available values
+            - **Median imputation**: Replacing missing values with the median of available values
+            - **Mode imputation**: Replacing missing values with the most frequent category
+            - **Forward fill imputation**: Propagating last known value forward to fill gaps
+            - **Backward fill imputation**: Using next known value to fill gaps backward
+            - **Linear interpolation**: Estimating missing values using linear trends between known points
+            - **Polynomial interpolation**: Using polynomial curves to estimate missing values
+            - **K-nearest neighbors imputation**: Using similar records to estimate missing values
+            - **Multiple imputation**: Creating multiple datasets with different imputed values
+            - **Hot-deck imputation**: Using values from similar records in the same dataset
+            - **Cold-deck imputation**: Using values from external sources or different datasets
+            - **Regression imputation**: Predicting missing values using regression models
+            - **Stochastic regression imputation**: Adding random error to regression predictions
+            - **Indicator method for missing values**: Creating binary flags for missing value locations
+        - **Duplicate Management**:
+            - **Exact duplicate removal**: Eliminating records that are identical in all fields
+            - **Fuzzy duplicate detection**: Finding records that are similar but not exactly identical
+            - **Semantic duplicate identification**: Detecting duplicates based on meaning rather than exact text
+            - **Cross-record comparison**: Comparing multiple fields across records to find duplicates
+            - **Record linkage**: Matching records across different datasets
+            - **Entity resolution**: Determining when different records refer to the same entity
+            - **Deduplication algorithms**: Automated processes for identifying and removing duplicates
+        - **Outlier Treatment**:
+            - **Z-score method**: Identifying outliers using standard deviation from mean
+            - **Modified Z-score**: Robust outlier detection using median absolute deviation
+            - **Interquartile range method**: Using box plot statistics to identify outliers
+            - **Isolation forest**: Tree-based algorithm for anomaly detection
+            - **Local outlier factor**: Density-based outlier detection algorithm
+            - **One-class SVM**: Support vector machine for novelty detection
+            - **Winsorization**: Replacing extreme values with less extreme percentiles
+            - **Trimming**: Removing extreme values entirely
+            - **Capping**: Setting maximum/minimum thresholds for values
+            - **Log transformation for skewed data**: Using logarithms to normalize skewed distributions
+        - **Data Type Correction**:
+            - **String to numeric conversion**: Converting text representations to numerical values
+            - **Date parsing and standardization**: Converting various date formats to consistent datetime objects
+            - **Boolean value normalization**: Standardizing true/false representations across formats
+            - **Categorical encoding preparation**: Preparing categorical data for encoding schemes
+            - **Data type coercion**: Forcing data into correct types with error handling
+            - **Format standardization**: Ensuring consistent formatting across similar data types
+        - **Text Data Cleaning**:
+            - **Case normalization**: Converting text to consistent case (upper/lower/title)
+            - **Whitespace removal**: Eliminating extra spaces, tabs, and line breaks
+            - **Punctuation handling**: Managing punctuation marks appropriately
+            - **Special character removal**: Filtering out non-alphanumeric characters
+            - **HTML tag stripping**: Removing HTML/XML markup from text
+            - **URL extraction**: Identifying and extracting web addresses
+            - **Email extraction**: Finding and validating email addresses
+            - **Phone number standardization**: Converting phone numbers to consistent formats
+            - **Stop word removal**: Eliminating common words without semantic value
+            - **Stemming**: Reducing words to their root forms
+            - **Lemmatization**: Converting words to their dictionary base forms
+            - **Tokenization**: Breaking text into individual words or units
+            - **Spell checking**: Identifying and correcting spelling errors
+            - **Language detection**: Identifying the language of text content
+        - **Categorical Data Cleaning**:
+            - **Category consolidation**: Merging similar or synonymous categories
+            - **Rare category handling**: Grouping infrequent categories into "Other"
+            - **Typo correction**: Fixing spelling errors in category labels
+            - **Standardized naming conventions**: Applying consistent naming rules
+            - **Hierarchical categorization**: Creating multi-level category structures
+            - **One-hot encoding preparation**: Preparing data for one-hot encoding
+            - **Label encoding preparation**: Preparing data for label encoding
+            - **Frequency encoding preparation**: Preparing data for frequency-based encoding
+            - **Target encoding preparation**: Preparing data for target-based encoding
+        - **Numerical Data Cleaning**:
+            - **Scaling and normalization**: Adjusting data to consistent scales
+            - **Standardization (z-score)**: Converting to mean=0, std=1 distribution
+            - **Min-max scaling**: Scaling to fixed range [0,1] or [-1,1]
+            - **Robust scaling**: Using median and IQR for scaling
+            - **Power transformation**: Using power functions to stabilize variance
+            - **Log transformation**: Applying logarithm to reduce skewness
+            - **Square root transformation**: Using square root to moderate large values
+            - **Box-Cox transformation**: Family of power transformations for normality
+            - **Yeo-Johnson transformation**: Extension of Box-Cox for negative values
+            - **Quantile transformation**: Mapping to uniform or normal distribution
+        - **>Data Structure Cleaning**:
+            - **Column renaming**: Standardizing column names for consistency
+            - **Index resetting**: Converting meaningful indices to regular columns
+            - **Multi-index flattening**: Converting hierarchical indices to flat structure
+            - **Pivot table reshaping**: Converting long format to wide format tables
+            - **Melt operations**: Converting wide format to long format
+            - **Wide to long conversion**: Pivoting data from columns to rows
+            - **Long to wide conversion**: Pivoting data from rows to columns
+            - **Stack/unstack operations**: Pivoting multi-level data structures
+        - **Anomaly Detection**:
+            - **Statistical anomaly detection**: Using statistical methods to identify unusual patterns
+            - **Machine learning-based anomaly detection**: Using ML algorithms for pattern-based detection
+            - **Time series anomaly detection**: Specialized methods for temporal data anomalies
+            - **Contextual anomaly detection**: Considering context for anomaly identification
+            - **Collective anomaly detection**: Finding groups of anomalous points
+            - **Point anomaly detection**: Identifying individual anomalous data points
+        - **Data Validation**:
+            - **Schema validation**: Ensuring data conforms to predefined structure
+            - **Business rule validation**: Applying domain-specific business logic
+            - **Cross-field validation**: Checking relationships between multiple fields
+            - **Referential integrity checking**: Ensuring references between datasets are valid
+            - **Constraint validation**: Applying predefined limits and rules
+            - **Data quality rules enforcement**: Automated application of quality standards
+        - **Feature Engineering Preparation**:
+            - **Feature scaling**: Preparing features for consistent scaling
+            - **Feature encoding**: Converting categorical features to numerical
+            - **Feature selection**: Choosing relevant features for modeling
+            - **Dimensionality reduction**: Reducing feature space complexity
+            - **Feature extraction**: Creating new features from existing data
+            - **Feature construction**: Building composite features from raw data
+            - **Domain-specific feature creation**: Creating features based on domain expertise
+        - **Time Series Specific Cleaning**:
+            - **Time zone standardization**: Converting all timestamps to consistent time zone
+            - **Timestamp alignment**: Ensuring consistent time intervals
+            - **Frequency consistency**: Standardizing observation frequencies
+            - **Missing time period handling**: Managing gaps in temporal sequences
+            - **Seasonal decomposition**: Separating trend, seasonal, and residual components
+            - **Trend removal**: Eliminating long-term trends from data
+            - **Detrending**: Removing trend components for analysis
+            - **Differencing**: Computing differences between consecutive observations
+            - **Seasonal adjustment**: Removing seasonal patterns from data
+        - **Geospatial Data Cleaning**:
+            - **Coordinate system standardization**: Converting coordinates to consistent reference systems
+            - **Invalid coordinate removal**: Filtering out impossible or corrupted coordinates
+            - **Boundary validation**: Ensuring coordinates fall within valid geographic boundaries
+            - **Distance-based outlier detection**: Identifying spatially isolated or impossible points
+            - **Spatial join validation**: Ensuring spatial relationships are logically consistent
+            - **Geometry simplification**: Reducing complexity of spatial shapes
+            - **Topology error correction**: Fixing geometric relationship errors
+        - **Data Integration Cleaning**:
+            - **Schema matching**: Aligning schemas across different data sources (Data warehouse loading, system integration)
+            - **Entity resolution across datasets**: Matching entities across multiple data sources (Master data management, customer 360)
+            - **Conflict resolution**: Managing conflicting information from multiple sources (Data fusion, truth discovery)
+            - **Data fusion**: Combining information from multiple sources (Information enrichment, completeness)
+            - **Record linkage**: Matching records across different datasets (Data integration, deduplication)
+            - **Data harmonization**: Standardizing data from different sources (Cross-system consistency, unified view)
+            - **Standardization across sources**: Applying consistent formats across integrated data
+        - **Quality Assurance**:
+            - **Data profiling**: Analyzing data structure and content patterns
+            - **Data lineage tracking**: Monitoring data transformation history
+            - **Quality metric calculation**: Computing quantitative quality measures
+            - **Cleaning process documentation**: Recording all cleaning operations performed
+            - **Validation testing**: Testing cleaning processes for effectiveness
+            - **Quality gate implementation**: Automated quality checkpoints in pipelines
+        - **Error Correction**:
+            - **Typo correction**: Fixing spelling and typing errors
+            - **Format error fixing**: Correcting malformed data formats
+            - **Inconsistency resolution**: Fixing contradictory information
+            - **Standardization errors correction**: Fixing non-standard data representations
+            - **Validation error handling**: Managing data that fails validation rules
+            - **Parsing error correction**: Fixing data that cannot be parsed correctly
+        - **Data Sampling for Cleaning**:
+            - **Random sampling**: Selecting random subsets for cleaning operations (Large dataset handling, exploratory cleaning)
+            - **Stratified sampling**: Maintaining category proportions in samples (Representative cleaning, bias prevention)
+            - **Cluster sampling**: Sampling groups rather than individuals (Hierarchical data, grouped cleaning)
+            - **Systematic sampling**: Selecting every nth element (Regular pattern cleaning, efficiency)
+            - **Reservoir sampling**: Maintaining random samples of fixed size (Streaming data, memory constraints)
+            - **Bootstrap sampling**: Sampling with replacement for validation
+        - **Advanced Imputation Techniques**:
+            - **Expectation-Maximization (EM) algorithm**: Iterative method for maximum likelihood estimation
+            - **Matrix completion methods**: Completing missing values in matrix structures
+            - **Deep learning-based imputation**: Using neural networks for missing value prediction
+            - **Autoencoder imputation**: Using autoencoders to learn data representations
+            - **Generative adversarial imputation**: Using GANs for realistic value generation
+            - **Variational autoencoder imputation**: Using VAEs for probabilistic imputation
+            - **Bayesian principal component analysis**: Probabilistic dimensionality reduction for imputation
+            - **Tensor decomposition methods**: Multi-dimensional array completion methods
+            - **Collaborative filtering imputation**: Using user/item similarities for imputation
+            - **Pattern-based imputation**: Using learned patterns for value prediction
+        - **Data Quality Enhancement**:
+            - **Data enrichment from external sources**: Adding information from external datasets
+            - **Knowledge graph integration**: Incorporating structured knowledge relationships
+            - **Semantic data integration**: Using meaning rather than structure for integration
+            - **Ontology-based cleaning**: Using domain ontologies for data correction
+            - **Rule-based data repair**: Applying logical rules for error correction
+            - **Constraint-based data repairing**: Using constraints to guide repair actions
+            - **Data fusion from multiple sources**: Combining multiple data sources intelligently
+            - **Ensemble cleaning methods**: Combining multiple cleaning approaches
+            - **Crowdsourced data cleaning**: Using human intelligence for data correction
+            - **Human-in-the-loop cleaning**: Combining automation with human oversight
+        - **Statistical Cleaning Methods**:
+            - **Robust statistical estimators**: Using outlier-resistant statistical measures
+            - **M-estimators for outliers**: Maximum likelihood type estimators for robustness
+            - **Huber regression cleaning**: Robust regression for outlier handling
+            - **Quantile regression cleaning**: Estimating conditional quantiles for robustness
+            - **Robust covariance estimation**: Outlier-resistant covariance matrix calculation
+            - **Mahalanobis distance cleaning**: Using statistical distance for outlier detection
+            - **Cook's distance analysis**: Measuring influence of individual observations
+            - **Leverage point detection**: Identifying observations with high leverage
+            - **Influence function analysis**: Studying the impact of individual observations
+            - **Breakdown point optimization**: Maximizing resistance to outliers
+        - **Machine Learning-Based Cleaning**:
+            - **Supervised anomaly detection**: Using labeled data for anomaly identification
+            - **Unsupervised outlier detection**: Finding anomalies without labeled data
+            - **Semi-supervised learning for cleaning**: Using partial labels for data cleaning
+            - **Active learning for data labeling**: Intelligently selecting data for labeling
+            - **Transfer learning for domain adaptation**: Adapting models across different domains
+            - **Few-shot learning for rare cases**: Learning from limited examples
+            - **Self-supervised cleaning methods**: Learning representations without labels
+            - **Meta-learning for cleaning strategies**: Learning to learn cleaning approaches
+            - **Ensemble methods for data cleaning**: Combining multiple ML models for cleaning
+            - **AutoML for cleaning pipeline optimization**: Automated optimization of cleaning workflows
+        - **Domain-Specific Cleaning**:
+            - **Healthcare data standardization (HL7, FHIR)**: Applying healthcare-specific standards
+            - **Financial data validation (SWIFT, FIX)**: Using financial industry protocols
+            - **Genomic data cleaning (FASTA, FASTQ)**: Specialized cleaning for genetic sequences
+            - **Sensor data calibration**: Correcting sensor readings and measurements
+            - **IoT data stream cleaning**: Managing continuous sensor data streams
+            - **Log data parsing and cleaning**: Extracting structured data from log files
+            - **Social media data sanitization**: Cleaning user-generated content
+            - **Web scraping data cleaning**: Processing and validating scraped content
+            - **API response normalization**: Standardizing API data formats
+            - **Database migration cleaning**: Managing data during system migrations
+        - **Temporal Data Cleaning**:
+            - **Time series decomposition**: Breaking down time series into components
+            - **Seasonal and trend adjustment**: Removing seasonal and trend patterns
+            - **Calendar effect removal**: Accounting for calendar-related variations
+            - **Holiday adjustment**: Managing holiday-related data anomalies
+            - **Working day adjustment**: Accounting for business day patterns
+            - **Outlier detection in time series**: Finding anomalous points in temporal data
+            - **Missing value imputation in time series**: Filling gaps in temporal sequences
+            - **Frequency conversion handling**: Managing different time granularities
+            - **Timestamp synchronization**: Aligning timestamps across sources
+            - **Temporal consistency validation**: Ensuring logical temporal relationships
+        - **Multivariate Cleaning**:
+            - **Correlation-based outlier detection**: Using variable relationships for outlier identification
+            - **Principal component analysis for cleaning**: Using PCA for dimensionality and outlier detection
+            - **Factor analysis for dimensionality**: Reducing dimensions while preserving relationships
+            - **Canonical correlation analysis**: Studying relationships between variable sets
+            - **Multivariate imputation methods**: Handling missing data across multiple variables
+            - **Copula-based modeling**: Modeling complex multivariate dependencies
+            - **Structural equation modeling**: Testing theoretical relationships between variables
+            - **Graphical model cleaning**: Using graph structures for data validation
+            - **Network-based anomaly detection**: Finding anomalies in network structures
+            - **Cluster analysis for grouping**: Grouping similar records for batch cleaning
+        - **Streaming Data Cleaning**:
+            - **Online outlier detection**: Detecting outliers in continuous data streams
+            - **Incremental data cleaning**: Processing data as it arrives
+            - **Real-time anomaly detection**: Immediate identification of unusual patterns
+            - **Sliding window techniques**: Using moving time windows for analysis
+            - **Adaptive cleaning thresholds**: Adjusting cleaning parameters dynamically
+            - **Concept drift detection**: Identifying changes in data patterns over time
+            - **Incremental learning for cleaning**: Learning cleaning rules from ongoing data
+            - **Stream processing frameworks**: Using specialized tools for data streams
+            - **Real-time quality monitoring**: Continuous assessment of data quality
+            - **Adaptive sampling for streams**: Intelligently sampling streaming data
+        - **Big Data Cleaning**:
+            - **Distributed data cleaning**: Cleaning across multiple computing nodes
+            - **MapReduce cleaning algorithms**: Using MapReduce paradigm for cleaning
+            - **Spark-based cleaning pipelines**: Using Apache Spark for large-scale cleaning
+            - **Hadoop data quality tools**: Specialized tools for Hadoop environments
+            - **Sampling for large datasets**: Using samples for efficient large data cleaning
+            - **Approximate cleaning methods**: Trading accuracy for computational efficiency
+            - **Parallel cleaning algorithms**: Algorithms designed for parallel execution
+            - **Cloud-based cleaning services**: Using cloud platforms for cleaning operations
+            - **Scalable outlier detection**: Outlier detection methods for massive datasets
+            - **Distributed deduplication**: Removing duplicates across distributed systems
+        - **Privacy-Preserving Cleaning**:
+            - **Differential privacy cleaning**: Adding noise for privacy protection during cleaning
+            - **k-anonymity implementation**: Ensuring sufficient group sizes for anonymity
+            - **l-diversity enforcement**: Maintaining diversity within anonymized groups
+            - **t-closeness application**: Preserving value distributions in anonymized data
+            - **Data masking techniques**: Hiding sensitive information while preserving structure
+            - **Pseudonymization methods**: Replacing identifiers with pseudonyms
+            - **Secure multiparty cleaning**: Cleaning data across multiple parties securely
+            - **Homomorphic encryption cleaning**: Computing on encrypted data
+            - **Federated data cleaning**: Cleaning distributed data without centralization
+            - **Privacy budget management**: Tracking privacy loss in repeated analyses
+        - **Error Pattern Analysis**:
+            - **Root cause analysis for data errors**: Identifying underlying causes of data problems
+            - **Error pattern mining**: Discovering common error patterns
+            - **Frequent error pattern detection**: Finding most common error types
+            - **Association rule mining for errors**: Finding relationships between error types
+            - **Sequential pattern mining**: Discovering error sequences over time
+            - **Graph-based error propagation**: Modeling how errors spread through data
+            - **Error clustering analysis**: Grouping similar errors for batch processing
+            - **Anomaly pattern recognition**: Identifying patterns in anomalous data
+            - **Predictive error modeling**: Forecasting future error occurrences
+            - **Error prevention strategies**: Developing methods to prevent errors
+        - **Data Standardization**:
+            - **Industry standard compliance**: Following industry-specific data standards
+            - **ISO data quality standards**: Implementing ISO-defined quality measures
+            - **Regulatory compliance cleaning**: Meeting regulatory data requirements
+            - **GDPR data cleaning requirements**: Privacy regulation compliance
+            - **HIPAA compliance for healthcare**: Healthcare data regulation compliance
+            - **SOX compliance for financial data**: Financial reporting regulation compliance
+            - **Basel accord compliance**: Banking regulation compliance
+            - **Industry-specific data models**: Using standard data models for domains
+            - **Standard data exchange formats**: Using common formats for data sharing
+            - **Metadata standardization**: Consistent metadata across systems
       </TabItem>
       <TabItem value="data-exploration" label="Data Exploration">
         <table className="text_vertical">
@@ -474,6 +772,87 @@ import Tabs from "@theme/Tabs";
         </table>
       </TabItem>
       <TabItem value="data-visualization" label="Data Visualization">
+        ```mermaid
+        ---
+        config:
+          layout: dagre
+        ---
+        graph LR
+          start(( )) e1@--> comparison(Comparison)
+          start e2@--> distribution(Distribution)
+          start e3@--> relationship(Relationship)
+          start e4@--> composition(Composition)
+
+          comparison e5@--> amongItems(Among Items)
+          amongItems e6@-->|2 variables per item| widthChart[[Variable Width Column Chart]]
+          amongItems e7@--> oneVariablePerItem(1 variable per item)
+          oneVariablePerItem e8@-->|many categories| tableWithCharts[[Table with Embedded Charts]]
+          oneVariablePerItem e9@--> |few categories| barChartHorizontal[[Bar Chart Vertical/Horizontal]]
+          comparison e10@--> overTime(Over Time)
+          overTime e11@--> |cyclical data| circularAreaChart[[Circular Area Chart]]
+          overTime e12@--> |non-cyclical data| lineChart[[Line Chart]]
+          overTime e13@--> |single or few categories| barChartVertical[[Bar Chart Vertical]]
+          overTime e14@--> |many categories| overTimeLineChart[[Line Chart]]
+
+          distribution e15@--> singleVariable(Single Variable)
+          singleVariable e16@--> |Few Data Points| barHistogram[[Bar Histogram]]
+          singleVariable e17@--> |Many Data Points| lineHistogram[[Line Histogram]]
+          distribution e18@--> |Two Variables| twoVariables[[Scatter Plot]]
+
+          relationship e19@--> |2 variables| scatter[[Scatter Plot]]
+          relationship e20@--> |3 or more variables| bubble[[Bubble Chart]]
+
+          composition e21@--> changingOverTime(Changing Over Time)
+          changingOverTime e22@--> fewPeriods(Few Periods)
+          changingOverTime e23@--> manyPeriods(Many Periods)
+          manyPeriods e24@--> |only relative difference matter| stackedArea100Bar[[Stacked 100% Area Chart]]
+          manyPeriods e25@--> |relative & absolute difference matter| stackedAreaChart[[Stacked Area Chart]]
+          fewPeriods e26@--> |only relative difference matter| stacked100Bar[[Stacked 100% Bar Chart]]
+          fewPeriods e27@--> |relative & absolute difference matter| stackedBar[[Stacked Bar Chart]]
+          changingOverTime e28@--> |only relative difference matter| stacked100Area[[Stacked 100% Area Chart]]
+          changingOverTime e29@--> |relative & absolute difference matter| stackedArea[[Stacked Area Chart]]
+          composition e30@--> static(Static)
+          static e31@--> |simple share of total| pieDonut[[Pie/Donut Chart]]
+          static e32@--> |accumulation/subtraction to total| waterfall[[Waterfall Chart]]
+          static e33@--> |components of components| subComponents[[Stacked 100% Bar Chart with Subcomponents]]
+          static e34@--> |accumulation to total and absolute difference matters| treemap[[Treemap]]
+
+          e1@{ animate: true }
+          e2@{ animate: true }
+          e3@{ animate: true }
+          e4@{ animate: true }
+          e5@{ animate: true }
+          e6@{ animate: true }
+          e7@{ animate: true }
+          e8@{ animate: true }
+          e9@{ animate: true }
+          e10@{ animate: true }
+          e11@{ animate: true }
+          e12@{ animate: true }
+          e13@{ animate: true }
+          e14@{ animate: true }
+          e15@{ animate: true }
+          e16@{ animate: true }
+          e17@{ animate: true }
+          e18@{ animate: true }
+          e19@{ animate: true }
+          e20@{ animate: true }
+          e21@{ animate: true }
+          e22@{ animate: true }
+          e23@{ animate: true }
+          e24@{ animate: true }
+          e25@{ animate: true }
+          e26@{ animate: true }
+          e27@{ animate: true }
+          e28@{ animate: true }
+          e29@{ animate: true }
+          e30@{ animate: true }
+          e31@{ animate: true }
+          e32@{ animate: true }
+          e33@{ animate: true }
+          e34@{ animate: true }
+        ```
+
         <table>
           <thead>
             <tr>
@@ -845,5 +1224,6 @@ import Tabs from "@theme/Tabs";
         </table>
       </TabItem>
     </Tabs>
+
   </TabItem>
 </Tabs>
