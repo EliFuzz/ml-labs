@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkclassic=self.webpackChunkclassic||[]).push([[3152],{53152:(c,s,a)=>{a.r(s),a.d(s,{DocSearchModal:()=>e.a1});var e=a(95022)}}]);
