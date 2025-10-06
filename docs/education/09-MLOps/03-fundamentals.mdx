@@ -372,10 +372,21 @@ import Tabs from "@theme/Tabs";
         <Tabs queryString="secondary">
             <TabItem value="docs-overview" label="Overview" attributes={{ className: 'tabs__vertical' }}>
                 - **AI Canvas**: initial concept and design
-                - **MLOps Stack Canvas**: technical implementation and operational planning
+                    - **focus on**: how AI can solve a business problem; defining the business goals; target outcomes
+                    - **addressed to**: business strategists; AI product managers
+                - **ML Canvas**: business and project planning
+                    - **focus on**: technical aspects of building, training and evaluating the ML model; data preparation and processing
+                    - **addressed to**: data scientists; ML engineers; technical project managers
+                - **MLOps Canvas**: technical implementation and operational planning
+                    - **focus on**: how AI can solve a business problem; defining the business goals; target outcomes
+                    - **addressed to**: MLOps engineers; infrastructure managers; AI/ML system architects
                 - **Model Card**: model documentation and reporting in production
+                    - **focus on**: documenting the model details, intended use, performance metrics, ethical considerations
+                    - **addressed to**: AI/ML engineers; compliance officers; stakeholders
             </TabItem>
             <TabItem value="ai-canvas" label="AI Canvas">
+                ![](./assets/fundamentals/ai-canvas.svg)
+
                 - **Business Objective**: Briefly describe the task being analyzed. What task/decision are you examining?
                 - **Prediction**: Identify the key uncertainty that you would like to resolve
                 - **Judgment**: Determine the payoffs to being right versus being wrong. Consider both false positives and false negatives
@@ -386,7 +397,23 @@ import Tabs from "@theme/Tabs";
                 - **Feedback**: How can you use measured outcomes, along with input data, to generate improvements to your predictive algorithm?
                 - **Impact**: Explain how the AI for this task/decision will impact on related tasks in the overall workflow. How will this AI impact on the overall workflow? Will it cause a staff replacement? Will it involve staff retraining or job redesign?
             </TabItem>
-            <TabItem value="mlops-stack-canvas" label="MLOps Stack Canvas">
+            <TabItem value="ml-canvas" label="ML Canvas">
+                ![](./assets/fundamentals/ml-canvas.svg)
+
+                -   **Value proposition**: How the ML model contributes to the business. What business metrics it aims to improve (e.g., increased revenue, reduced costs, enhanced user engagement)
+                -   **Data sources**: Where the data for the ML model comes from. This includes internal databases, external APIs, third-party datasets, and streaming data sources
+                -   **Prediction task**: The specific problem the ML model is trying to solve. Is it a classification, regression, clustering, or another type of task?
+                -   **Features**: The input variables or attributes used by the ML model to make predictions. This includes raw features, engineered features, and feature selection strategies
+                -   **Offline evaluation**: How the model's performance is measured before deployment. This involves metrics (e.g., accuracy, precision, recall, F1-score, RMSE), validation techniques (e.g., cross-validation), and datasets used
+                -   **Decisions**: The actions or recommendations derived from the model's predictions. How will the predictions be used to make decisions in the real world?
+                -   **Making predictions**: The mechanism by which the model generates predictions. This includes batch predictions, real-time inference, and considerations for latency and throughput
+                -   **Data collection**: The process of gathering new data to retrain and improve the model. This includes feedback loops, data labeling, and data governance
+                -   **Building models**: The process of training and developing the ML model. This involves algorithm selection, hyperparameter tuning, and model architecture design
+                -   **Live monitoring**: How the model's performance is tracked in production. This includes monitoring for data drift, concept drift, model decay, and system health metrics
+            </TabItem>
+            <TabItem value="mlops-canvas" label="MLOps Canvas">
+                ![](./assets/fundamentals/mlops-canvas.svg)
+
                 - **Data and Code Management**
                     - **Value Proposition**: defines why customers benefit from an ML software or service by addressing pain points and solving problems. It emphasizes how ML predictions enable decisions that boost productivity or user experience, focusing on real end-user value. Use Geoffrey Moore's template: `For (target customer) who (need or opportunity), our (product/service name) is (product category) that (benefit)`.
                         - What are we trying to do for the end-user(s)?
@@ -468,6 +495,8 @@ import Tabs from "@theme/Tabs";
                         - What operational metrics need to be collected? E.g., time to restore, change fail percentage.
             </TabItem>
             <TabItem value="model-card" label="Model Card">
+                ![](./assets/fundamentals/ai-model.svg)
+
                 - **Model Details**:
                     - Developers
                     - Model Date, Version & Type
