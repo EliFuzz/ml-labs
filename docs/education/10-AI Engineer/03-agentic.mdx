@@ -1,0 +1,152 @@
+---
+title: Agentic
+description: Agentic AI Overview
+hide_table_of_contents: true
+---
+
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+
+<Tabs queryString="primary">
+  <TabItem value="design-patterns" label="Design Patterns">
+    <table className="text_vertical">
+      <thead>
+        <tr>
+          <th>Pattern</th>
+          <th style={{minWidth: "400px"}}>Visualization</th>
+          <th>Definition</th>
+          <th>Use Cases</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Prompt Chaining</b></td>
+          <td>![](./assets/agentic/01-prompt-chaining.svg)</td>
+          <td>decomposes complex LLM tasks into sequential sub-problems, improving reliability by focusing each step and using structured outputs like JSON. It overcomes single-prompt limitations such as errors and hallucinations, enabling AI agents for multi-step reasoning and external tool integration</td>
+          <td>Information Processing Workflows; Complex Query Answering; Data Extraction and Transformation; Content Generation Workflows; Conversational Agents with State; Code Generation and Refinement; Multimodal and multi-step reasoning</td>
+        </tr>
+        <tr>
+          <td><b>Routing</b></td>
+          <td>![](./assets/agentic/02-router.svg)</td>
+          <td>enables dynamic decision-making in agentic systems, shifting from fixed sequential workflows to adaptive paths based on inputs like user intent or state. Mechanisms: LLM-based (prompt for classification), Embedding-based (semantic similarity), Rule-based (logic on keywords), ML Model-based (fine-tuned classifier)</td>
+          <td>Chain summarization; Trend analysis; Email drafting for market reports</td>
+        </tr>
+        <tr>
+          <td><b>Parallelization</b></td>
+          <td>![](./assets/agentic/03-parallelization.svg)</td>
+          <td>enables concurrent execution of independent sub-tasks (e.g., LLM calls, tool usages, or sub-agents) in agentic workflows, unlike sequential Prompt Chaining or dynamic Routing. This reduces overall time by running tasks simultaneously, especially with external latencies</td>
+          <td>Information Gathering and Research;  Data Processing and Analysis; Multi-API or Tool Interaction; Content Generation with Multiple Components; Validation and Verification;  Multi-Modal Processing; A/B Testing or Multiple Options Generation</td>
+        </tr>
+        <tr>
+          <td><b>Reflection</b></td>
+          <td>![](./assets/agentic/04-reflection.svg)</td>
+          <td>enables AI agents to evaluate and refine their own outputs or processes, improving accuracy, completeness, and quality beyond basic patterns like Chaining, Routing, or Parallelization. It introduces a feedback loop where an agent critiques its work and iterates for better results</td>
+          <td>Creative Writing and Content Generation; Code Generation and Debugging; Complex Problem Solving; Summarization and Information Synthesis; Planning and Strategy; Conversational Agents</td>
+        </tr>
+        <tr>
+          <td><b>Tool Use (Function Calling)</b></td>
+          <td>![](./assets/agentic/05-tool-use.svg)</td>
+          <td>enables agents to interact with external systems (APIs, databases, services, or code) via Function Calling. It allows LLMs to decide when and how to invoke tools based on user requests</td>
+          <td>Information Retrieval from External Sources; Interacting with Databases and APIs; Performing Calculations and Data Analysis; Sending Communications; Executing Code; Controlling Other Systems or Devices</td>
+        </tr>
+        <tr>
+          <td><b>Planning</b></td>
+          <td>![](./assets/agentic/06-planning.svg)</td>
+          <td>enables an AI agent to autonomously create action sequences from an initial state to a goal state, adapting to new information and obstacles</td>
+          <td>Procedural Task Automation; Robotics and Autonomous Navigation; Structured Information Synthesis; Customer Support</td>
+        </tr>
+        <tr>
+          <td><b>Multi-Agent Collaboration</b></td>
+          <td>![](./assets/agentic/07-multi-agent-collaboration.svg)</td>
+          <td>overcomes limitations of monolithic agents for complex, multi-domain tasks by decomposing objectives into sub-problems assigned to specialized agents (e.g., a Research Agent for retrieval, Data Analysis for processing, and Synthesis for reporting). Success relies on standardized communication protocols and shared ontologies for data exchange, delegation, and coordination, ensuring coherent outputs. Models include: single agent, network, supervisor, supervisor as a tool, hierarchical, and custom</td>
+          <td>Coordinated Research Efforts; Collaborative Data Analysis; Joint Content Creation; Multi-Agent Planning and Strategy</td>
+        </tr>
+        <tr>
+          <td><b>Memory Management</b></td>
+          <td>![](./assets/agentic/08-memory-management.svg)</td>
+          <td>agents need memory like humans: short-term (contextual, in LLM windows; limited, ephemeral) and long-term (persistent, in databases; semantic retrieval for integration)</td>
+          <td>Chatbots and Conversational AI; Task-Oriented Agents; Personalized Experiences; Learning and Improvement; Information Retrieval (RAG); Autonomous Systems</td>
+        </tr>
+        <tr>
+          <td><b>Learning and Adaptation</b></td>
+          <td>![](./assets/agentic/09-learning-and-adaptation.svg)</td>
+          <td>AI agents improve autonomously through various learning types including reinforcement learning with reward systems, supervised learning using labeled data, unsupervised learning for pattern discovery, few-shot/zero-shot adaptation, online real-time updates, and memory-based contextual learning to handle novel situations. Key algorithms like Proximal Policy Optimization (PPO) provide stable reinforcement learning for continuous actions, while Direct Preference Optimization (DPO) offers a simpler approach to align large language models directly with human preferences without requiring separate reward models</td>
+          <td>Personalized assistant agents; Trading bot agents; Application agents; Robotic and autonomous vehicle agents; Fraud detection agents</td>
+        </tr>
+        <tr>
+          <td><b>Model Context Protocol</b></td>
+          <td>![](./assets/agentic/10-mcp.svg)</td>
+          <td>open standard enabling LLMs to interact with external tools, data, and systems through a client-server architecture, acting as a universal adapter for dynamic discovery and interoperability. It exposes resources (static data), tools (executable actions), and prompts (interaction templates), promoting reusability and composability while wrapping legacy systems without rewrites. Unlike proprietary tool function calling, MCP supports broad, standardized connections, with considerations for security, error handling, and agent-friendly data formats. The interaction flow involves discovery, request formulation, server execution, and response updates to enable advanced agentic behavior</td>
+          <td>Database Integration; Generative Media Orchestration; External API Interaction; Reasoning-Based Information Extraction; Custom Tool Development; Standardized LLM-to-Application Communication; Complex Workflow Orchestration; IoT Device Control; Financial Services Automation</td>
+        </tr>
+        <tr>
+          <td><b>Goal Setting and Monitoring</b></td>
+          <td>![](./assets/agentic/11-goal-setting-and-monitoring.svg)</td>
+          <td>AI agents need defined objectives and progress tracking to succeed. This pattern sets goals, monitors advancement, and verifies success</td>
+          <td>Customer Support Automation; Personalized Learning Systems; Project Management Assistants; Automated Trading Bots; Robotics and Autonomous Vehicles; Content Moderation</td>
+        </tr>
+        <tr>
+          <td><b>Exception Handling and Recovery</b></td>
+          <td>![](./assets/agentic/12-exception-handling-and-recovery.svg)</td>
+          <td>enables AI agents to detect and recover from errors, malfunctions, and challenges using strategies like logging, retries, fallbacks, degradation, notifications, rollback, diagnosis, self-correction, and escalation, promoting resilience in unpredictable environments</td>
+          <td>Customer Service Chatbots; Automated Financial Trading; Smart Home Automation; Data Processing Agents; Web Scraping Agents; Robotics and Manufacturing</td>
+        </tr>
+        <tr>
+          <td><b>Human-in-the-Loop</b></td>
+          <td>![](./assets/agentic/13-human-in-the-loop.svg)</td>
+          <td>integrates human judgment with AI to ensure ethical, safe deployment in complex domains, augmenting human capabilities through oversight, intervention, feedback, and collaboration. It enables AI use in sensitive sectors but faces scalability, expertise, and privacy challenges</td>
+          <td>Content Moderation; Autonomous Driving; Financial Fraud Detection; Legal Document Review; Customer Support (Complex Queries); Data Labeling and Annotation; Generative AI Refinement; Autonomous Networks</td>
+        </tr>
+        <tr>
+          <td><b>Knowledge Retrieval (RAG)</b></td>
+          <td>![](./assets/agentic/14-rag.svg)</td>
+          <td>integrates external knowledge bases into LLMs for accurate, up-to-date responses. It uses semantic search to retrieve relevant chunks, augments prompts, and generates grounded outputs, reducing hallucinations. Core elements: embeddings (text vectors), similarity (semantic closeness), chunking (document breakdown), vector databases (efficient embedding storage/query). Variants: Graph RAG (knowledge graphs for complex queries); Agentic RAG (reasoning agent for validation, reconciliation, multi-step synthesis). Challenges: fragmented info, retrieval quality, maintenance costs, adds latency/complexity</td>
+          <td>Enterprise Search and Q&A; Customer Support and Helpdesks; Personalized Content Recommendation; News and Current Events Summarization</td>
+        </tr>
+        <tr>
+          <td><b>Inter-Agent Communication (A2A)</b></td>
+          <td>![](./assets/agentic/15-a2a.svg)</td>
+          <td>A2A is an open protocol for AI agents from different frameworks to collaborate via tasks, messages, and artifacts over JSON-RPC 2.0. Key features include Agent Cards for discovery, interaction modes (synchronous, polling, streaming, push), and security measures like TLS. Supported by major companies, it enhances multi-agent AI efficiency and complements MCP</td>
+          <td>Multi-Framework Collaboration; Automated Workflow Orchestration; Dynamic Information Retrieval</td>
+        </tr>
+        <tr>
+          <td><b>Resource-Aware Optimization</b></td>
+          <td>![](./assets/agentic/16-resource-aware-optimization.svg)</td>
+          <td>allows agents to dynamically allocate computational, temporal, and financial resources to meet goals within budgets or maximize efficiency. Agents choose between accurate/costly models and fast/cheap ones, such as quick summaries for limited resources or detailed forecasts for ample time/budget. A fallback switches to affordable models if needed, ensuring continuity</td>
+          <td>Cost-Optimized LLM Usage; Latency-Sensitive Operations; Energy Efficiency; Fallback for service reliability; Data Usage Management; Adaptive Task Allocation</td>
+        </tr>
+        <tr>
+          <td><b>Reasoning Techniques</b></td>
+          <td>![](./assets/agentic/17-reasoning-techniques.svg)</td>
+          <td>reasoning techniques for AI agents, including multi-step inferences, problem decomposition, and increased inference resources for better accuracy. Key methods include Chain-of-Thought (CoT) for step-by-step logic, Tree-of-Thought (ToT) for branching paths, Self-Correction for refinement, ReAct for tool-integrated actions, and collaborative frameworks like Chain of Debates (CoD) and Multi-Agent System Search (MASS). The Scaling Inference Law enables smaller models to outperform larger ones with extended "thinking time," as seen in applications like Deep Research, fostering transparent, autonomous agents for complex tasks</td>
+          <td>Complex Question Answering; Mathematical Problem Solving; Code Debugging and Generation; Strategic Planning; Medical Diagnosis; Legal Analysis</td>
+        </tr>
+        <tr>
+          <td><b>Guardrails/Safety</b></td>
+          <td>![](./assets/agentic/18-guardrails.svg)</td>
+          <td> ensure AI agents avoid harmful outputs via input validation, output filtering, behavioral constraints, and oversight. Examples: CrewAI uses prompts and Pydantic models; Vertex AI employs validation callbacks. Reliable agents need modularity, observability, least privilege, and fault-tolerant patterns like checkpoints for robustness</td>
+          <td>Customer Service Chatbots; Content Generation Systems; Educational Tutors/Assistants; Legal Research Assistants; Recruitment and HR Tools; Social Media Content Moderation; Scientific Research Assistants</td>
+        </tr>
+        <tr>
+          <td><b>Evaluation and Monitoring</b></td>
+          <td>![](./assets/agentic/19-evaluation-and-monitoring.svg)</td>
+          <td>enables AI agents to continuously assess performance, track progress toward goals, and detect operational anomalies through metrics, feedback loops, and reporting systems, ensuring alignment with requirements in dynamic environments. It incorporates response accuracy, latency monitoring, token usage tracking, LLM-as-a-Judge evaluations, agent trajectories, testing via files and evalsets, multi-agent dynamics, and advanced frameworks like "contractors" with formalized pillars for reliable, production-ready operation</td>
+          <td>Performance Tracking in Live Systems; A/B Testing for Agent Improvements; Compliance and Safety Audits; Enterprise systems; Drift Detection; Anomaly Detection in Agent Behavior; Learning Progress Assessment</td>
+        </tr>
+        <tr>
+          <td><b>Prioritization</b></td>
+          <td>![](./assets/agentic/20-prioritization.svg)</td>
+          <td>helps AI agents in complex settings rank tasks by urgency, importance, dependencies, and resources, focusing on critical actions for efficiency and goal alignment. It includes defining criteria, evaluating tasks, selecting actions via algorithms, and re-prioritizing dynamically, applicable at goal, sub-task, or action levels</td>
+          <td>Automated Customer Support; Cloud Computing; Autonomous Driving Systems; Financial Trading; Project Management; Cybersecurity; Personal Assistant AIs</td>
+        </tr>
+        <tr>
+          <td><b>Exploration and Discovery</b></td>
+          <td>![](./assets/agentic/21-exploration-and-discovery.svg)</td>
+          <td>enables AI agents to proactively explore novel information in complex environments, moving beyond reactive optimization</td>
+          <td>Scientific Research Automation; Game Playing and Strategy Generation; Market Research and Trend Spotting; Security Vulnerability Discovery; Creative Content Generation; Personalized Education and Training</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </TabItem>
+</Tabs>

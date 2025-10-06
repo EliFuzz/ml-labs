@@ -1,0 +1,1096 @@
+---
+title: RAG
+description: Retrieval-Augmented Generation (RAG)
+hide_table_of_contents: true
+---
+
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+
+<Tabs queryString="primary">
+    <TabItem value="overview" label="Overview">
+        **Retrieval-Augmented Generation (RAG)** is an advanced technique in natural language processing that combines the strengths of retrieval-based models and generative models to produce more accurate and contextually relevant responses. RAG systems first retrieve relevant documents or information from a large corpus based on the input query, and then use this retrieved information to generate a coherent and informed response. This approach enhances the model's ability to provide detailed and accurate answers, especially in scenarios where the input query requires specific knowledge that may not be present in the training data of the generative model alone.
+
+        **Key Components**:
+
+        - **Retriever**: component is responsible for searching and retrieving relevant documents or information from a large corpus based on the input query. It can use various techniques such as keyword matching, semantic search, or more advanced methods like dense vector representations to find the most pertinent information
+        - **Generator**: component takes the retrieved information and uses it to produce a coherent and contextually relevant response. This component is typically a generative language model that can synthesize information, answer questions, or create content based on the input it receives from the retriever
+    </TabItem>
+    <TabItem value="techniques" label="Techniques">
+        <table class="text_vertical">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Technique</th>
+                    <th style={{ minWidth: "500px" }}>Visualization</th>
+                    <th>Definition</th>
+                    <th>Technical Details</th>
+                    <th>Pros</th>
+                    <th>Cons</th>
+                    <th>Use Cases</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Foundational</b></td>
+                    <td><b>Basic RAG</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> extractText(Extract Text)
+                            extractText e2@--> embeddings(Create Embeddings)
+                            embeddings e3@--> retrieve(Retrieve Relevant Info)
+                            retrieve e4@--> generate(Generate Response)
+                            generate e5@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                        ```
+                    </td>
+                    <td>simple RAG combines a retriever and a generative language model to augment responses with external knowledge from a retrievable dataset</td>
+                    <td>uses an embedding model to vectorize queries and documents, a vector store for similarity search, and a language model that conditions generation on retrieved relevant documents</td>
+                    <td>straightforward to implement, improves accuracy over standalone LLM, allows use of up-to-date knowledge</td>
+                    <td>performance depends heavily on retrieval quality, lacks advanced context handling</td>
+                    <td>basic Q&A systems, chatbots, knowledge-based assistance</td>
+                </tr>
+                <tr>
+                    <td><b>Foundational</b></td>
+                    <td><b>Reliable RAG</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> retrieve(Retrieve Documents)
+                            retrieve e2@--> validate{Validate Relevance}
+                            validate e3@-->|irrelevant| noContext(No Context Available)
+                            validate e4@-->|relevant| highlight(Highlight Relevant Segments)
+                            highlight e5@--> generate(Generate Response)
+                            noContext e6@--> inform(Inform User)
+                            generate e7@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                        ```
+                    </td>
+                    <td>Enhanced RAG that validates retrieved document relevance and highlights used segments</td>
+                    <td>Adds validation layer to check document relevancy and highlights specific segments used for answering</td>
+                    <td>Improves answer reliability, provides transparency, reduces hallucinations</td>
+                    <td>Additional processing overhead, requires relevance validation logic</td>
+                    <td>High-stakes Q&A, legal document analysis, medical information retrieval</td>
+                </tr>
+                <tr>
+                    <td><b>Foundational</b></td>
+                    <td><b>Optimizing Chunk Sizes</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            documents(Documents) e1@--> experiment{Different Chunk Sizes}
+                            experiment e2@--> small(Small Chunks)
+                            experiment e3@--> medium(Medium Chunks)
+                            experiment e4@--> large(Large Chunks)
+                            small e5@--> evaluate(Evaluate Performance)
+                            medium e6@--> evaluate
+                            large e7@--> evaluate
+                            evaluate e8@--> select{Optimal Size}
+                            select e9@--> implement(Implement RAG)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                        ```
+                    </td>
+                    <td>Systematic approach to finding optimal chunk sizes for document processing</td>
+                    <td>Experiments with different chunk sizes and evaluates performance using metrics like faithfulness and relevancy</td>
+                    <td>Optimizes retrieval quality, balances context preservation vs precision</td>
+                    <td>Requires experimentation, dataset-dependent optimal sizes</td>
+                    <td>Performance tuning, domain-specific optimization, research and benchmarking</td>
+                </tr>
+                <tr>
+                    <td><b>Foundational</b></td>
+                    <td><b>Proposition Chunking</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            documents(Documents) e1@--> chunk(Chunk Text)
+                            chunk e2@--> generate(Generate Propositions)
+                            generate e3@--> validate(Validate Quality)
+                            validate e4@-->|high quality| embed(Create Embeddings)
+                            validate e5@-->|low quality| discard(Discard)
+                            embed e6@--> store(Store in Vector DB)
+                            store e7@--> query(User Query)
+                            query e8@--> retrieve(Retrieve Relevant Propositions)
+                            retrieve e9@--> generate(Generate Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                        ```
+                    </td>
+                    <td>Breaking down text into concise, complete, meaningful propositions for better retrieval</td>
+                    <td>Uses LLM to generate factual statements from chunks, validates quality, embeds propositions for retrieval</td>
+                    <td>Improves retrieval precision, better for knowledge extraction, reduces context fragmentation</td>
+                    <td>Computationally expensive, requires quality validation</td>
+                    <td>Knowledge extraction, precise fact retrieval, academic research</td>
+                </tr>
+                <tr>
+                    <td><b>Query Enhancement</b></td>
+                    <td><b>Query Transformation</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            originalQuery(Original Query) e1@--> transform{Query Transform Action}
+                            transform e2@-->|rewrite| rewrittenQuery(Rewritten Query)
+                            transform e3@-->|step-back| stepBackQuery(Step-Back Query)
+                            transform e4@-->|decompose| subQueries(Sub-Queries)
+                            rewrittenQuery e5@--> search(Search & Generate)
+                            stepBackQuery e6@--> search
+                            subQueries e7@--> search
+                            search e8@--> response(Response)
+                            response e9@--> evaluate(Evaluate)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                        ```
+                    </td>
+                    <td>Modifying or decomposing queries before retrieval to improve results</td>
+                    <td>Techniques include rephrasing, question decomposition, routing queries to appropriate sub-engines</td>
+                    <td>Handles complex queries better; improves relevance and answer quality</td>
+                    <td>Increased pipeline complexity; needs query understanding modules</td>
+                    <td>Complex multi-part questions, multi-domain retrieval systems</td>
+                </tr>
+                <tr>
+                    <td><b>Query Enhancement</b></td>
+                    <td><b>Reranker</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> initialRetrieval(Initial Retrieval)
+                            initialRetrieval e2@--> rerank{Reranking}
+                            rerank e3@--> recordedResults(Recorded Results)
+                            recordedResults e4@--> generate(Generate Response)
+                            generate e5@--> evaluate(Evaluate Response)
+                            evaluate e6@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                        ```
+                    </td>
+                    <td>A second-stage model that refines and improves initial retrieval results ranking</td>
+                    <td>Typically neural cross-encoders that re-score retrieved candidates based on query-document interactions</td>
+                    <td>Improves retrieval precision; reduces noise in top results</td>
+                    <td>Adds latency and compute overhead</td>
+                    <td>Search engines, QA systems, improving initial retriever results</td>
+                </tr>
+                <tr>
+                    <td><b>Query Enhancement</b></td>
+                    <td><b>Hypothetical Document Embedding (HyDE)</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> hypothetical(Generate Hypothetical Document)
+                            hypothetical e2@--> embedding(Create Embedding of Hypothetical Document)
+                            embedding e3@--> retrieve(Retrieve Documents)
+                            retrieve e4@--> generate(Generate Response)
+                            generate e5@--> evaluate(Evaluate Response)
+                            evaluate e6@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                        ```
+                    </td>
+                    <td>Generating hypothetical answers or documents with LLMs to create embeddings for retrieval</td>
+                    <td>LLMs synthesize potential relevant info from query, which is then embedded for comparison with documents</td>
+                    <td>Improves recall by anticipating relevant content; integrates generation and retrieval</td>
+                    <td>Relies on LLM quality; extra compute cost</td>
+                    <td>Open-domain QA, exploratory search</td>
+                </tr>
+                <tr>
+                    <td><b>Query Enhancement</b></td>
+                    <td><b>HyPE (Hypothetical Prompt Embedding)</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            documents(Documents) e1@--> chunk(Chunk Text)
+                            chunk e2@--> generate(Generate Hypothetical Questions)
+                            generate e3@--> embed(Create Embeddings of Questions)
+                            embed e4@--> store(Store in Vector DB)
+                            store e5@--> query(User Query)
+                            query e6@--> match(Question-Question Matching)
+                            match e7@--> retrieve(Retrieve Relevant Chunks)
+                            retrieve e8@--> generate(Generate Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                        ```
+                    </td>
+                    <td>Precomputes hypothetical questions per chunk at indexing time for better query alignment</td>
+                    <td>Generates multiple hypothetical queries per chunk, embeds questions instead of chunks, matches user queries against stored questions</td>
+                    <td>Improves retrieval alignment, no runtime overhead, higher precision and recall</td>
+                    <td>Requires more storage, complex indexing process</td>
+                    <td>Question-answering systems, information retrieval, search optimization</td>
+                </tr>
+                <tr>
+                    <td><b>Context Enrichment</b></td>
+                    <td><b>Semantic Chunking</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> extractText(Extract Text)
+                            extractText e2@--> chunk(Chunk Text)
+                            chunk e3@--> embeddings(Create Embeddings)
+                            embeddings e4@--> contextAware(Context-Aware Retrieval)
+                            contextAware e5@--> relevantChunks(Retrieve Relevant Chunks with Neighbors)
+                            relevantChunks e6@--> generate(Generate Response)
+                            generate e7@--> evaluate(Evaluate Response)
+                            evaluate e8@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                        ```
+                    </td>
+                    <td>splitting documents into semantically meaningful chunks to preserve coherent ideas</td>
+                    <td>instead of fixed-size splits, chunks are formed at natural linguistic or thematic boundaries like paragraphs or concept boundaries to improve embedding quality</td>
+                    <td>improves retrieval relevance; avoids fragmented or mixed-topic chunks; boosts RAG output coherence</td>
+                    <td>requires sophisticated parsing; computationally more expensive than naive chunking</td>
+                    <td>complex document understanding, technical and legal document QA</td>
+                </tr>
+                <tr>
+                    <td><b>Context Enrichment</b></td>
+                    <td><b>Contextual Chunk Headers</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> extractText(Extract Text & Headers)
+                            extractText e2@--> chunk(Chunk Text with Headers)
+                            chunk e3@--> embeddings(Create Embeddings)
+                            embeddings e4@--> context(Semantic Search with Context)
+                            context e5@--> retrieve(Retrieve Relevant Chunks with Headers)
+                            retrieve e6@--> generate(Generate Response)
+                            generate e7@--> evaluate(Evaluate Response)
+                            evaluate e8@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                        ```
+                    </td>
+                    <td>Adding chunk headers with high-level context (doc titles, section names) to chunk text for better retrieval</td>
+                    <td>Concatenate chunk header and text before embedding to help retrieval and reranking models disambiguate meaning</td>
+                    <td>Significantly improves retrieval accuracy by resolving pronouns and implicit references</td>
+                    <td>Needs reliable header extraction and management</td>
+                    <td>Document-heavy knowledge bases, technical manuals, multi-section documents</td>
+                </tr>
+                <tr>
+                    <td><b>Context Enrichment</b></td>
+                    <td><b>Document Augmentation</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> extractText(Extract Text)
+                            extractText e2@--> chunk(Chunk Text)
+                            chunk e3@--> questions(Generate Questions from Chunks)
+                            chunk e4@--> embeddings(Create Embeddings Chunks & Questions)
+                            embeddings e5@--> search(Semantic Search)
+                            search e6@--> generate(Generate Response)
+                            generate e7@--> evaluate(Evaluate Response)
+                            evaluate e8@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                        ```
+                    </td>
+                    <td>Techniques to augment source documents or their representations to enhance model understanding</td>
+                    <td>Includes methods like obscuring, paraphrasing, or re-rendering document sections to increase robustness to noise and variance</td>
+                    <td>Improves model robustness to document variations; helps multimodal systems</td>
+                    <td>Computationally expensive; risks semantic drift if over-augmented</td>
+                    <td>Document image understanding, noisy document processing, training data diversification</td>
+                </tr>
+                <tr>
+                    <td><b>Context Enrichment</b></td>
+                    <td><b>Relevant Segment Extraction (RSE)</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> extractText(Extract Text)
+                            extractText e2@--> chunk(Chunk Text)
+                            chunk e3@--> embeddings(Create Embeddings)
+                            embeddings e4@ --> rse(RSE Retrieval & Selection)
+                            rse e5@--> reconstruct(Reconstruct Segments)
+                            reconstruct e6@--> generate(Generate Response)
+                            generate e7@--> evaluate(Evaluate Response)
+                            evaluate e8@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                        ```
+                    </td>
+                    <td>Merging adjacent or related chunks at query time to form more coherent retrieved segments</td>
+                    <td>Dynamic post-processing merges top-ranked chunks if they form a continuous or thematically linked segment</td>
+                    <td>Provides more complete, contextual answers; reduces fragmentation</td>
+                    <td>Requires effective chunk adjacency or relationship detection</td>
+                    <td>Legal and regulatory texts, long documents with cross references</td>
+                </tr>
+                <tr>
+                    <td><b>Context Enrichment</b></td>
+                    <td><b>Contextual Compression</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> retrieve(Retrieve Context)
+                            retrieve e2@--> compress(Contextual Compression)
+                            compress e3@--> generate(Generate Response)
+                            generate e4@--> evaluate(Evaluate Response)
+                            evaluate e5@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                        ```
+                    </td>
+                    <td>Compressing retrieved context to remove irrelevant parts while preserving meaning</td>
+                    <td>Techniques like summarization, pruning irrelevant sentences from retrieved chunks before generation</td>
+                    <td>Controls input size, reduces noise, improves generation quality</td>
+                    <td>Risk of losing important context if not careful</td>
+                    <td>Systems with strict token limits; summarization-augmented retrieval</td>
+                </tr>
+                <tr>
+                    <td><b>Context Enrichment</b></td>
+                    <td><b>Context Window Enhancement</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            documents(Documents) e1@--> chunk(Chunk Text)
+                            chunk e2@--> embed(Embed Sentences)
+                            embed e3@--> retrieve(Retrieve Relevant Sentences)
+                            retrieve e4@--> expand(Expand Context Window)
+                            expand e5@--> combine(Combine with Neighbors)
+                            combine e6@--> generate(Generate Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                        ```
+                    </td>
+                    <td>Enhancing retrieval by embedding individual sentences and including neighboring context</td>
+                    <td>Embeds sentences individually, retrieves most relevant sentence plus surrounding context</td>
+                    <td>Better context preservation, improves answer coherence</td>
+                    <td>Increased token usage, more complex retrieval logic</td>
+                    <td>Long document analysis, contextual Q&A, detailed explanations</td>
+                </tr>
+                <tr>
+                    <td><b>Advanced Retrieval</b></td>
+                    <td><b>Hierarchical Indices</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> search(Search Summaries)
+                            search e2@--> identify(Identify Relevant Sections)
+                            identify e3@--> searchDetailed(Search Detailed Chunks within Sections)
+                            searchDetailed e4@--> generate(Generate Response)
+                            generate e5@--> evaluate(Evaluate Response)
+                            evaluate e6@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                        ```
+                    </td>
+                    <td>Multi-level indexing of documents, from coarse to fine granularity, for efficient retrieval</td>
+                    <td>First retrieve from high-level indices, then refine search in sub-indices or finer chunks</td>
+                    <td>Scalable; efficient retrieval in large corpora</td>
+                    <td>Indexing overhead; complex querying logic</td>
+                    <td>Large-scale document corpora, layered knowledge bases</td>
+                </tr>
+                <tr>
+                    <td><b>Advanced Retrieval</b></td>
+                    <td><b>Fusion</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> vector(Vector Search)
+                            userQuery e2@--> bm25(Keyword Search: BM25)
+                            vector e3@--> combine(Combine & Re-rank Results)
+                            bm25 e4@--> combine
+                            combine e5@--> generate(Generate Response)
+                            generate e6@--> evaluate(Evaluate Response)
+                            evaluate e7@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                        ```
+                    </td>
+                    <td>Combining outputs from multiple retrievers or models to improve retrieval and generation</td>
+                    <td>Could involve merging retrieval results, ensemble of models, or aggregated embeddings</td>
+                    <td>More robust retrieval; improved accuracy</td>
+                    <td>Increased complexity and computation</td>
+                    <td>Multi-source data retrieval, hybrid search systems</td>
+                </tr>
+                <tr>
+                    <td><b>Advanced Retrieval</b></td>
+                    <td><b>Multi Model</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> extract(Extract Text & Images)
+                            extract e2@--> chunk(Chunk Text)
+                            extract e3@--> captions(Generate Image Captions)
+                            chunk e4@--> embeddings(Create Embeddings Text & Captions)
+                            captions e5@--> embeddings
+                            embeddings e6@--> semantic(Semantic Search)
+                            semantic e7@--> generate(Generate Response)
+                            generate e8@--> evaluate(Evaluate Response)
+                            evaluate e9@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                        ```
+                    </td>
+                    <td>Using multiple models with distinct capabilities within a RAG pipeline</td>
+                    <td>E.g., combining separate retriever models, language models, or rerankers specialized on different data or tasks</td>
+                    <td>Leverages model strengths; improves versatility</td>
+                    <td>System complexity; higher resource needs</td>
+                    <td>Cross-domain QA, multi-modal retrieval</td>
+                </tr>
+                <tr>
+                    <td><b>Advanced Retrieval</b></td>
+                    <td><b>Corrective RAG (CRAG)</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> init(Initial Retrieval)
+                            init e2@--> relevance{evaluate relevance}
+                            relevance e3@-->|low| web(Web Search)
+                            relevance e4@-->|medium| combine(Combine Doc & Web)
+                            relevance e5@-->|high| doc(Use Document Only)
+                            web e6@--> generate(Generate Response)
+                            combine e7@--> generate
+                            doc e8@--> generate
+                            generate e9@--> evaluate(Evaluate Response)
+                            evaluate e10@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                            e10@{ animate: true }
+                        ```
+                    </td>
+                    <td>A RAG variant that corrects its own retrieval or generation errors via an iterative or corrective process</td>
+                    <td>Involves mechanisms to detect mistakes and refine retrieval or generation outputs automatically</td>
+                    <td>Increases accuracy; reduces hallucination</td>
+                    <td>Iterative steps increase latency; complexity to implement</td>
+                    <td>High-accuracy domains like legal, medicine, or scientific research</td>
+                </tr>
+                <tr>
+                    <td><b>Advanced Retrieval</b></td>
+                    <td><b>Multi-faceted Filtering</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> retrieve(Initial Retrieval)
+                            retrieve e2@--> filter{Apply Filters}
+                            filter e3@--> metadata(Metadata Filtering)
+                            filter e4@--> similarity(Similarity Thresholds)
+                            filter e5@--> content(Content Filtering)
+                            filter e6@--> diversity(Diversity Filtering)
+                            metadata e7@--> combine(Combine Results)
+                            similarity e8@--> combine
+                            content e9@--> combine
+                            diversity e10@--> combine
+                            combine e11@--> generate(Generate Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                            e10@{ animate: true }
+                            e11@{ animate: true }
+                        ```
+                    </td>
+                    <td>Applying multiple filtering techniques to refine and improve retrieval results</td>
+                    <td>Filters based on metadata, similarity thresholds, content criteria, and diversity</td>
+                    <td>Improves result quality, reduces noise, ensures diversity</td>
+                    <td>May filter out relevant results, requires tuning</td>
+                    <td>Enterprise search, content curation, recommendation systems</td>
+                </tr>
+                <tr>
+                    <td><b>Advanced Retrieval</b></td>
+                    <td><b>Ensemble Retrieval</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> retrievers{Multiple Retrievers}
+                            retrievers e2@--> dense(Dense Retrieval)
+                            retrievers e3@--> sparse(Sparse Retrieval)
+                            retrievers e4@--> hybrid(Hybrid Retrieval)
+                            dense e5@--> combine(Combine Results)
+                            sparse e6@--> combine
+                            hybrid e7@--> combine
+                            combine e8@--> vote{Voting/Weighting}
+                            vote e9@--> rerank(Re-rank Results)
+                            rerank e10@--> generate(Generate Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                            e10@{ animate: true }
+                        ```
+                    </td>
+                    <td>Combining multiple retrieval models or techniques for more robust results</td>
+                    <td>Uses different embedding models or algorithms with voting/weighting mechanisms</td>
+                    <td>More robust and accurate results, reduces individual model biases</td>
+                    <td>Increased computational cost, more complex implementation</td>
+                    <td>High-accuracy systems, production environments, critical applications</td>
+                </tr>
+                <tr>
+                    <td><b>Advanced Retrieval</b></td>
+                    <td><b>Dartboard Retrieval</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> retrieve(Initial Retrieval)
+                            retrieve e2@--> score(Score Documents)
+                            score e3@--> select{Select Best Document}
+                            select e4@--> penalize(Penalize Similar Documents)
+                            penalize e5@--> repeat(Repeat Process)
+                            repeat e6@--> final(Final Selection)
+                            final e7@--> generate(Generate Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                        ```
+                    </td>
+                    <td>Optimizing retrieval for both relevance and diversity using combined scoring</td>
+                    <td>Combines relevance and diversity into single scoring function, selects documents that maximize information gain</td>
+                    <td>Better coverage of information, reduces redundancy, improves overall retrieval quality</td>
+                    <td>More complex algorithm, requires distance calculations between documents</td>
+                    <td>Dense knowledge bases, comprehensive search, exploratory queries</td>
+                </tr>
+                <tr>
+                    <td><b>Advanced Retrieval</b></td>
+                    <td><b>Multi-modal RAG with Captioning</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            documents(Multi-modal Documents) e1@--> extract(Extract Text & Images)
+                            extract e2@--> caption(Generate Image Captions)
+                            caption e3@--> combine(Combine Text & Captions)
+                            combine e4@--> chunk(Chunk Content)
+                            chunk e5@--> embed(Create Embeddings)
+                            embed e6@--> store(Store in Vector DB)
+                            store e7@--> query(User Query)
+                            query e8@--> retrieve(Retrieve Relevant Content)
+                            retrieve e9@--> generate(Generate Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                        ```
+                    </td>
+                    <td>RAG system that handles both text and images by generating captions for images</td>
+                    <td>Extracts images from documents, generates captions, combines with text for unified retrieval</td>
+                    <td>Handles multi-modal content, improves search over visual content</td>
+                    <td>Requires image processing, additional computational cost</td>
+                    <td>Document-heavy applications, research papers with figures, multi-modal search</td>
+                </tr>
+                <tr>
+                    <td><b>Iterative Techniques</b></td>
+                    <td><b>Feedback Loop</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> rag(RAG Pipeline)
+                            rag e2@--> response(AI Response)
+                            response e3@--> feedback{User Feedback}
+                            feedback e4@--> store(Store Feedback)
+                            store e5@-->|improve| rag
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                        ```
+                    </td>
+                    <td>Using system or user feedback to iteratively improve retrieval and generation</td>
+                    <td>Incorporating relevance judgments, user clicks, or corrections back into retriever or retrain pipeline</td>
+                    <td>Improves system accuracy over time; adapts to user needs</td>
+                    <td>Requires feedback collection infrastructure and ongoing maintenance</td>
+                    <td>Interactive assistants, adaptive QA systems</td>
+                </tr>
+                <tr>
+                    <td><b>Iterative Techniques</b></td>
+                    <td><b>Adaptive RAG</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> classify{Classify Query Type}
+                            classify e2@-->|factual| factualRAG(Factual Retrieval strategy)
+                            classify e3@-->|analytical| analyticalRAG(Analytical Retrieval strategy)
+                            classify e4@-->|opinion| opinionRAG(Opinion-based Retrieval strategy)
+                            classify e5@-->|contextual| contextualRAG(Contextual Retrieval strategy)
+                            factualRAG e6@--> generate(Generate Response)
+                            analyticalRAG e7@--> generate
+                            opinionRAG e8@--> generate
+                            contextualRAG e9@--> generate
+                            generate e10@--> evaluate(Evaluate Response)
+                            evaluate e11@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                            e10@{ animate: true }
+                            e11@{ animate: true }
+                        ```
+                    </td>
+                    <td>Dynamically adjusting RAG retrieval or generation parameters based on query or context</td>
+                    <td>Could involve selecting different retrieval strategies or varying chunk sizes adaptively</td>
+                    <td>Tailors retrieval to varying user queries; boosts efficiency and relevance</td>
+                    <td>More complex system design</td>
+                    <td>Systems with varied query complexity, multi-domain applications</td>
+                </tr>
+                <tr>
+                    <td><b>Iterative Techniques</b></td>
+                    <td><b>Adaptive Retrieval</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> classify{Classify Query}
+                            classify e2@-->|factual| strategy1(Factual Strategy)
+                            classify e3@-->|analytical| strategy2(Analytical Strategy)
+                            classify e4@-->|opinion| strategy3(Opinion Strategy)
+                            classify e5@-->|contextual| strategy4(Contextual Strategy)
+                            strategy1 e6@--> retrieve(Retrieve Documents)
+                            strategy2 e7@--> retrieve
+                            strategy3 e8@--> retrieve
+                            strategy4 e9@--> retrieve
+                            retrieve e10@--> generate(Generate Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                            e10@{ animate: true }
+                        ```
+                    </td>
+                    <td>Dynamically adjusting retrieval strategies based on query types and user contexts</td>
+                    <td>Classifies queries and uses tailored retrieval strategies for each type</td>
+                    <td>Better handles different query types, improves relevance</td>
+                    <td>Requires query classification, more complex system</td>
+                    <td>Dynamic Q&A systems, personalized assistants, varied query handling</td>
+                </tr>
+                <tr>
+                    <td><b>Iterative Retrieval</b></td>
+                    <td><b>Iterative Retrieval</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> retrieve(Initial Retrieval)
+                            retrieve e2@--> analyze{Analyze Results}
+                            analyze e3@-->|complete| generate(Generate Response)
+                            analyze e4@-->|incomplete| generate(Generate Follow-up Queries)
+                            generate e5@--> retrieve(More Retrieval)
+                            retrieve e6@--> combine(Combine Results)
+                            combine e7@--> generate(Final Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                        ```
+                    </td>
+                    <td>Performing multiple rounds of retrieval to refine and enhance result quality</td>
+                    <td>Uses LLM to analyze initial results and generate follow-up queries to fill gaps</td>
+                    <td>Improves answer completeness, handles complex queries better</td>
+                    <td>Increased latency, more API calls</td>
+                    <td>Complex research questions, multi-step reasoning, comprehensive analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Evaluation</b></td>
+                    <td><b>DeepEval</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            ragSystem(RAG System) e1@--> generate(Generate Responses)
+                            generate e2@--> evaluate{Evaluate Metrics}
+                            evaluate e3@--> correctness(Correctness)
+                            evaluate e4@--> faithfulness(Faithfulness)
+                            evaluate e5@--> relevance(Contextual Relevancy)
+                            correctness e6@--> report(Generate Report)
+                            faithfulness e7@--> report
+                            relevance e8@--> report
+                            report e9@--> improve(Improve System)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                        ```
+                    </td>
+                    <td>Comprehensive evaluation framework for RAG systems using multiple metrics</td>
+                    <td>Evaluates correctness, faithfulness, and contextual relevancy of RAG responses</td>
+                    <td>Provides detailed performance metrics, helps identify system weaknesses</td>
+                    <td>Requires ground truth data, computational overhead</td>
+                    <td>RAG system development, performance benchmarking, quality assurance</td>
+                </tr>
+                <tr>
+                    <td><b>Evaluation</b></td>
+                    <td><b>GroUSE</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            responses(LLM Responses) e1@--> evaluate{Evaluate Framework}
+                            evaluate e2@--> metrics(GroUSE Metrics)
+                            metrics e3@--> groundedness(Groundedness)
+                            metrics e4@--> relevance(Relevance)
+                            metrics e5@--> standalone(Standalone Quality)
+                            groundedness e6@--> score(Generate Scores)
+                            relevance e7@--> score
+                            standalone e8@--> score
+                            score e9@--> analyze(Analyze Performance)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                        ```
+                    </td>
+                    <td>Contextually-grounded LLM evaluation framework with multiple metrics</td>
+                    <td>Evaluates LLM generations using 6 specific metrics for contextual grounding</td>
+                    <td>Provides detailed evaluation of context usage, helps improve RAG systems</td>
+                    <td>Requires specific evaluation setup, metric interpretation needed</td>
+                    <td>RAG evaluation, context-aware assessment, LLM performance analysis</td>
+                </tr>
+                <tr>
+                    <td><b>Explainability</b></td>
+                    <td><b>Explainable Retrieval</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> retrieve(Retrieve Documents)
+                            retrieve e2@--> explain{Generate Explanations}
+                            explain e3@--> relevance(Explain Relevance)
+                            explain e4@--> connection(Explain Connections)
+                            explain e5@--> usage(Explain Usage)
+                            relevance e6@--> present(Present Results)
+                            connection e7@--> present
+                            usage e8@--> present
+                            present e9@--> response(Response with Explanations)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                        ```
+                    </td>
+                    <td>Providing transparency in the retrieval process to enhance user trust</td>
+                    <td>Explains why certain documents were retrieved and how they relate to the query</td>
+                    <td>Increases user trust, helps with system refinement, provides debugging insights</td>
+                    <td>Adds computational overhead, requires explanation generation</td>
+                    <td>Transparent AI systems, user-facing applications, system debugging</td>
+                </tr>
+                <tr>
+                    <td><b>Advanced Architecture</b></td>
+                    <td><b>Self RAG</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> isRetrieval{is retrieval needed?}
+                            isRetrieval e2@-->|no| directResponse(Generate Directly)
+                            directResponse --> generateResponse(Generate Response)
+                            isRetrieval e3@-->|yes| retrieveDocs(Retrieve Documents)
+                            retrieveDocs e4@--> generateResponse
+                            retrieveDocs e5@--> evaluate(Evaluate Relevance)
+                            evaluate e6@--> generateResponse
+                            evaluate e7@--> assessSupport(Assess Support)
+                            assessSupport e8@--> generateResponse
+                            assessSupport e9@--> rateUtility(Rate Utility)
+                            rateUtility e10@--> generateResponse
+                            generateResponse e11@--> response(Final Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                            e10@{ animate: true }
+                            e11@{ animate: true }
+                        ```
+                    </td>
+                    <td>A technique where the generative model itself guides or performs retrieval to augment its own generation</td>
+                    <td>Iteratively generates or refines queries to retrieve knowledge chunks, then conditions on them</td>
+                    <td>Tight coupling of retrieval and generation; can improve contextual coherence</td>
+                    <td>Computationally intensive; requires sophisticated model control</td>
+                    <td>Complex reasoning tasks, iterative QA</td>
+                </tr>
+                <tr>
+                    <td><b>Advanced Architecture</b></td>
+                    <td><b>Knowledge Graph</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> build(Build Knowledge Graph)
+                            build e2@--> traverse(Traverse Graph)
+                            traverse e3@--> select(Select Relevant Nodes)
+                            select e4@--> generate(Generate Response)
+                            generate e5@--> evaluate(Evaluate Response)
+                            evaluate e6@--> response(AI Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                        ```
+                    </td>
+                    <td>Incorporates structured knowledge graphs into RAG to enhance retrieval and reasoning</td>
+                    <td>Retrieval and generation leverage entities and relationships from knowledge graphs along with text embeddings</td>
+                    <td>Allows relational reasoning; improves precision</td>
+                    <td>Complex graph construction and maintenance</td>
+                    <td>Domain-specific expert systems, scientific knowledge bases</td>
+                </tr>
+                <tr>
+                    <td><b>Advanced Architecture</b></td>
+                    <td><b>Microsoft GraphRAG</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            documents(Documents) e1@--> extract(Extract Entities & Relationships)
+                            extract e2@--> summarize(Generate Community Summaries)
+                            summarize e3@--> store(Store Summaries & Graph)
+                            store e4@--> query(User Query)
+                            query e5@--> search(Search Global & Local)
+                            search e6@--> synthesize(Synthesize Answer)
+                            synthesize e7@--> response(Final Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                        ```
+                    </td>
+                    <td>Microsoft's advanced RAG system using knowledge graphs for improved LLM performance</td>
+                    <td>Extracts entities and relationships, creates community summaries, enables global and local search</td>
+                    <td>Excellent for complex multi-hop questions, provides global understanding</td>
+                    <td>High computational cost, complex implementation</td>
+                    <td>Enterprise knowledge management, complex document analysis, research assistance</td>
+                </tr>
+                <tr>
+                    <td><b>Advanced Architecture</b></td>
+                    <td><b>RAPTOR</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            documents(Documents) e1@--> chunk(Chunk Text)
+                            chunk e2@--> cluster(Cluster Embeddings)
+                            cluster e3@--> summarize(Generate Summaries)
+                            summarize e4@--> tree(Build Tree Structure)
+                            tree e5@--> embed(Create Embeddings)
+                            embed e6@--> store(Store in Vector DB)
+                            store e7@--> query(User Query)
+                            query e8@--> traverse(Traverse Tree)
+                            traverse e9@--> retrieve(Retrieve Information)
+                            retrieve e10@--> generate(Generate Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                            e9@{ animate: true }
+                            e10@{ animate: true }
+                        ```
+                    </td>
+                    <td>Recursive Abstractive Processing for Tree-Organized Retrieval using hierarchical structure</td>
+                    <td>Creates tree structure with summaries at different levels, organizes information hierarchically</td>
+                    <td>Scalable for large documents, provides multi-level abstraction</td>
+                    <td>Complex tree construction, requires summarization at each level</td>
+                    <td>Large document processing, hierarchical knowledge organization, scalable RAG</td>
+                </tr>
+                <tr>
+                    <td><b>Special Technique</b></td>
+                    <td><b>Sophisticated Controllable Agent</b></td>
+                    <td>
+                        ```mermaid
+                        graph LR
+                            userQuery(User Query) e1@--> anonymize(Anonymize Query)
+                            anonymize e2@--> plan(High-level Planning)
+                            plan e3@--> breakdown(Break into Tasks)
+                            breakdown e4@--> retrieve(Adaptive Retrieval)
+                            retrieve e5@--> answer(Answer Sub-questions)
+                            answer e6@--> replan(Re-plan as Needed)
+                            replan e7@--> verify(Rigorous Verification)
+                            verify e8@--> response(Final Response)
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            e8@{ animate: true }
+                        ```
+                    </td>
+                    <td>Advanced RAG agent for complex questions using deterministic graph as control system</td>
+                    <td>Uses sophisticated deterministic graph for highly controllable autonomous operation</td>
+                    <td>Excellent for complex reasoning, highly controllable, rigorous answer verification</td>
+                    <td>Very complex implementation, requires significant setup</td>
+                    <td>Complex research questions, mission-critical applications, expert-level analysis</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </TabItem>
+
+</Tabs>

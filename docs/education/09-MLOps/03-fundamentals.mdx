@@ -1,0 +1,1232 @@
+---
+title: Fundamentals
+description: MLOps Fundamentals
+hide_table_of_contents: true
+---
+
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+
+<Tabs queryString="primary">
+    <TabItem value="overview" label="Overview">
+        <Tabs queryString="secondary">
+            <TabItem value="glossary" label="Glossary" attributes={{ className: 'tabs__vertical' }}>
+            - **MLOps** (Machine Learning Operations) is a set of practices that aims to deploy and maintain machine learning models in production reliably and efficiently. It combines principles from DevOps, data engineering, and machine learning to streamline the end-to-end machine learning lifecycle. MLOps encompasses various stages, including data collection, model training, deployment, monitoring, and maintenance. The goal of MLOps is to ensure that machine learning models are scalable, reproducible, and maintainable in production environments
+            </TabItem>
+            <TabItem value="traditional-vs-ml-development" label="Traditional vs. ML development" attributes={{ className: 'tabs__vertical' }}>
+                <table class="text_vertical">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Traditional Development</th>
+                            <th>ML Development</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Determinism</b></td>
+                            <td>Deterministic: Same input yields same output</td>
+                            <td>Probabilistic (Experimental): Outputs vary based on training data and model parameters</td>
+                        </tr>
+                        <tr>
+                            <td><b>Basis</b></td>
+                            <td>Rule-based: Follows predefined rules and logic</td>
+                            <td>Data-driven: Learns patterns from data</td>
+                        </tr>
+                        <tr>
+                            <td><b>Change Frequency</b></td>
+                            <td>Static: Infrequent changes, usually code updates</td>
+                            <td>Dynamic: Frequent retraining and updates as new data arrives</td>
+                        </tr>
+                        <tr>
+                            <td><b>Testing Focus</b></td>
+                            <td>Unit tests, integration tests, system tests for code correctness</td>
+                            <td>Validating model performance using metrics like accuracy, precision, recall</td>
+                        </tr>
+                        <tr>
+                            <td><b>Deployment</b></td>
+                            <td>Deploying code to production environments</td>
+                            <td>Deploying models, considering scalability and latency</td>
+                        </tr>
+                        <tr>
+                            <td><b>Maintenance</b></td>
+                            <td>Bug fixes and code updates</td>
+                            <td>Ongoing monitoring of model performance, retraining with new data, addressing data drift</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </TabItem>
+            <TabItem value="version-control" label="Version Control">
+            **Requirements**
+
+            - **Reproducibility**: tracking and linking dataset versions to specific model versions enables recreation of exact training conditions for result replication
+            - **Traceability**: offers a clear lineage of how the dataset has evolved over time, including information about who made changes, when those changes occurred, and the reasons behind those modifications
+            - **Collaboration**: facilitates teamwork by allowing multiple data scientists and engineers to work on the same dataset without conflicts, as changes can be tracked and merged
+            - **Efficiency**: helps in optimizing storage and bandwidth usage by employing techniques such as: data deduplication, data caching. To avoid wasting resources on storing redundant copies of large datasets, making the storage and transfer of data more efficient
+            - **Data Quality Control**: helps identify issues or discrepancies in the dataset as it evolves over time
+            - **Data Governance and Compliance**: assists in adhering to regulatory requirements by maintaining a history of data changes and ensuring that data handling practices are transparent and auditable
+            - **Ease of Rollback**: allows reverting to previous versions of the dataset if issues arise with newer versions, ensuring stability in model training and evaluation. For models like kNN, where the model is the training data used for inference, data version control enables quick rollback to a previous dataset if issues arise, such as compliance-related feature removal, accidental deletions, or data corruption from hardware failures, network issues, or bugs
+
+            **Available Tools**
+
+            - **DVC (Data Version Control)**: an open-source tool that extends Git capabilities to handle large datasets and machine learning models, enabling versioning, sharing, and collaboration
+            - **Git LFS (Large File Storage)**: an extension to Git that allows versioning of large files by storing them outside the main Git repository, while keeping lightweight references in the repo
+            </TabItem>
+            <TabItem value="experiment-tracking" label="Experiment Tracking">
+            **Requirements**
+
+            - **Logging Experiments**: Record hyperparameters, metrics, and artifacts for each experiment run to enable comparison and analysis
+            - **Reproducibility**: Ensure that experiments can be reproduced by tracking code versions, data versions, and environment configurations
+            - **Collaboration**: Allow team members to share and review experiment results, facilitating knowledge sharing and decision-making
+            - **Model Registry**: Centralize model versions, stages, and metadata for easy deployment and governance
+            - **Visualization**: Provide dashboards and charts to visualize experiment results, compare runs, and identify trends
+
+            **Available Tools**
+
+            - **MLflow**: an open-source platform for managing the ML lifecycle, including experiment tracking, model packaging, and deployment. It supports logging parameters, metrics, and artifacts, and provides a model registry for versioning and staging models
+            </TabItem>
+        </Tabs>
+
+    </TabItem>
+    <TabItem value="methodologies" label="Methodologies">
+        <Tabs queryString="secondary">
+            <TabItem value="crisp-ml" label="CRISP-ML">
+                - **CRISP-ML (Cross-Industry Standard Process for Machine Learning)**: an extension of CRISP-DM tailored for machine learning projects, addressing the unique challenges of ML development and deployment
+
+                **QA Decision**
+
+                ```mermaid
+                flowchart LR
+                    start(Start Phase) e1@--> define(Define Requirements & Constraints)
+                    define e2@--> initiate(Initiate Step & Task)
+                    initiate e3@--> risksAssessment(Risk Assessment)
+                    risksAssessment e4@--> risksDecision{risk feasible?}
+                    risksDecision e5@-->|no| qaMethod(Choose QA Method)
+                    qaMethod e6@--> mitigateRisks(Mitigate Risks)
+                    mitigateRisks e7@--> risksAssessment
+                    risksDecision e8@-->|yes| phaseFinished{phase finished?}
+                    phaseFinished e9@-->|no| initiate
+                    phaseFinished e10@-->|yes| nextPhase(Proceed to Next Phase)
+
+                    e1@{ animate: true }
+                    e2@{ animate: true }
+                    e3@{ animate: true }
+                    e4@{ animate: true }
+                    e5@{ animate: true }
+                    e6@{ animate: true }
+                    e7@{ animate: true }
+                    e8@{ animate: true }
+                    e9@{ animate: true }
+                    e10@{ animate: true }
+                ```
+
+                ## Phases
+
+                ### Business and Data Understanding
+
+                Developing ML applications begins with defining the project's scope, success criteria (including measurable KPIs like "time savings per user and session"), and verifying data quality to assess feasibility. Key steps include gathering business, ML, and economic criteria, establishing a non-ML heuristic benchmark for stakeholder communication. Data collection is central, requiring documentation of statistical properties, the data generation process, and data requirements to ensure quality assurance in operations.
+
+                **Tasks**
+
+                - Define business objectives
+                - Translate business objectives into ML objectives
+                - Collect and verify data
+                - Assess the project feasibility
+                - Create POC
+
+                ### Data Engineering (Data Preparation)
+
+                - **Data Selection**: Identifies valuable features using filter, wrapper, or embedded methods. Discards low-quality samples and addresses class imbalance via over-sampling or under-sampling
+                - **Data Cleaning**: Involves error detection, correction, and unit testing to prevent issues in later phases
+                - **Feature Engineering**: Applies techniques like one-hot encoding, clustering, or discretization, including data augmentation for specific ML tasks
+                - **Data Standardization and Normalization**: Unifies data formats to avoid errors and reduces bias from scale differences
+                - **Pipelines**: Builds reproducible data transformation pipelines for preprocessing and feature creation
+
+                **Tasks**
+
+                - Feature selection
+                - Data selection
+                - Class balancing
+                - Cleaning data (noise reduction, data imputation)
+                - Feature engineering (data construction)
+                - Data augmentation
+                - Data standardization
+
+                ### Machine Learning Model Engineering
+
+                - **Model Specification and Tasks**: Translates business problems into ML tasks, considering metrics like performance, robustness, fairness, scalability, interpretability, complexity, and resource needs. Core activities involve model selection, specialization, training, and optional use of pre-trained models, compression, or ensemble methods
+                - **Reproducibility and Documentation**: Addresses common issues by collecting metadata (e.g., algorithm, datasets, hyperparameters, runtime environment) and validating performance across random seeds. Tools like the Model Cards Toolkit enhance transparency and explainability
+                - **Iterative Nature**: May require revisiting business goals, KPIs, or data to refine models
+                - **Packaging**: Encapsulates the workflow into a repeatable pipeline for consistent training
+
+                **Tasks**
+
+                - Define quality measure of the model
+                - ML algorithm selection (baseline selection)
+                - Adding domain knowledge to specialize the model
+                - Model training
+                - Optional: applying transfer learning (using pre-trained models)
+                - Model compression
+                - Ensemble learning
+                - Documenting the ML model and experiments
+
+                ### Evaluating Machine Learning Models
+
+                After training, models undergo evaluation (offline testing) to validate performance on a test set and assess robustness against noisy or incorrect inputs. Best practices include developing explainable ML models for trust, regulatory compliance, and decision-making guidance. Deployment decisions are made automatically via success criteria or manually by experts, with all evaluation outcomes documented.
+
+                **Tasks**
+
+                - Validate model's performance
+                - Determine robustness
+                - Increase model's explainability
+                - Make a decision whether to deploy the model
+                - Document the evaluation phase
+
+                ### Deployment
+
+                ML model deployment integrates a trained model into a software system after evaluation in the development lifecycle. Deployment strategies, chosen early, vary by use case (batch or online prediction) and include options like interactive dashboards, precomputed predictions, plug-ins in microkernel architectures, or web service endpoints.
+
+                Key tasks involve:
+
+                - Evaluate model under production condition
+                - Assure user acceptance and usability
+                - Model governance
+                - Deploy according to the selected strategy (A/B testing, multi-armed bandits)
+                - Defining inference hardware
+                - Implementing gradual rollout strategies (e.g., canary or blue/green deployments)
+                - Establishing fallback plans for outages
+
+                ### Monitoring and Maintenance
+
+                After deploying an ML model, continuous monitoring is crucial to detect "model staleness," where performance declines on real-world, unseen data due to shifts in data distribution, hardware issues, or software stack problems. The Continued Model Evaluation pattern involves ongoing performance assessment to determine if re-training is necessary. Beyond monitoring and re-training, reviewing the business use case and ML task can help refine the overall process.
+
+                **Tasks**
+
+                - Monitor the efficiency and efficacy of the model prediction serving
+                - Compare to the previously specified success criteria (thresholds)
+                - Retrain model if required
+                - Collect new data
+                - Perform labelling of the new data points
+                - Repeat tasks from the Model Engineering and Model Evaluation phases
+                - Continuous, integration, training, and deployment of the model
+            </TabItem>
+            <TabItem value="crisp-dm" label="CRISP-DM" attributes={{ className: 'tabs__vertical' }}>
+                - **CRISP-DM (Cross-Industry Standard Process for Data Mining)**: a widely used methodology for data mining and ML projects with business-oriented focus
+
+                ```mermaid
+                graph LR
+                    business[Business Understanding] e1@--> dataUnderstanding[Data Understanding]
+                    dataUnderstanding e2@--> dataPreparation[Data Preparation]
+                    dataPreparation e3@--> modeling[Modeling]
+                    modeling e4@--> evaluation[Evaluation]
+                    evaluation e5@--> deployment[Deployment]
+                    evaluation e6@-.-> business
+
+                    e1@{ animate: true }
+                    e2@{ animate: true }
+                    e3@{ animate: true }
+                    e4@{ animate: true }
+                    e5@{ animate: true }
+                    e6@{ animate: true }
+                ```
+
+                ## Phases
+
+                - **Business Understanding**: crucial for project success, akin to laying a foundation
+                    - **Determine business objectives**: Understand customer needs and define success criteria
+                    - **Assess situation**: Evaluate resources, risks, requirements, and conduct cost-benefit analysis
+                    - **Determine data mining goals**: Define technical success metrics
+                    - **Produce project plan**: Select tools and plan each phase
+                - **Data Understanding**: focuses on acquiring and analyzing data to support project goals
+                    - **Collect initial data**: Gather and load data into analysis tools
+                    - **Describe data**: Document properties like format, records, and fields
+                    - **Explore data**: Query, visualize, and identify relationships
+                    - **Verify data quality**: Check for cleanliness and document issues
+                - **Data Preparation**: often the most time-consuming phase, accounting for ~80% of effort
+                    - **Select data**: Choose datasets and justify inclusions/exclusions
+                    - **Clean data**: Correct, impute, or remove errors to avoid "garbage-in, garbage-out"
+                    - **Construct data**: Derive new attributes (e.g., BMI from height/weight)
+                    - **Integrate data**: Combine data from multiple sources
+                    - **Format data**: Reformat as needed (e.g., convert strings to numbers)
+                - **Modeling**: focus on technical performance
+                    - **Select modeling techniques**: Choose algorithms (e.g., regression, neural nets)
+                    - **Generate test design**: Split data into training, test, and validation sets
+                    - **Build model**: Execute code to create models (e.g., fitting a linear regression)
+                    - **Assess model**: Evaluate and compare models against criteria; iterate until "good enough"
+                - **Evaluation**: broader assessment beyond technical metrics
+                    - **Evaluate results**: Check if models meet business criteria and select for approval
+                    - **Review process**: Assess work, summarize findings, and correct issues
+                    - **Determine next steps**: Decide on deployment, further iteration, or new projects
+                - **Deployment**: varies in complexity; ensures models are accessible and maintained in production
+                    - **Plan deployment**: Document rollout strategy
+                    - **Plan monitoring and maintenance**: Ensure ongoing oversight to prevent issues
+                    - **Produce final report**: Summarize project and present results
+                    - **Review project**: Conduct retrospective for improvements
+            </TabItem>
+            <TabItem value="semma" label="SEMMA">
+                ```mermaid
+                graph LR
+                    sample(Sample) e1@--> explore(Explore)
+                    explore e2@--> modify(Modify)
+                    modify e3@--> model(Model)
+                    model e4@--> assess(Assess)
+
+                    e1@{ animate: true }
+                    e2@{ animate: true }
+                    e3@{ animate: true }
+                    e4@{ animate: true }
+                ```
+
+                ## Phases
+
+                - **Sample**: extract a representative subset of data for analysis, ensuring it reflects the overall dataset's characteristics
+                - **Explore**: analyze the data to uncover patterns, relationships, and anomalies using statistical methods and visualizations
+                - **Modify**: prepare the data for modeling by cleaning, transforming, and creating new features to enhance model performance
+                - **Model**: apply various modeling techniques to the prepared data, iterating to optimize performance and select the best model
+                - **Assess**: evaluate the model's effectiveness using appropriate metrics, validate its performance, and ensure it meets business objectives before deployment
+            </TabItem>
+            <TabItem value="kdd" label="KDD">
+                ```mermaid
+                graph LR
+                    data(Data) e1@-->|selection| target(Target Data)
+                    target e2@-->|preprocessing| preprocessed(Preprocessed Data)
+                    preprocessed e3@-->|transformation| transformed(Transformed Data)
+                    transformed e4@-->|data mining| patterns(Patterns)
+                    patterns e5@-->|Interpretation & evaluation| knowledge(Knowledge)
+
+                    e1@{ animate: true }
+                    e2@{ animate: true }
+                    e3@{ animate: true }
+                    e4@{ animate: true }
+                    e5@{ animate: true }
+                ```
+
+                ## Phases
+
+                - **Selection**: selecting a data set, a subset of variables, or data samples
+                - **Pre-processing**: clean the data, handle missing values, etc.
+                - **Transformation**: feature selection and dimension projection to reduce the effective number of variables
+                - **Data Mining**: apply a particular mining method (e.g., summarization, classification, regression, clustering)
+                - **Interpretation & Evaluation**: extract patterns/models, report it along with data visualizations
+            </TabItem>
+            <TabItem value="osemn" label="OSEMN">
+                ```mermaid
+                graph LR
+                    obtain(Obtain) e1@--> scrub(Scrub)
+                    scrub e2@--> explore(Explore)
+                    explore e3@--> model(Model)
+                    model e4@--> interpret(Interpret)
+
+                    e1@{ animate: true }
+                    e2@{ animate: true }
+                    e3@{ animate: true }
+                    e4@{ animate: true }
+                ```
+
+                ## Phases
+
+                - **Obtain**: collect and load data from various sources
+                - **Scrub**: clean and preprocess the data to ensure quality
+                - **Explore**: analyze the data to discover patterns and insights
+                - **Model**: apply machine learning algorithms to the data
+                - **Interpret**: evaluate and communicate the results to stakeholders
+            </TabItem>
+            <TabItem value="tdsp" label="TDSP">
+                ```mermaid
+                graph LR
+                    business(Business Understanding) e1@--> dataAcquisition(Data Acquisition & Understanding)
+                    dataAcquisition e2@--> deployment(Deployment)
+                    deployment e3@--> modeling(Modeling)
+                    deployment e4@---> customer(Customer Acceptance)
+                    modeling e5@--> business
+
+                    e1@{ animate: true }
+                    e2@{ animate: true }
+                    e3@{ animate: true }
+                    e4@{ animate: true }
+                    e5@{ animate: true }
+                ```
+
+                ## Phases
+
+                - **Business Understanding**: define project objectives, success criteria, and constraints
+                - **Data Acquisition & Understanding**: collect, explore, and preprocess data to ensure quality
+                    - **Data Source**: on-Premise vs cloud; database vs files
+                    - **Pipeline**: streaming vs batch; low vs high frequency
+                    - **Environment**: on-premises vs cloud; DBMS vs warehouse vs lake; small vs medium vs big data
+                    - **Wrangling, Exploration & Cleaning**: structured vs unstructured; data validation and cleanup; visualization
+                - **Modeling**: select, train, and evaluate machine learning models
+                    - **Feature Engineering**: transform, binning; temporal, text, image; feature selection
+                    - **Model Training**: algorithms, ensemble; parameter tuning; retraining; model management
+                    - **Model Evaluation**: cross validation; model reporting; A/B testing
+                - **Deployment**: integrate the model into production and monitor its performance
+                    - scoring, performance monitoring, etc.
+                    - model store
+                    - intelligent applications
+                    - web services
+                - **Customer Acceptance**: validate the solution with stakeholders and ensure it meets business needs
+            </TabItem>
+        </Tabs>
+    </TabItem>
+    <TabItem value="docs" label="Docs">
+        <Tabs queryString="secondary">
+            <TabItem value="docs-overview" label="Overview" attributes={{ className: 'tabs__vertical' }}>
+                - **AI Canvas**: initial concept and design
+                - **MLOps Stack Canvas**: technical implementation and operational planning
+                - **Model Card**: model documentation and reporting in production
+            </TabItem>
+            <TabItem value="ai-canvas" label="AI Canvas">
+                - **Business Objective**: Briefly describe the task being analyzed. What task/decision are you examining?
+                - **Prediction**: Identify the key uncertainty that you would like to resolve
+                - **Judgment**: Determine the payoffs to being right versus being wrong. Consider both false positives and false negatives
+                - **Action**: What are the actions that can be chosen?
+                - **Outcome**: Choose the measure of performance that you want to use to judge whether you are achieving your outcomes.
+                - **Training**: What data do you need on past inputs, actions and outcomes in order to train your AI and generate better predictions?
+                - **Input**: What data do you need to generate predictions once you have an AI algorithm trained?
+                - **Feedback**: How can you use measured outcomes, along with input data, to generate improvements to your predictive algorithm?
+                - **Impact**: Explain how the AI for this task/decision will impact on related tasks in the overall workflow. How will this AI impact on the overall workflow? Will it cause a staff replacement? Will it involve staff retraining or job redesign?
+            </TabItem>
+            <TabItem value="mlops-stack-canvas" label="MLOps Stack Canvas">
+                - **Data and Code Management**
+                    - **Value Proposition**: defines why customers benefit from an ML software or service by addressing pain points and solving problems. It emphasizes how ML predictions enable decisions that boost productivity or user experience, focusing on real end-user value. Use Geoffrey Moore's template: `For (target customer) who (need or opportunity), our (product/service name) is (product category) that (benefit)`.
+                        - What are we trying to do for the end-user(s)?
+                        - What is the problem?
+                        - Why is this an important problem?
+                        - Who is our persona? (ML Engineer, Data Scientist, Operation/Business user)
+                        - Who owns the models in production?
+                    - **Data Sources and Data Versioning**
+                        - Is this data versioning optional or mandatory? E.g., is data versioning a requirement for a system like a regulatory requirement?
+                        - What data sources are available? (e.g., owned, public, earned, paid data)
+                        - What is the storage for the above data? (e.g., data lake, DWH)
+                        - Is manual labeling required? Do we have human resources for it?
+                        - How to version data for each trained model?
+                        - What tooling is available for data pipelines/workflows?
+                    - **Data Analysis and Experiment Management**
+                        - What programming language to use for analysis? (R, Python, or is SQL sufficient for analysis?)
+                        - Are there any infrastructure requirements for model training?
+                        - What ML-specific and business evaluation metrics need to be computed?
+                        - Reproducibility: What metadata about ML experiments is collected? (data sets, hyperparameters)
+                        - What ML Framework know-how is there?
+                    - **Feature Store and Workflows**
+                        - Is this optional or mandatory? Do we have a data governance process such that feature engineering has to be reproducible?
+                        - How are features computed (workflows) during the training and prediction phases?
+                        - What are infrastructure requirements for feature engineering?
+                        - "Buy or make" for feature stores?
+                        - What databases are involved in feature storage?
+                        - Do we design APIs for feature engineering?
+                    - **Foundations (Reflecting DevOps)**
+                        - How do we maintain the code? What source version control system is used?
+                        - How do we monitor the system performance?
+                        - Do we need versioning for notebooks?
+                        - Is there a trunk-based development in place?
+                        - Deployment and testing automation: What is the CI/CD pipeline for the codebase? What tools are used for it?
+                        - Do we track deployment frequency, lead time for changes, mean time to restore, and change failure rate metrics?
+                    - **Continuous Integration, Training, and Deployment: ML Pipeline Orchestration**
+                        - How often are models expected to be retrained? What is the trigger for it (scheduled, event-based, or ad hoc)?
+                        - Where does this happen (locally or on a cloud)?
+                        - What is the formalized workflow for an ML pipeline? (e.g., Data prep -> model training -> model eval & validation) What tech stack is used?
+                        - Is distributed model training required? Do we have an infrastructure for the distributed training?
+                        - What is the workflow for the CI pipeline? What tools are used?
+                        - What are the non-functional requirements for the ML model (efficiency, fairness, robustness, interpretability, etc.)? How are they tested? Are these tests integrated into the CI/CT workflow?
+                - **Model Management**
+                    - **MLOps Dilemmas**
+                        - Tooling: Should we buy, use existing open-source or build in-house tools for any of the MLOps components? What are the risks, trade-offs, and impacts of each of the decisions?
+                        - Platforms: Should we agree on one MLOps platform or create a hybrid solution? What are the risks, trade-offs, and impacts of each of the decisions?
+                        - Skills: How expensive is it to either acquire or educate our own machine learning engineering talents?
+                    - **Model Registry and Model Versioning**
+                        - Is this optional or mandatory? The model registry might be mandatory if you have multiple models in production and need to track them all. The reproducibility requirement might be the reason that you need the model versioning.
+                        - Where should new ML models be stored and tracked?
+                        - What versioning standards are used? (e.g., semantic versioning)
+                    - **Model Deployment**
+                        - What is the delivery format for the model?
+                        - What is the expected time for changes? (Time from commit to production)
+                        - What is the target environment to serve predictions?
+                        - What is your model release policy? Is A/B testing or multi-armed bandits testing required? (e.g., for measuring the effectiveness of the new model on business metrics and deciding what model should be promoted into the production environment)
+                        - What is your deployment strategy? (e.g. shadow/canary deployment required?)
+                    - **Prediction Serving**
+                        - What is the serving mode? (batch or online)
+                        - Is distributed model serving required?
+                        - Is multi-model prediction serving required?
+                        - Is pre-assertion for input data implemented?
+                        - What fallback method for an inadequate model output (post-assertion) is implemented? (Do we have a heuristic benchmark?)
+                        - Do you need ML inference accelerators (TPUs)?
+                        - What is the expected target volume of predictions per month or hours?
+                    - **ML Model, Data, and System Monitoring**
+                        - Is this optional or mandatory? For instance, do you need to assess the effectiveness of your model during prediction serving? Do you need to monitor your model for performance degradation and trigger an alert if your model starts performing badly? Is the model retraining based on events such as data or concept drift?
+                        - What ML metrics are collected?
+                        - What domain-specific metrics are collected?
+                        - How is the model performance decay detected? (Data Monitoring)
+                        - How is the data skew detected? (Data Monitoring)
+                        - What operational aspects need to be monitored? (e.g., model prediction latency, CPU/RAM usage)
+                        - What is the alerting strategy? (thresholds)
+                        - What triggers the model re-training? (ad hoc, event-based, or scheduled)
+                - **Metadata Management**
+                    - **Metadata Store**
+                        - What kind of metadata in code, data, and model management need to be collected? (e.g., the pipeline run ID, trigger, performed steps, start/end timestamps, train/test dataset split, hyperparameters, model object, various statistics/profiling, etc.)
+                        - Are any ML governance processes included in the MLOps lifecycle? What metadata will be required?
+                        - What is the documentation strategy: Do we treat documentation as a code? (examples: Datasheets for Datasets and Model Card for Model Reporting)
+                        - What operational metrics need to be collected? E.g., time to restore, change fail percentage.
+            </TabItem>
+            <TabItem value="model-card" label="Model Card">
+                - **Model Details**:
+                    - Developers
+                    - Model Date, Version & Type
+                    - Training algorithms
+                    - Resources, Citation, License
+                - **Intended Use**:
+                    - Primary intended uses & users
+                    - Out of scope use cases
+                - **Factors**:
+                    - Groups, Environments, Instrumentation
+                    - Relevant factors & evaluation factors
+                - **Metrics**:
+                    - Model performance measures
+                    - Decision thresholds
+                    - Variation approaches
+                - **Evaluation Data**:
+                    - Details on data used for quantitative analysis
+                    - Datasets, Motivation, Preprocessing
+                - **Training Data**:
+                    - Same detail as evaluation data if possible (privacy constraints)
+                    - Details of distribution over factors
+                - **Quantitative Analyses**:
+                    - Unitary & intersectional results
+                - **Ethical Considerations**:
+                    - Bias, fairness, ethical considerations
+                    - Mitigation efforts
+                - **Caveats & Recommendations**:
+                    - Concerns not already covered
+                    - Usage information
+                    - Limitations, risks, trade-offs
+            </TabItem>
+        </Tabs>
+    </TabItem>
+    <TabItem value="stages" label="Stages">
+        <Tabs queryString="secondary">
+            <TabItem value="stages-overviews" label="Overview" attributes={{ className: 'tabs__vertical' }}>
+                **At Scale Stages**
+
+                ```mermaid
+                graph LR
+                subgraph data[Data]
+                collect(Collect) e1@--> curate(Curate)
+                    curate e2@--> transform(Transform)
+                    transform e3@--> validate(Validate)
+                end
+                subgraph ml[ML]
+                    explore(Explore) e4@--> train(Train)
+                    train e5@--> evaluate(Evaluate)
+                    formulate(Formulate)
+                end
+                subgraph dev[Dev]
+                    code(Code) e6@--> build(Build)
+                    build e7@--> test(Test)
+                end
+                subgraph ops[Ops]
+                    release(Release) e8@--> deploy(Deploy)
+                    deploy e9@--> operate(Operate)
+                    operate e10@--> monitor(Monitor)
+                    monitor e11@--> plan(Plan)
+                end
+
+                validate e12@--> explore
+                evaluate e13@--> code
+                test e14@--> release
+
+                plan e15@--> formulate
+                formulate e16@--> collect
+
+                    e1@{ animate: true }
+                    e2@{ animate: true }
+                    e3@{ animate: true }
+                    e4@{ animate: true }
+                    e5@{ animate: true }
+                    e6@{ animate: true }
+                    e7@{ animate: true }
+                    e8@{ animate: true }
+                    e9@{ animate: true }
+                    e10@{ animate: true }
+                    e11@{ animate: true }
+                    e12@{ animate: true }
+                    e13@{ animate: true }
+                    e14@{ animate: true }
+                    e15@{ animate: true }
+                    e16@{ animate: true }
+                ```
+
+                **Common Stages**
+
+                ```mermaid
+                graph LR
+                problemDef(Problem Definition and Scoping) e1@--> dataCollection(Data Collection and Preparation)
+                dataCollection e2@--> featureEngineering(Feature Engineering)
+                featureEngineering e3@--> modelDevelopment(Model Development)
+                modelDevelopment e4@--> modelValidation(Model Validation)
+                modelValidation e5@--> deployment(Deployment)
+                deployment e6@--> monitoring(Monitoring and Maintenance)
+                monitoring e7@--> retirement(Retirement)
+
+                e1@{ animate: true }
+                e2@{ animate: true }
+                e3@{ animate: true }
+                e4@{ animate: true }
+                e5@{ animate: true }
+                e6@{ animate: true }
+                e7@{ animate: true }
+                ```
+
+                - **Problem Definition and Scoping**: Define the business problem, success metrics, and constraints (e.g., latency, cost, or fairness). For instance, are you building a recommendation system to increase user engagement or a fraud detection system to minimize losses?
+                - **Data Collection and Preparation**: Gather relevant data, clean it, and preprocess it (e.g., handling missing values, normalizing features) This step often includes building data pipelines to ensure a steady flow of clean, reliable data
+                - **Feature Engineering**: Create or select features that the model will use. This could involve domain-specific transformations, like extracting sentiment from text or calculating user activity metrics
+                - **Model Development**: Experiment with different algorithms, architectures, and hyperparameters to train a model. This is the phase most data scientists are familiar with - training and evaluating models in a notebook or similar environment
+                - **Model Validation**: Evaluate the model on hold-out datasets to ensure it generalizes well. This includes checking for issues like overfitting, data leakage, or bias
+                - **Deployment**: Integrate the model into a production environment, whether as an API endpoint, batch prediction system, or embedded in an application. This often involves containerization (e.g., Docker) or serverless setups
+                - **Monitoring and Maintenance**: Continuously monitor the model's performance in production, checking for data drift, performance degradation, or other issues. Retrain or update the model as needed
+                - **Retirement**: Eventually, decommission outdated models when they no longer meet requirements or are replaced by better alternatives
+
+                ## Key Components
+
+                - **Data Pipeline**: backbone of any ML system. It handles data ingestion, cleaning, transformation, and storage. A robust data pipeline ensures that the model always has access to high-quality, up-to-date data. Apache Airflow or Kubeflow Pipelines are commonly used to orchestrate data workflows
+                    - **Ingestion**: Collect data from various sources (databases, APIs, streaming platforms, etc.)
+                    - **Cleaning**: Handle missing values, outliers, or inconsistencies
+                    - **Transformation**: Apply feature engineering, such as normalization, encoding categorical variables, or extracting features from raw data
+                    - **Storage**: Store data in a format optimized for ML, such as a data lake or warehouse (e.g., S3, Snowflake)
+                - **Model Training Pipeline**: automates the process of training and validating models (e.g., training pipeline might pull the latest data from a warehouse, preprocess it, train a model, and validate it against a test set - all without manual intervention)
+                    - **Experiment Tracking**: Log hyperparameters, model versions, and metrics (e.g., using MLflow or Weights & Biases)
+                    - **Reproducibility**: Ensure experiments can be reproduced by versioning data, code, and model artifacts
+                    - **Automation**: Trigger retraining based on schedules (e.g., daily) or events (e.g., new data or performance drops)
+                - **Model Deployment**: involves making the trained model available for inference in production. Tools like TensorFlow Serving, TorchServe, or cloud platforms (e.g., AWS SageMaker, Google Vertex AI) simplify model serving. Deployment also involves ensuring low latency, high availability, and scalability
+                    - **Batch Inference**: Run predictions on a large dataset periodically (e.g., nightly recommendations)
+                    - **Online Inference**: Serve predictions in real-time via an API (e.g., REST or gRPC)
+                    - **Edge Deployment**: Deploy models on edge devices like mobile phones or IoT devices
+                - **Monitoring and Feedback**: once deployed, models need continuous monitoring to ensure they perform as expected. Tools like Prometheus, Grafana, or Evidently AI can help monitor ML systems. Feedback loops, such as user interactions or new labeled data, can also trigger retraining
+                    - **Performance Monitoring**: Track metrics like accuracy, precision, recall, or business-specific KPIs
+                    - **Data Drift Detection**: Monitor changes in input data distributions that could affect model performance (e.g., new user demographics)
+                    - **Concept Drift Detection**: Detect changes in the relationship between inputs and outputs (e.g., user preferences shift due to a new trend). Custom statistical tests (e.g., Kolmogorov-Smirnov test) can detect drift by comparing incoming data to the training distribution
+                    - **Alerts and Logging**: Set up alerts for performance drops or errors and log predictions for debugging
+                - **CI/CD**: Continuous Integration and Continuous Deployment for ML extends traditional software practices to include model-specific workflows. to ensures that the ML system stays up-to-date and resilient to changes in the environment
+                    - **Continuous Integration**: Automatically test code, data pipelines, and model performance as changes are made
+                    - **Continuous Deployment**: Automate the deployment of new models or updates to production
+                    - **Continuous Training (CT)**: Automatically retrain models when new data arrives or performance degrades
+
+                ## Challanges
+
+                - **Data Quality and Availability**: Poor data quality or lack of labeled data can derail ML projects. Ensuring consistent, high-quality data requires robust pipelines and governance
+                - **Scalability**: As data volumes or model complexity grow, pipelines must scale efficiently. This often requires distributed systems or cloud infrastructure
+                - **Reproducibility**: Tracking experiments, data versions, and model artifacts to ensure reproducibility is complex, especially in dynamic environments
+                - **Team Collaboration**: MLOps requires close collaboration between data scientists, engineers, and business stakeholders, which can be challenging in siloed organizations
+                - **Regulatory and Ethical Considerations**: Models must comply with regulations (e.g., GDPR, CCPA) and avoid biases that could harm users
+
+                ## Maturity Levels
+
+                - **Level 0: Manual MLOps**: Data scientists manually train and deploy models, with little automation. Common in early-stage projects but error-prone and slow
+                - **Level 1: Automated Pipelines**: Basic automation for data and training pipelines, with some CI/CD. Deployment is still manual but more streamlined
+                - **Level 2: Full Automation**: Fully automated pipelines for data, training, and deployment, with continuous training and monitoring. This level supports rapid iteration and scalability
+                - **Level 3: Advanced MLOps**: Incorporates advanced features like A/B testing, canary deployments, and automated rollback in case of failures. Often seen in mature organizations
+            </TabItem>
+            <TabItem value="testing" label="Testing">
+                **Importance**
+
+                - **Maintaining Model Accuracy**: as models are updated or retrained, testing ensures they maintain or improve their accuracy and performance
+                - **Protection Against Bias**: regular testing helps identify and mitigate biases that may arise in training data or model predictions
+                - **Adapting to Changing Data**: testing helps ensure models remain effective as data distributions evolve over time (data drift)
+                - **Enhancing Reliability**: rigorous testing increases confidence in model predictions, making them more reliable for decision-making
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Definition</th>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Unit Testing for Components</b></td>
+                            <td>Testing individual components of the ML pipeline including data preprocessing, feature extraction, model architecture, and hyperparameters</td>
+                            <td>Validating preprocessing functions, testing feature engineering logic, checking model component interactions</td>
+                        </tr>
+                        <tr>
+                            <td><b>Data Testing and Preprocessing</b></td>
+                            <td>Verifying data integrity, accuracy, and consistency, including preprocessing validation</td>
+                            <td>Data quality checks, normalization testing, data cleaning validation, schema validation</td>
+                        </tr>
+                        <tr>
+                            <td><b>Feature Consistency</b></td>
+                            <td>Ensure features are consistent between training and serving environments</td>
+                            <td>Train/serve skew detection, transformation parity validation</td>
+                        </tr>
+                        <tr>
+                            <td><b>Model Behavior Tests</b></td>
+                            <td>Evaluate model performance on specific tasks or scenarios to ensure it meets expected behavior</td>
+                            <td>Output bounds checking, convergence testing, stability analysis</td>
+                        </tr>
+                        <tr>
+                            <td><b>Performance Metrics Testing</b></td>
+                            <td>Evaluating model performance using quantitative measures to ensure it meets intended objectives</td>
+                            <td>Accuracy, precision, recall, F1-score, ROC AUC, custom business metrics</td>
+                        </tr>
+                        <tr>
+                            <td><b>Cross-Validation</b></td>
+                            <td>Assessing model generalization by partitioning data into subsets and testing performance across different data splits</td>
+                            <td>K-fold cross-validation, stratified cross-validation, time series cross-validation</td>
+                        </tr>
+                        <tr>
+                            <td><b>Model Evaluation</b></td>
+                            <td>Assess the performance of the model using appropriate metrics and benchmarks</td>
+                            <td>Comprehensive metric validation, benchmark comparisons, threshold testing</td>
+                        </tr>
+                        <tr>
+                            <td><b>Bias Testing</b></td>
+                            <td>Identifying and mitigating biases in data and model predictions to ensure fairness</td>
+                            <td>Demographic parity testing, equal opportunity testing, disparate impact analysis</td>
+                        </tr>
+                        <tr>
+                            <td><b>Robustness and Adversarial Testing</b></td>
+                            <td>Assessing model behavior under unexpected inputs and deliberate adversarial attacks</td>
+                            <td>Input perturbation testing, edge case handling, adversarial example detection</td>
+                        </tr>
+                        <tr>
+                            <td><b>A/B Testing for Deployment</b></td>
+                            <td>Comparing new model performance against existing solution in real-world production environment</td>
+                            <td>Statistical hypothesis testing, performance comparison, user experience validation</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                **Evaluation Metrics**
+
+                <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Definition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Accuracy</b></td>
+                        <td>Measures the ratio of correctly predicted instances to the total instances in the dataset. Provides an overall view of correctness but can be misleading on imbalanced datasets</td>
+                    </tr>
+                    <tr>
+                        <td><b>Precision</b></td>
+                        <td>Focuses on the accuracy of positive predictions: the ratio of true positives to the sum of true positives and false positives. Valuable when false positives are costly</td>
+                    </tr>
+                    <tr>
+                        <td><b>Sensitivity (Recall)</b></td>
+                        <td>Assesses the model's ability to capture all positive instances: the ratio of true positives to the sum of true positives and false negatives. Important when false negatives are costly</td>
+                    </tr>
+                    <tr>
+                        <td><b>Specificity</b></td>
+                        <td>Evaluates the model's ability to identify negative instances correctly: the ratio of true negatives to the sum of true negatives and false positives</td>
+                    </tr>
+                    <tr>
+                        <td><b>AUC-ROC</b></td>
+                        <td>Useful for binary classification: plots true positive rate vs false positive rate. Values closer to 1 indicate better separability between classes</td>
+                    </tr>
+                    <tr>
+                        <td><b>MAE</b></td>
+                        <td>Mean Absolute Error for regression: average absolute difference between predicted and actual values; gives a sense of average prediction error magnitude</td>
+                    </tr>
+                    <tr>
+                        <td><b>RMSE</b></td>
+                        <td>Root Mean Squared Error for regression: penalises larger errors more heavily than MAE by taking the square root of the average squared differences between predicted and actual values</td>
+                    </tr>
+                </tbody>
+                </table>
+
+                **ML Model Testing**
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Step</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Understand Your Data</b></td>
+                            <td>Before testing, thoroughly explore your dataset's characteristics, distribution, and potential challenges to design effective testing scenarios and identify pitfalls</td>
+                        </tr>
+                        <tr>
+                            <td><b>Split Your Data</b></td>
+                            <td>Divide your dataset into training, validation, and testing sets - training for model development, validation for hyperparameter tuning, and testing for final performance assessment</td>
+                        </tr>
+                        <tr>
+                            <td><b>Unit Testing for Components</b></td>
+                            <td>Test individual ML pipeline components including data preprocessing, feature extraction, and model architecture to ensure each functions correctly before integration</td>
+                        </tr>
+                        <tr>
+                            <td><b>Cross-Validation</b></td>
+                            <td>Use techniques like K-fold cross-validation to assess model generalization by training and evaluating on different data subsets multiple times</td>
+                        </tr>
+                        <tr>
+                            <td><b>Choose Evaluation Metrics</b></td>
+                            <td>Select appropriate metrics based on your problem type - classification tasks use precision, accuracy, recall, F1-score; regression tasks use MAE or RMSE</td>
+                        </tr>
+                        <tr>
+                            <td><b>Regular Model Monitoring</b></td>
+                            <td>Continuously monitor deployed models for performance degradation due to data distribution changes or other factors, with periodic retesting to maintain accuracy and reliability</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                **Ethical Considerations**
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Definition</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Data Privacy and Security</b></td>
+                            <td>The data must be treated with the utmost care when testing ML models. Ensure that sensitive and personally identifiable information is appropriately encrypted to protect individuals' privacy. Ethical testing respects the rights of data subjects and safeguards against potential data breaches</td>
+                        </tr>
+                        <tr>
+                            <td><b>Fairness and Bias</b></td>
+                            <td>Examining whether they exhibit bias against certain groups is essential when testing ML models. Tools and techniques are available to measure and mitigate bias, ensuring that our models treat all individuals fairly and equitably</td>
+                        </tr>
+                        <tr>
+                            <td><b>Transparency and Explainability</b></td>
+                            <td>ML models can be complex, making their decisions challenging to understand. Ethical testing includes evaluating the transparency and explainability of models. Users and stakeholders should understand how the model arrives at its predictions, fostering trust and accountability</td>
+                        </tr>
+                        <tr>
+                            <td><b>Accountability and Liability</b></td>
+                            <td>Who is accountable if an ML model makes a harmful or incorrect prediction? Ethical ML testing should address questions of responsibility and liability. Establish clear guidelines for identifying parties responsible for model outcomes and implement mechanisms to rectify any negative impacts</td>
+                        </tr>
+                        <tr>
+                            <td><b>Human-Centric Design</b></td>
+                            <td>ML models interact with humans, so their testing should reflect human-centred design principles. Consider the end-users needs, expectations, and potential impacts when assessing model performance. This approach ensures that models enhance human experiences rather than undermine them</td>
+                        </tr>
+                        <tr>
+                            <td><b>Consent and Data Usage</b></td>
+                            <td>Testing often involves using real-world data, which may include personal information. Obtain appropriate consent from individuals whose data is used for testing purposes. Be transparent about data use and ensure compliance with data protection regulations</td>
+                        </tr>
+                        <tr>
+                            <td><b>Long-Term Effects</b></td>
+                            <td>ML models are designed to evolve. Ethical testing should consider the long-term effects of model deployment, including how the model might perform as data distributions change. Regular testing and monitoring ensure that models remain accurate and ethical throughout their lifecycle</td>
+                        </tr>
+                        <tr>
+                            <td><b>Collaborative Oversight</b></td>
+                            <td>Ethical considerations in ML testing should not be limited to developers alone. Involve diverse stakeholders, including ethicists, legal experts, and representatives from the affected communities, to provide a holistic perspective on potential ethical challenges</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </TabItem>
+        </Tabs>
+    </TabItem>
+    <TabItem value="model-serving" label="Model Serving">
+        <Tabs queryString="secondary">
+            <TabItem value="model-serving-overview" label="Overview" attributes={{ className: 'tabs__vertical' }}>
+                <table className="text_vertical">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Model-as-Service (MaaS)</th>
+                            <th>Model-as-Dependency (MaaD)</th>
+                            <th>Precompute</th>
+                            <th>Model-on-Demand (MoD)</th>
+                            <th>Hybrid-Serving (Federated Learning)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Definition</b></td>
+                            <td>ML model is wrapped as an independent service accessible via API (REST/gRPC)</td>
+                            <td>ML model is packaged as a dependency within a software application invoked locally</td>
+                            <td>Predictions are precomputed in batch for expected inputs and stored for fast retrieval</td>
+                            <td>ML model is a runtime dependency with its own release cycle; predictions computed upon request via message broker</td>
+                            <td>Combines multiple serving styles, often federated learning with both centralized and decentralized model training</td>
+                        </tr>
+                        <tr>
+                            <td><b>Visualization</b></td>
+                            <td>
+                                ```mermaid
+                                graph BT
+                                subgraph webService[Web Service]
+                                    ml(ML Model)
+                                end
+                                webApp(Web App) e1@-->|input| webService
+                                webService e2@-->|prediction| webApp
+
+                                e1@{ animate: true }
+                                e2@{ animate: true }
+                                ```
+                            </td>
+                            <td>
+                                ```mermaid
+                                graph RL
+                                subgraph app[Application]
+                                    model(ML Model)
+                                    a(( )) e1@-->|input| model
+                                    model e2@-->|prediction| b(( ))
+                                end
+
+                                e1@{ animate: true }
+                                e2@{ animate: true }
+                                ```
+                            </td>
+                            <td>
+                                ```mermaid
+                                graph TB
+                                dataBatch(Data Batch) e1@--> mlModel(ML Model)
+                                mlModel e2@-->|precompute<br/>predictions| db[(Database)]
+                                db e3@--> serve(ML Model Serving)
+                                a(( )) e4@-->|input| serve
+                                serve e5@-->|prediction| b(( ))
+
+                                e1@{ animate: true }
+                                e2@{ animate: true }
+                                e3@{ animate: true }
+                                e4@{ animate: true }
+                                e5@{ animate: true }
+                                ```
+                            </td>
+                            <td>
+                                ```mermaid
+                                graph TB
+                                subgraph channel[Event Channel<br/>Message Broker]
+                                    requestQueue([Request Queue])
+                                    predictionQueue([Prediction Queue])
+                                end
+                                subgraph processor[Event Processor<br/>Model Serving Runtime<br/>]
+                                    mlModel(ML Model)
+                                end
+                                predictionService(Prediction Service) e1@-->|input| requestQueue
+                                requestQueue e2@--> processor
+                                processor e3@--> predictionQueue
+                                predictionQueue e4@-->|prediction| predictionService
+
+                                e1@{ animate: true }
+                                e2@{ animate: true }
+                                e3@{ animate: true }
+                                e4@{ animate: true }
+                                ```
+                            </td>
+                            <td>
+                                ```mermaid
+                                graph TB
+                                subgraph "Device 1"
+                                    device1Data(Data) e1@--> device1Model(Local Model)
+                                    device1Model e2@--> device1Update(Model Update)
+                                end
+                                subgraph "Device 2"
+                                    device2Data(Data) e3@--> device2Model(Local Model)
+                                    device2Model e4@--> device2Update(Model Update)
+                                end
+                                subgraph "Central Server"
+                                    aggregator(Model Aggregator)
+                                    sharedModel(Shared Model)
+                                end
+
+                                device1Update e5@--> aggregator
+                                device2Update e6@---> aggregator
+                                aggregator e7@--> sharedModel
+                                sharedModel e8@--> device1Model
+                                sharedModel e9@---> device2Model
+
+                                e1@{ animate: true }
+                                e2@{ animate: true }
+                                e3@{ animate: true }
+                                e4@{ animate: true }
+                                e5@{ animate: true }
+                                e6@{ animate: true }
+                                e7@{ animate: true }
+                                e8@{ animate: true }
+                                e9@{ animate: true }
+                                ```
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Deployment Scope</b></td>
+                            <td>Separate service running independently, accessible over network</td>
+                            <td>Embedded inside the application codebase, no network calls for predictions</td>
+                            <td>Model runs offline to generate predictions stored in DB; real-time not applicable</td>
+                            <td>Model serving runtime consumes requests asynchronously from queue, computes predictions, and returns results separately</td>
+                            <td>Mix of local device models and centralized server model, allowing personalized predictive services</td>
+                        </tr>
+                        <tr>
+                            <td><b>Interaction Mode</b></td>
+                            <td>Synchronous API calls (REST/gRPC)</td>
+                            <td>Synchronous function calls within application</td>
+                            <td>Asynchronous DB queries for prediction results</td>
+                            <td>Asynchronous message brokering, batch processing model inference</td>
+                            <td>Combination: real-time API and periodic syncing/updating across models</td>
+                        </tr>
+                        <tr>
+                            <td><b>Model Update Frequency</b></td>
+                            <td>Independent service update cycle; easy to update without touching app</td>
+                            <td>Updates tied tightly to app release cycle</td>
+                            <td>Model updates require recomputation of entire prediction batch</td>
+                            <td>Model artifacts versioned and released independently; updated via brokers</td>
+                            <td>Periodic federated updates incorporating local retraining results into central/global model</td>
+                        </tr>
+                        <tr>
+                            <td><b>Scalability</b></td>
+                            <td>High scalability; can replicate service instances behind load balancers</td>
+                            <td>Limited scalability; tied to application scalability</td>
+                            <td>Scales well for batch jobs but not for real-time requests</td>
+                            <td>Scalable via message broker and multiple worker consumers</td>
+                            <td>Scales across users/devices plus centralized cloud infrastructure</td>
+                        </tr>
+                        <tr>
+                            <td><b>Latency</b></td>
+                            <td>Low latency for real-time inference</td>
+                            <td>Very low latency (local calls)</td>
+                            <td>High latency for new data; low latency for lookups of precomputed results</td>
+                            <td>Medium latency due to batching and queuing delays</td>
+                            <td>Varies with mix; real-time local inference with periodic syncs</td>
+                        </tr>
+                        <tr>
+                            <td><b>Resource Usage</b></td>
+                            <td>Requires dedicated serving infrastructure (GPU/CPU)</td>
+                            <td>Uses host app resources; no extra infra needed</td>
+                            <td>Offline compute resources only; light resources for retrieval</td>
+                            <td>Separate compute resources for asynchronous inference execution</td>
+                            <td>Distributed compute load shared across devices and cloud</td>
+                        </tr>
+                        <tr>
+                            <td><b>Complexity</b></td>
+                            <td>Moderate complexity: service management, API versioning</td>
+                            <td>Low complexity as part of app deployment</td>
+                            <td>Moderate complexity in batch precompute pipelines and DB management</td>
+                            <td>Higher complexity from message broker and asynchronous execution</td>
+                            <td>Highest complexity managing federated training, syncing, and serving pipelines</td>
+                        </tr>
+                        <tr>
+                            <td><b>Fault Tolerance</b></td>
+                            <td>Service can fail independently; handle via retries/load balancing</td>
+                            <td>App failure affects model usage directly</td>
+                            <td>Less exposed to runtime faults; batch jobs can be re-run</td>
+                            <td>Fault-tolerant if message broker ensures delivery and retry</td>
+                            <td>Fault management both at device and cloud levels needed</td>
+                        </tr>
+                        <tr>
+                            <td><b>Pros</b></td>
+                            <td>Centralized management, scalability, flexible API use</td>
+                            <td>Simple to integrate, low latency, offline use</td>
+                            <td>Fast responses for cached predictions, ideal for stable data</td>
+                            <td>Loose coupling, independent release cycles, scalable via messaging</td>
+                            <td>Balances privacy, personalization, and global accuracy</td>
+                        </tr>
+                        <tr>
+                            <td><b>Cons</b></td>
+                            <td>Network overhead, service runtime needed, potential latency</td>
+                            <td>Tight coupling to app lifecycle, harder to update independently</td>
+                            <td>Inflexible to data changes; only works if prediction space known in advance</td>
+                            <td>Increased system complexity, possible latency from queues</td>
+                            <td>Complex orchestration, hardware dependency on devices, training coordination</td>
+                        </tr>
+                        <tr>
+                            <td><b>Examples</b></td>
+                            <td>Recommendation systems, fraud detection APIs</td>
+                            <td>Embedded predictive features in apps</td>
+                            <td>Credit scoring batch predictions; precomputed content personalization</td>
+                            <td>Large-scale event stream processing with ML-inference workers</td>
+                            <td>Federated learning on mobile devices, IoT scenarios</td>
+                        </tr>
+                        <tr>
+                            <td><b>Use Cases</b></td>
+                            <td>Real-time prediction APIs; multi-application sharing</td>
+                            <td>Tightly integrated apps with embedded ML</td>
+                            <td>Forecasting, batch predictions, reporting, analytics</td>
+                            <td>Event-driven prediction requests, workloads with batching needs</td>
+                            <td>Personalized models on-device with global model improvements; privacy sensitive</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </TabItem>
+            <TabItem value="federated-learning" label="Federated Learning">
+                <table class="text_vertical">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Centralized LM</th>
+                            <th>Distributed On-Site Learning</th>
+                            <th>Federated Learning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Visualization</b></td>
+                            <td>
+                            ```mermaid
+                            graph LR;
+                            A(Data) e1@--> B(Central Server);
+                            B e2@--> C(Model Training);
+                            C e3@--> D(Deployed Model);
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            ```
+                            </td>
+                            <td>
+                            ```mermaid
+                            graph LR;
+                            subgraph Local Node 1
+                                A1(Data 1) e1@--> B1(Local Server 1);
+                                B1 e2@--> C1(Model Training 1);
+                            end
+                            subgraph Local Node 2
+                                A2(Data 2) e3@--> B2(Local Server 2);
+                                B2 e4@--> C2(Model Training 2);
+                            end
+
+                            B1 e5@--> D(Central Aggregator);
+                            B2 e6@--> D;
+                            D e7@--> E(Deployed Model);
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            e7@{ animate: true }
+                            ```
+                            </td>
+                            <td>
+                            ```mermaid
+                            graph LR;
+                            subgraph Device 1
+                                A1(Data 1) e1@--> B1(Local Training 1);
+                            end
+                            subgraph Device 2
+                                A2(Data 2) e2@--> B2(Local Training 2);
+                            end
+
+                            B1 e3@--> C(Central Server);
+                            B2 e4@--> C;
+                            C e5@--> D(Aggregated Model);
+                            D e6@--> E(Deployed Model);
+
+                            e1@{ animate: true }
+                            e2@{ animate: true }
+                            e3@{ animate: true }
+                            e4@{ animate: true }
+                            e5@{ animate: true }
+                            e6@{ animate: true }
+                            ```
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Definition</b></td>
+                            <td>All data collected and stored centrally; model trained on this aggregated dataset</td>
+                            <td>Data stored on multiple local servers/nodes; model training split across these nodes</td>
+                            <td>Data remains on local devices/institutions; only model updates/gradients shared with central server</td>
+                        </tr>
+                        <tr>
+                            <td><b>Data Location</b></td>
+                            <td>All raw data collected centrally (cloud/server)</td>
+                            <td>Data distributed across multiple on-site nodes or servers</td>
+                            <td>Data remains strictly local on edge devices or institutions</td>
+                        </tr>
+                        <tr>
+                            <td><b>Privacy</b></td>
+                            <td>Lowest: requires trust in server, full access to all user data</td>
+                            <td>Moderate: less raw data movement, but local servers may still aggregate data</td>
+                            <td>Highest: raw data never leaves device; only model updates or gradients shared</td>
+                        </tr>
+                        <tr>
+                            <td><b>Computational Burden</b></td>
+                            <td>Server/cloud does all model training</td>
+                            <td>Training workloads split among distributed nodes/servers, leveraging their resources</td>
+                            <td>Training occurs on devices (e.g. smartphones, hospitals); only aggregate step is centralized</td>
+                        </tr>
+                        <tr>
+                            <td><b>Bandwidth & Communication</b></td>
+                            <td>High: large data uploads required to the central server</td>
+                            <td>Moderate: periodic model/weight updates from local servers to central node</td>
+                            <td>Low: only model updates sent, not full datasets, minimizing bandwidth</td>
+                        </tr>
+                        <tr>
+                            <td><b>Scalability</b></td>
+                            <td>Limited by central compute and network resources</td>
+                            <td>Good: can scale horizontally as more on-site nodes added</td>
+                            <td>Very good: massively parallel (many edge devices)</td>
+                        </tr>
+                        <tr>
+                            <td><b>Synchronization</b></td>
+                            <td>No node-to-node sync; model trained as single process</td>
+                            <td>Requires careful coordination of weight/model updates across nodes; potential sync issues</td>
+                            <td>Only updates/gradients synced; robust to device drop-out and node heterogeneity</td>
+                        </tr>
+                        <tr>
+                            <td><b>Fault Tolerance</b></td>
+                            <td>Low: single point of failure; server downtime halts process</td>
+                            <td>Medium: some local failures tolerated, but central aggregator dependency remains</td>
+                            <td>High: process continues if some devices unavailable during a round</td>
+                        </tr>
+                        <tr>
+                            <td><b>Accuracy/Performance</b></td>
+                            <td>Can be high if data is diverse enough and privacy/law not restrictive; bottlenecked by data transfer capacity</td>
+                            <td>Often slightly better than centralized, due to local adaptation; sync/split issues may arise</td>
+                            <td>Comparable to centralized and distributed, but robust to data heterogeneity; can be biased if local datasets are skewed</td>
+                        </tr>
+                        <tr>
+                            <td><b>Security</b></td>
+                            <td>Vulnerable: full datasets may be exposed in transit or at rest on central server</td>
+                            <td>Moderate: risks depend on network and data aggregation methods</td>
+                            <td>Improved: raw data remains local; only updates transferred (could include model inversion risks)</td>
+                        </tr>
+                        <tr>
+                            <td><b>Data Governance</b></td>
+                            <td>Complicated by need to aggregate, clean, and comply across sources; not ideal for sensitive data</td>
+                            <td>Good for internal enterprise data, but still centralized at each local site</td>
+                            <td>Excellent for privacy by design (GDPR, HIPAA-sensitive applications)</td>
+                        </tr>
+                        <tr>
+                            <td><b>Main Challenges</b></td>
+                            <td>Privacy, legal compliance, network bottlenecks, high cost, server trust</td>
+                            <td>Infrastructure management, update synchronization, medium privacy</td>
+                            <td>Heterogeneity of devices/data, limited local compute, aggregation privacy, possible bias, network reliability</td>
+                        </tr>
+                        <tr>
+                            <td><b>Use Cases</b></td>
+                            <td>NLP models, general predictive analytics, big data research where privacy is less critical</td>
+                            <td>Large-scale industrial data, cross-branch IoT, manufacturing ML</td>
+                            <td>Healthcare, mobile personalization, sensitive financial, IoT, cross-institution research</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                **Issues with Traditional ML Modeling**
+
+                - High data volume from millions of users, valuable for improving user experience (e.g., speech recognition, image models)
+                - Challenges: Bandwidth and time-intensive data transfer from devices to central repository, discouraging participation
+                - Redundancy: Data stored on both devices and central server, logistically infeasible for large volumes
+                - Privacy and legal concerns: Sensitive data (photos, texts, voice notes) risks exposure; centralized storage violates privacy and feasibility
+                - Costs: Expensive in bandwidth, time, and storage; data valuable but hard to utilize centrally
+
+                **How Federated Learning Solves These Concerns**
+
+                - Decentralized approach: Training data stays on devices; models trained locally, only updates sent to central server
+                - Aggregates gradient updates for shared model without raw data transfer
+                - Enhances privacy/security by avoiding centralized data collection; clients compute updates locally
+                - Addresses traditional challenges: Minimizes data transfer, suitable for low-bandwidth/high-latency environments
+                - Motivations: Privacy (data stays local), bandwidth/latency reduction, data ownership, scalability for large-scale applications
+                - Paradigm shift: Brings models to data instead of moving data to models
+
+                **How Federated Learning Systems Provide Privacy**
+
+                - Anonymizing data doesn't fully eliminate risks (e.g., cardholder databases with partial info)
+                - Federated learning transmits minimal info (model updates, not raw data); aggregation ignores source details
+                - Ensures true anonymity: No need to reveal user-specific details
+                - Win-win: Users get high-quality models without data compromise; teams avoid privacy issues, reduce training/maintenance costs, enable large-dataset training, and improve user experience
+
+                **Benefits of Federated Learning**
+
+                - More data exposure: Accesses diverse device data for robust, representative models
+                - Mutual benefit: Users receive model updates from collective training (e.g., better recommendations); enhances user experience
+                - Limited compute requirement: Redistributes computation to devices, reducing server load, latency, and energy use
+            </TabItem>
+        </Tabs>
+    </TabItem>
+
+</Tabs>
