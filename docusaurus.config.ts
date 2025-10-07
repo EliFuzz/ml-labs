@@ -80,7 +80,7 @@ const config: Config = {
       darkTheme: prismThemes.oneDark,
     },
     mermaid: {
-      theme: { light: "neutral", dark: "forest" },
+      theme: { light: "base", dark: "dark" },
       options: {
         fontfamily:
           "'JetBrains Mono', 'Fira Code Medium', 'Source Code Pro', monospace",

@@ -11,7 +11,7 @@ import Tabs from "@theme/Tabs";
   <TabItem value="k8s-foundational" label="Foundational">
     **Foundational Patterns** are reusable design principles and best practices for building applications that run on Kubernetes.
     <Tabs queryString="secondary">
-      <TabItem value="foundational-predictable" label="Predictable Demands" attributes={{className: "tabs__vertical"}}>
+      <TabItem value="foundational-predictable" label="Predictable Demands" attributes={{className: "tabs_vertical"}}>
         ![](./assets/kubernetes/foundational/predictable-demands.svg)
 
         **Predictable Demands** pattern emphasizes the importance of declaring application requirements, such as resource needs, to ensure efficient automation and adherence to
@@ -196,7 +196,7 @@ import Tabs from "@theme/Tabs";
     a batch job, be scheduled to run periodically as a cron job, run as a daemon service on every node, or run as a singleton service on a specific node.
 
     <Tabs queryString="secondary">
-      <TabItem value="behavioral-batch" label="Batch Job" attributes={{className: "tabs__vertical"}}>
+      <TabItem value="behavioral-batch" label="Batch Job" attributes={{className: "tabs_vertical"}}>
         ![](./assets/kubernetes/behavioral/batch-job.svg)
 
         **Kubernetes Resources and Controllers**
@@ -599,7 +599,7 @@ import Tabs from "@theme/Tabs";
     This pattern is particularly useful in microservices architectures where each service can be encapsulated in its own container.
 
     <Tabs queryString="secondary">
-      <TabItem value="structural-init-container" label="Init Container" attributes={{className: "tabs__vertical"}}>
+      <TabItem value="structural-init-container" label="Init Container" attributes={{className: "tabs_vertical"}}>
         ![](./assets/kubernetes/structural/init-container.svg)
 
         The Init Container pattern in Kubernetes is a way to separate initialization tasks from the main application containers, similar to constructors in programming languages.
@@ -691,7 +691,7 @@ import Tabs from "@theme/Tabs";
     needing to modify the application or recreate its container image.
 
     <Tabs queryString="secondary">
-      <TabItem value="configuration-envvar" label="EnvVar Configuration" attributes={{className: "tabs__vertical"}}>
+      <TabItem value="configuration-envvar" label="EnvVar Configuration" attributes={{className: "tabs_vertical"}}>
         Configuring applications using environment variables is a simple and universally applicable method, suitable for all environments and platforms.
 
         Nontrivial applications need configuration for accessing data sources, external services, or production-level tuning. These configurations should be externalized rather than hardcoded within
@@ -822,7 +822,7 @@ import Tabs from "@theme/Tabs";
     - **Access Control**: This describes how an application can authenticate and interact with the Kubernetes API server
 
     <Tabs queryString="secondary">
-      <TabItem value="security-process-containment" label="Process Containment" attributes={{className: "tabs__vertical"}}>
+      <TabItem value="security-process-containment" label="Process Containment" attributes={{className: "tabs_vertical"}}>
         ![](./assets/kubernetes/security/process-containment-pattern.svg)
 
         Despite the implementation of various security measures such as static code analysis, dynamic scanning tools, and regular scanning of application dependencies for vulnerabilities, new code and
@@ -1497,7 +1497,7 @@ import Tabs from "@theme/Tabs";
   </TabItem>
   <TabItem value="k8s-advanced" label="Advanced">
     <Tabs queryString="secondary">
-      <TabItem value="advanced-controller" label="Controller" attributes={{className: "tabs__vertical"}}>
+      <TabItem value="advanced-controller" label="Controller" attributes={{className: "tabs_vertical"}}>
         ![](./assets/kubernetes/advanced/controller.svg)
 
         In Kubernetes, controllers are like diligent supervisors that constantly monitor and maintain resources to ensure they match the desired state. This process is known as state reconciliation.
