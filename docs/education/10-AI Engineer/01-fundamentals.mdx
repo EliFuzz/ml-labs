@@ -3,3 +3,27 @@ title: Fundamentals
 description: AI Engineering Fundamentals
 hide_table_of_contents: true
 ---
+
+# Key Principles and Concepts
+
+- **Large Language Model (LLM)**: neural network trained on massive text corpora to predict the next token, enabling it to generate, understand, and reason over natural language at scale.
+- **Tokenization**: The process of converting raw text into discrete units (tokens) that a model can process, balancing vocabulary size, efficiency, and semantic fidelity.
+- **Vectorization**: The transformation of tokens, text, or data into numerical vectors that capture semantic meaning and can be processed by machine learning models.
+- **Attention**: A mechanism that dynamically weights the relevance of tokens in a sequence, allowing the model to focus on the most important context when making predictions.
+- **Self-Supervised Learning**: A training paradigm where labels are derived from the data itself (e.g., next-token prediction), enabling learning at internet scale without manual annotation.
+- **Transformer**: A neural network architecture based on attention mechanisms that processes sequences in parallel, forming the backbone of modern LLMs.
+- **Fine-tuning**: The process of adapting a pretrained model to a specific task or domain using a smaller, task-focused dataset.
+- **Few-shot Prompting**: Guiding a model's behavior by providing a small number of examples directly in the prompt, without modifying model weights.
+- **Retrieval Augmented Generation (RAG)**: A system design that combines LLMs with external knowledge retrieval to produce grounded, up-to-date, and verifiable responses.
+- **Vector Database**: A specialized database optimized for storing and searching high-dimensional vectors using similarity search for retrieval tasks.
+- **Model Context Protocol (MCP)**: A standardized interface that enables LLMs to securely interact with external tools, data sources, and services at inference time.
+- **Agent-to-Agent (A2A) Communication**: The capability of multiple AI agents to interact, share information, and collaborate to achieve complex tasks.
+- **Context Engineering**: The practice of structuring, selecting, and injecting relevant information into a model's context window to improve accuracy and reliability.
+- **Agents**: LLM-powered systems that can plan, call tools, maintain state, and execute multi-step tasks autonomously toward a defined goal.
+- **Reinforcement Learning**: A learning paradigm where models improve behavior by optimizing rewards through interaction with an environment.
+- **Chain of Thought**: A reasoning technique where a model generates intermediate steps, improving accuracy on complex, multi-step problems.
+- **Reasoning Models**: Models explicitly trained or optimized to perform structured logical reasoning, planning, and decision-making tasks.
+- **Multi-modal Models**: Models capable of processing and reasoning across multiple data types, such as text, images, audio, and video.
+- **Small Language Models (SLMs)**: Compact language models optimized for cost, latency, and on-device or edge deployment while retaining useful language capabilities.
+- **Distillation**: A model compression technique where a smaller model learns to replicate the behavior of a larger, more capable model.
+- **Quantization**: Reducing model precision (e.g., from FP32 to INT8) to improve inference speed and reduce memory usage with minimal accuracy loss.
