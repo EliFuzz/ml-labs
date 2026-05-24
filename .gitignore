@@ -6,6 +6,7 @@ logs/
 .venv
 *.egg-info
 __cache_
+node_modules/
 
 # OS
 Thumbs.db
