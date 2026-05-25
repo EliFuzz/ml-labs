@@ -82,268 +82,71 @@ import Tabs from "@theme/Tabs";
     <TabItem value="ethics" label="Ethics">
         ## Ethics Principles
 
-        <table class="text_vertical">
-            <thead>
-                <tr>
-                    <th>Aspect</th>
-                    <th>Definition</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><b>Accountability</b></td>
-                    <td>Makes practitioners responsible for their data & AI operations, ensuring compliance with ethical principles</td>
-                </tr>
-                <tr>
-                    <td><b>Transparency</b></td>
-                    <td>Ensures data and AI decisions are understandable and interpretable, explaining the "what" and "why"</td>
-                </tr>
-                <tr>
-                    <td><b>Fairness</b></td>
-                    <td>Aims to treat all people fairly by addressing systemic or implicit socio-technical biases in data and systems</td>
-                </tr>
-                <tr>
-                    <td><b>Reliability & Safety</b></td>
-                    <td>Ensures AI behaves consistently with defined values while minimizing harms or unintended consequences</td>
-                </tr>
-                <tr>
-                    <td><b>Privacy & Security</b></td>
-                    <td>Protects user privacy and identities by understanding data lineage and providing security safeguards</td>
-                </tr>
-                <tr>
-                    <td><b>Inclusiveness</b></td>
-                    <td>Designs AI solutions to meet a broad range of human needs and capabilities, ensuring accessibility</td>
-                </tr>
-            </tbody>
-        </table>
+        | Aspect | Definition |
+        | --- | --- |
+        | **Accountability** | Makes practitioners responsible for their data & AI operations, ensuring compliance with ethical principles |
+        | **Transparency** | Ensures data and AI decisions are understandable and interpretable, explaining the "what" and "why" |
+        | **Fairness** | Aims to treat all people fairly by addressing systemic or implicit socio-technical biases in data and systems |
+        | **Reliability & Safety** | Ensures AI behaves consistently with defined values while minimizing harms or unintended consequences |
+        | **Privacy & Security** | Protects user privacy and identities by understanding data lineage and providing security safeguards |
+        | **Inclusiveness** | Designs AI solutions to meet a broad range of human needs and capabilities, ensuring accessibility |
 
         ## Ethics Challenges
 
-        <table class="text_vertical">
-            <thead>
-                <tr>
-                    <th>Aspect</th>
-                    <th>Definition</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><b>Data Ownership</b></td>
-                    <td>Who owns the data? What rights do subjects and organizations have regarding control, access, and erasure?</td>
-                </tr>
-                <tr>
-                    <td><b>Informed Consent</b></td>
-                    <td>Did users give explicit permission for data capture and understand its purpose, risks, and alternatives?</td>
-                </tr>
-                <tr>
-                    <td><b>Intellectual Property</b></td>
-                    <td>Does collected data have economic value? Do users or organizations hold IP rights, and how are they protected?</td>
-                </tr>
-                <tr>
-                    <td><b>Data Privacy</b></td>
-                    <td>Is personal data secured, anonymized, and accessible only to authorized contexts without risk of leaks?</td>
-                </tr>
-                <tr>
-                    <td><b>Right to Be Forgotten</b></td>
-                    <td>Do systems allow users to request erasure of personal data, complying with privacy regulations?</td>
-                </tr>
-                <tr>
-                    <td><b>Dataset Bias</b></td>
-                    <td>Was data representative? Were biases tested, mitigated, or removed to prevent unfair outcomes?</td>
-                </tr>
-                <tr>
-                    <td><b>Data Quality</b></td>
-                    <td>Is data valid, accurate, consistent, and complete enough to support reliable AI model development?</td>
-                </tr>
-                <tr>
-                    <td><b>Algorithm Fairness</b></td>
-                    <td>Does the algorithm discriminate against groups? Were model accuracy and potential harms evaluated?</td>
-                </tr>
-                <tr>
-                    <td><b>Misrepresentation</b></td>
-                    <td>Are insights derived from honest data, or are methods/statistics being selectively used to mislead?</td>
-                </tr>
-                <tr>
-                    <td><b>Free Choice</b></td>
-                    <td>Does system design nudge users with hidden biases? Can users truly understand, choose, and reverse decisions?</td>
-                </tr>
-            </tbody>
-        </table>
+        | Aspect | Definition |
+        | --- | --- |
+        | **Data Ownership** | Who owns the data? What rights do subjects and organizations have regarding control, access, and erasure? |
+        | **Informed Consent** | Did users give explicit permission for data capture and understand its purpose, risks, and alternatives? |
+        | **Intellectual Property** | Does collected data have economic value? Do users or organizations hold IP rights, and how are they protected? |
+        | **Data Privacy** | Is personal data secured, anonymized, and accessible only to authorized contexts without risk of leaks? |
+        | **Right to Be Forgotten** | Do systems allow users to request erasure of personal data, complying with privacy regulations? |
+        | **Dataset Bias** | Was data representative? Were biases tested, mitigated, or removed to prevent unfair outcomes? |
+        | **Data Quality** | Is data valid, accurate, consistent, and complete enough to support reliable AI model development? |
+        | **Algorithm Fairness** | Does the algorithm discriminate against groups? Were model accuracy and potential harms evaluated? |
+        | **Misrepresentation** | Are insights derived from honest data, or are methods/statistics being selectively used to mislead? |
+        | **Free Choice** | Does system design nudge users with hidden biases? Can users truly understand, choose, and reverse decisions? |
     </TabItem>
     <TabItem value="stats-probability" label="Stats & Probability">
         ## Probability and Random Variables
 
-        <table class="text_vertical">
-            <thead>
-                <tr>
-                    <th>Aspect</th>
-                    <th>Definition</th>
-                    <th>Concept</th>
-                    <th>Examples</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><b>Probability</b></td>
-                    <td>Likelihood of an event, between 0 and 1</td>
-                    <td>$$P(E) = \frac{\text{favorable outcomes}}{\text{total outcomes}}$$</td>
-                    <td>Even number on a die: $$3/6 = 0.5$$</td>
-                </tr>
-                <tr>
-                    <td><b>Random Variables</b></td>
-                    <td>Functions assigning values to outcomes</td>
-                    <td>Discrete (countable), Continuous (real range)</td>
-                    <td>Dice roll (1-6), bus arrival time</td>
-                </tr>
-                <tr>
-                    <td><b>Sample Space</b></td>
-                    <td>Set of all possible outcomes</td>
-                    <td>Set notation</td>
-                    <td>$$\left\{1,2,3,4,5,6\right\}$$ for a die</td>
-                </tr>
-            </tbody>
-        </table>
+        | Aspect | Definition | Concept | Examples |
+        | --- | --- | --- | --- |
+        | **Probability** | Likelihood of an event, between 0 and 1 | $P(E) = \frac{\text{favorable outcomes}}{\text{total outcomes}}$ | Even number on a die: $3/6 = 0.5$ |
+        | **Random Variables** | Functions assigning values to outcomes | Discrete (countable), Continuous (real range) | Dice roll (1-6), bus arrival time |
+        | **Sample Space** | Set of all possible outcomes | Set notation | $\left\{1,2,3,4,5,6\right\}$ for a die |
 
         ## Distributions
 
-        <table class="text_vertical">
-            <thead>
-                <tr>
-                    <th>Aspect</th>
-                    <th>Type</th>
-                    <th>Definition</th>
-                    <th>Key Points</th>
-                    <th>Examples</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><b>Discrete Distribution</b></td>
-                    <td>Discrete random variable</td>
-                    <td>$$P(X=s)$$ defines probability for each outcome, sums to 1</td>
-                    <td>Uniform distribution: equal probabilities</td>
-                    <td>Die roll uniform with $$1/6$$</td>
-                </tr>
-                <tr>
-                    <td><b>Continuous Distribution</b></td>
-                    <td>Continuous random variable</td>
-                    <td>Probability density function (PDF), probabilities over intervals</td>
-                    <td>Exact value probability = 0</td>
-                    <td>Normal distribution, uniform continuous</td>
-                </tr>
-            </tbody>
-        </table>
+        | Aspect | Type | Definition | Key Points | Examples |
+        | --- | --- | --- | --- | --- |
+        | **Discrete Distribution** | Discrete random variable | $P(X=s)$ defines probability for each outcome, sums to 1 | Uniform distribution: equal probabilities | Die roll uniform with $1/6$ |
+        | **Continuous Distribution** | Continuous random variable | Probability density function (PDF), probabilities over intervals | Exact value probability = 0 | Normal distribution, uniform continuous |
 
         ## Statistic Measures
 
-        <table class="text_vertical">
-            <thead>
-                <tr>
-                    <th>Aspect</th>
-                    <th>Definition</th>
-                    <th>Formula</th>
-                    <th>Examples</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><b>Mean (Expectation)</b></td>
-                    <td>Average value</td>
-                    <td>$$E(X) = \sum x_i p_i$$</td>
-                    <td>Average height, weight etc.</td>
-                </tr>
-                <tr>
-                    <td><b>Variance</b></td>
-                    <td>Spread of data around mean</td>
-                    <td>$$\sigma^2 = \frac{1}{n} \sum (x_i - \mu)^2$$</td>
-                    <td>Variability in test scores</td>
-                </tr>
-                <tr>
-                    <td><b>Standard Deviation</b></td>
-                    <td>Square root of variance</td>
-                    <td>$$\sigma = \sqrt{\sigma^2}$$</td>
-                    <td>Spread measurement</td>
-                </tr>
-            </tbody>
-        </table>
+        | Aspect | Definition | Formula | Examples |
+        | --- | --- | --- | --- |
+        | **Mean (Expectation)** | Average value | $E(X) = \sum x_i p_i$ | Average height, weight etc. |
+        | **Variance** | Spread of data around mean | $\sigma^2 = \frac{1}{n} \sum (x_i - \mu)^2$ | Variability in test scores |
+        | **Standard Deviation** | Square root of variance | $\sigma = \sqrt{\sigma^2}$ | Spread measurement |
 
         ## Central Tendency Measures
 
-        <table class="text_vertical">
-            <thead>
-                <tr>
-                    <th>Aspect</th>
-                    <th>Description</th>
-                    <th>Notes</th>
-                    <th>Use Case</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><b>Median</b></td>
-                    <td>Middle value, robust to outliers</td>
-                    <td>Splits data in half</td>
-                    <td>Income data with outliers</td>
-                </tr>
-                <tr>
-                    <td><b>Mode</b></td>
-                    <td>Most frequent value</td>
-                    <td>Useful for categorical data</td>
-                    <td>Most common shoe size</td>
-                </tr>
-                <tr>
-                    <td><b>Quartiles & IQR</b></td>
-                    <td>Q1 = 25%, Q3 = 75%, IQR = Q3-Q1</td>
-                    <td>Detect outliers with box plot</td>
-                    <td>Box plot for exam scores</td>
-                </tr>
-            </tbody>
-        </table>
+        | Aspect | Description | Notes | Use Case |
+        | --- | --- | --- | --- |
+        | **Median** | Middle value, robust to outliers | Splits data in half | Income data with outliers |
+        | **Mode** | Most frequent value | Useful for categorical data | Most common shoe size |
+        | **Quartiles & IQR** | Q1 = 25%, Q3 = 75%, IQR = Q3-Q1 | Detect outliers with box plot | Box plot for exam scores |
 
         ## Key Theorems
 
-        <table class="text_vertical">
-            <thead>
-                <tr>
-                    <th>Aspect</th>
-                    <th>Description</th>
-                    <th>Notes</th>
-                    <th>Examples</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><b>Law of Large Numbers</b></td>
-                    <td>Sample mean converges to population mean as sample size increases</td>
-                    <td>Basis for reliability in statistics</td>
-                    <td>Average height from large sample</td>
-                </tr>
-                <tr>
-                    <td><b>Central Limit Theorem</b></td>
-                    <td>Distribution of sample means approaches normal regardless of original distribution</td>
-                    <td>Justifies normal approximation in many cases</td>
-                    <td>Average test scores of students</td>
-                </tr>
-                <tr>
-                    <td><b>Confidence Intervals</b></td>
-                    <td>Estimating population parameter range from sample</td>
-                    <td>Width increases with confidence level</td>
-                    <td>Mean height with 95% confidence</td>
-                </tr>
-                <tr>
-                    <td><b>Hypothesis Testing</b></td>
-                    <td>Tests claims about populations, comparing means or distributions</td>
-                    <td>Uses t-test, p-value indicates evidence strength</td>
-                    <td>Comparing heights of groups</td>
-                </tr>
-                <tr>
-                    <td><b>Covariance & Correlation</b></td>
-                    <td>Measures relationship between two variables</td>
-                    <td>Correlation normalized between -1 and 1</td>
-                    <td>Weight vs height correlation</td>
-                </tr>
-            </tbody>
-        </table>
+        | Aspect | Description | Notes | Examples |
+        | --- | --- | --- | --- |
+        | **Law of Large Numbers** | Sample mean converges to population mean as sample size increases | Basis for reliability in statistics | Average height from large sample |
+        | **Central Limit Theorem** | Distribution of sample means approaches normal regardless of original distribution | Justifies normal approximation in many cases | Average test scores of students |
+        | **Confidence Intervals** | Estimating population parameter range from sample | Width increases with confidence level | Mean height with 95% confidence |
+        | **Hypothesis Testing** | Tests claims about populations, comparing means or distributions | Uses t-test, p-value indicates evidence strength | Comparing heights of groups |
+        | **Covariance & Correlation** | Measures relationship between two variables | Correlation normalized between -1 and 1 | Weight vs height correlation |
     </TabItem>
     <TabItem value="project-structure" label="Project Structure">
         ```markdown
